@@ -6,7 +6,7 @@
 
 ワークショップコンテンツは以下のURLからアクセスできます：
 
-https://moulongzhang.github.io/2025-Github-Copilot-Workshop/github-copilot-workshop
+https://moulongzhang.github.io/2026-Github-Copilot-Workshop/github-copilot-workshop
 
 
 ## 📚 概要
