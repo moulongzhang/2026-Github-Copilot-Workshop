@@ -30,13 +30,13 @@ Duration: 15
 
 このワークショップでは、以下のGitHubリポジトリを使用します：
 
-**プロジェクトURL**: https://github.com/moulongzhang/2025-Github-Copilot-Workshop-Python
+**プロジェクトURL**: https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Python
 
 ### ステップ1: リポジトリをフォークする
 
 まず、上記のプロジェクトURLをブラウザで開き、リポジトリをフォークします：
 
-1. プロジェクトURL（https://github.com/moulongzhang/2025-Github-Copilot-Workshop-Python）をブラウザで開く
+1. プロジェクトURL（https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Python）をブラウザで開く
 2. 右上の **Fork** ボタンをクリック
 
 ![Fork ボタンをクリック](github-copilot-workshop/img/fork-step1.png)
@@ -51,7 +51,7 @@ Duration: 15
 
 フォークしたリポジトリを使って、GitHub Codespacesで開発環境を準備します：
 
-1. フォークしたリポジトリのページで（`https://github.com/[あなたのユーザー名]/2025-Github-Copilot-Workshop-Python`）
+1. フォークしたリポジトリのページで（`https://github.com/[あなたのユーザー名]/2026-Github-Copilot-Workshop-Python`）
 2. 緑色の **Code** ボタンをクリック
 3. **Codespaces** タブを選択
 4. **Create codespace on main** をクリック
@@ -64,395 +64,6 @@ Duration: 15
 > - **Python 3.11 環境**: 開発に必要なPython環境
 > - **GitHub Copilot 拡張機能**: AIによるコード補完とチャット機能
 > - **CodeTour 拡張機能**: プロジェクトのガイドツアー機能
-
-## コード補完を使ってみる
-Duration: 20
-
-### 設定確認
-
-VS Codeでサインインが完了していることを確認してください。
-
-### 1. コード補完でFibonacci関数を作成
-
-新しいPythonファイルを作成して、以下のコメントを入力してみましょう：
-
-```python
-# Fibonacci数列を計算する関数
-def fibonacci(n):
-```
-
-Copilotが自動的にコードを提案してくれることを確認してください。
-
-> aside positive
->
-> **ヒント**: `Tab`キーで提案を受け入れ、`Alt+]`で次の提案を見ることができます。
-
-### 2. Next Edit Suggestionsで座標関数を2次元から3次元に拡張
-
-プロジェクトに含まれている `point.py` ファイルを開いてください。このファイルには、二次元空間の点を表すクラスが含まれています：
-
-```python
-import math
-
-class Point2D:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    def distance_to(self, other):
-        dx = self.x - other.x
-        dy = self.y - other.y
-        return math.sqrt(dx * dx + dy * dy)
-    
-    def __str__(self):
-        return f"Point2D({self.x}, {self.y})"
-```
-
-今、このクラスを三次元空間の点を表すクラスに拡張したいと考えています。
-
-**ステップ1**: クラス名を手動で `Point2D` から `Point3D` に変更してみましょう。
-
-**ステップ2**: 少し待つと、GitHub Copilotが次の編集候補を提案してくれます。
-
-> aside positive
->
-> **重要**: Next Edit Suggestionの提案が表示されるまでに、少し時間がかかることがあります。焦らず待ってみてください。
-
-#### 期待される最終結果
-
-Point2DクラスをPoint3Dに拡張する作業を続けると、以下のようなコードになるはずです：
-
-```python
-import math
-
-class Point3D:
-    def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
-    
-    def distance_to(self, other):
-        dx = self.x - other.x
-        dy = self.y - other.y
-        dz = self.z - other.z
-        return math.sqrt(dx * dx + dy * dy + dz * dz)
-    
-    def __str__(self):
-        return f"Point3D({self.x}, {self.y}, {self.z})"
-```
-
-> aside positive
->
-> **ヒント：Next Edit Suggestが機能しない場合は**
-> 
-> メニューから
-> - **Windows/Linux**: `File` → `Preferences` → `Settings`
-> - **macOS**: `Code` → `Settings...` → `Settings`
-> 
-> 以下の設定を検索し、有効化してください。
-> ```
-> github.copilot.nextEditSuggestions.enabled
-> ```
-
-## コードを解説してもらう
-Duration: 15
-
-プロジェクトに含まれている `delivery_manager.py` ファイルを開いてください。
-
-### Copilot Chat を開く
-
-1. VS Codeのサイドバーで **Chat** アイコン（チャットバブルのアイコン）をクリックして、Copilot Chat を開きます
-2. または `Ctrl+Alt+I` (macOSでは `Ctrl+Cmd+I`) でChatパネルを開く
-
-### チャットモードの確認
-
-チャットのモードが「質問」になっていることを確認します（「エージェント」モードは後ほど紹介します）。
-
-### ファイルの解説を依頼
-
-1. チャット欄に `#delivery_manager.py` と入力します
-2. 「このファイル全体について説明してください」とプロンプトを入力します。
-3. Enterを押すと、Copilot Chat が `delivery_manager.py` ファイル全体を解説してくれます
-
-> aside positive
->
-> **ヒント**: ファイル名の前に `#` を付けることで、そのファイル全体をコンテキストとして含めることができます。
-
-## コードの改善箇所を尋ねる
-Duration: 15
-
-### エクササイズ
-
-Copilot Chat にこのコードの悪い部分を尋ねてみましょう。
-
-### 1. クラス全体の問題を聞く
-
-まずは、クラス全体としてこのコードはどのような問題を抱えているか聞いてみましょう。
-
-Copilot Chatに以下のように質問してみてください：
-
-```
-このDeliveryManagerクラス全体を見て、どのような問題や改善点がありますか？設計パターン、コードの品質、保守性の観点から教えてください。
-```
-
-### 2. 具体的なメソッドに絞って改善点を聞く
-
-その後、`deliver_recipe()` メソッドに絞って、このメソッドを改善するためにはどのような方法があるか聞いてみましょう。
-
-#### 手順：
-1. チャット欄に `#deliver_recipe` と入力します
-2. コードの要素（関数、クラス、変数など）の候補が表示されます
-3. `deliver_recipe` メソッドを選択します
-4. 以下の質問を入力してください：
-
-```
-このdeliver_recipeメソッドを改善するためにはどのような方法がありますか？可読性、パフォーマンス、エラーハンドリングの観点から提案してください。
-```
-
-> aside positive
->
-> **ヒント**: `#` を使うことで、特定のコードの要素に対してピンポイントで質問することができます。これにより、より具体的で有用な改善提案を得ることができます。
-
-### コードレビュー機能
-
-現在のコードを改善するために、Copilot Chatに以下のように質問してみましょう：
-
-```
-このPythonコードを改善してください。パフォーマンス、可読性、エラーハンドリングの観点から提案をお願いします。
-```
-
-### セキュリティの観点から確認
-
-```
-このコードにセキュリティ上の問題はありますか？
-```
-
-### ベストプラクティスの確認
-
-```
-Pythonのベストプラクティスに従っているか確認してください。
-```
-
-## エージェントモードを使ってみよう
-Duration: 10
-
-ここまでは「質問」モードでCopilot Chatを使ってきましたが、次は「エージェント」モードを使ってみましょう。エージェントは、ユーザーの意図を理解し、より自律的にタスクを実行することができます。実例を通して、エージェントがどのように機能するかを学びます。
-
-### エージェントモードへの切り替え
-
-まず `delivery_manager.py` ファイルを開いている状態で、Copilot Chatのモード選択から「エージェント」を選択します。
-
-<div align="center">
-  <img src="github-copilot-workshop/img/agent_mode2.png" alt="エージェントモード選択2" width="600" />
-  
-  <div style="height: 24;"></div>
-  
-  <img src="github-copilot-workshop/img/agent_mode.png" alt="エージェントモード選択" width="600" />
-</div>
-
-### 問題点の洗い出し
-
-その後、以下のプロンプトを入力してみましょう。
-
-```
-DeliveryManagerクラスに存在する問題点を列挙してください。そして、それぞれの問題点を解決するための改善案を提示してください。
-```
-
-![GPT-4.1による問題点分析](github-copilot-workshop/img/agent_GPT4.1.png)
-
-すると、複数の改善点を提案してくれるはずです。
-
-### モデルを変えて試してみてください
-
-同じ質問を異なるモデルで試すことで、各モデルの特徴を比較できます。
-
-![Claude 4.0による問題点分析](github-copilot-workshop/img/agent_Calude4.0.png)
-
-### 改善案の実装
-
-では、実際に提案してもらった改善案を実装してもらいましょう。
-
-```
-提示してくれたすべての改善案を実装してください。
-```
-
-すると、Copilotはエディタで開かれているコードに対して直接コードの変更を行います。しかし、これはまだ提案の段階であり、この変更を受け入れるかどうかはユーザーが決定します。受け入れるかどうかは、チャット欄の上にある「保持」もしくは「元に戻す」ボタンをクリックすることで行います。
-
-### エージェントの自律性
-
-ここで、エージェントが返してくれたコメントを確認してみましょう。エージェントは単に指示に従ってコードを変更しただけでなく、コードを変更後にエラーが発生していることを確認し、そのエラーも修正しようとする場合があります。適切な環境下では、エージェントはコードの変更後に発生したエラーを自動的に検出し、修正を試みます。このように、エージェントはユーザーの意図を理解し、より自律的にタスクを実行することができます。
-
-### コマンド実行の確認
-
-エージェントモードを使っていると、Copilotがコマンドを実行して良いかどうかを尋ねてくることがあります。これは、Copilotが何かのコマンドを実行する前に、必ずユーザーに確認を求めるためです。コマンドの内容を確認し、実行しても問題ない場合は「Allow this time」をクリックします。これにより、Copilotはそのコマンドを実行し、必要な変更を行います。
-
-> aside positive
->
-> **重要**: エージェントモードでは、Copilotがより自律的に動作するため、提案される変更内容をよく確認してから受け入れるようにしましょう。
-
-## カスタムエージェントを使ってみよう（オプション）
-Duration: 15
-
-**カスタムエージェント**は、**Copilot コーディングエージェント**の特殊なバージョンであり、独自のワークフロー、コーディング規則、ユースケースに合わせて調整できます。
-
-### BeastModeへの切り替え
-
-Copilot Chatのモード選択から「**beastmode3.1**」を選択します。
-
-### BeastModeを体験してみよう
-
-以下のプロンプトを入力して、エージェントの挙動の違いを確認してください：
-
-```
-このコードをプロダクション品質にアップグレードしてください。
-以下を全て実行してください：
-
-- セキュリティ脆弱性（SQLインジェクションなど）を調査して修正
-- 最新のPythonベストプラクティスを調べて適用
-- 型安全性を強化（typing、Protocol、TypedDictなど）
-- テスタビリティを改善（依存性注入、モック可能な設計）
-- パフォーマンスの問題を特定して最適化
-- 包括的なユニットテストを作成
-- 全てのテストが通ることを確認
-
-完了するまで自律的に作業を続けてください。
-```
-
-> aside positive
->
-> **重要**: このプロジェクトには `.github/agents/beastmode3.1.agent.md` というファイルが含まれており、BeastModeの動作を定義しています。
-
-### BeastModeとは？
-
-BeastModeは、オープンナレッジとしてコミュニティ駆動で発展している取り組みです。以下のような課題を解決します：
-
-| 課題 | Beast Modeの特徴 |
-|------|------------------|
-| 途切れる | ✅ **完全自律実行** - タスク完了まで止まらない |
-| 知識が古い | ✅ **強制的なWeb調査** - 最新情報を必ず検索 |
-| 中途半端 | ✅ **徹底した品質基準** - テスト通過まで継続 |
-
-### VS Code設定での有効化
-
-BeastModeの考えはすでにGitHub Copilotの実装にも取り込まれており、VS Codeの設定でも利用できます：
-
-1. VS Codeの設定を開く
-2. 以下の設定を有効化：
-   ```
-   github.copilot.chat.alternategptprompt.enable
-   ```
-
-これにより、標準のCopilotエージェントでもBeastModeと同様の自律的な動作が可能になります。
-
-> aside positive
->
-> **重要**: BeastModeは Sonnet4.5やGemini 3 Proのような大きなモデルで既に実行してくれている挙動の定義が多いです。そのため、規定のPremium Request数を全て消費した後のGPT-4.1やGPT-5miniなどのモデルでのBeastMode利用が有効になるのではないかと思います。
->
-> **参考リソース**:
-> GitHubが公開しているPromptやAgentのサンプルがまとまっているリポジトリがあります：
-> ユースケース別、言語別などさまざまなサンプルがあるので、ぜひご参照ください。
-> 
-> [GitHub Awesome Copilot](https://github.com/github/awesome-copilot)
-
-## 次のタスクに向けた設定（オプション）
-Duration: 20
-
-このセクションは **オプション** です。GitHub Copilotの基本機能を学んだ後で、より高度な機能を試したい場合に実施してください。
-
-### 1. ブランチの準備
-
-#### ステップ1: ステージングされた変更をリセット
-
-現在ステージングエリアにある変更を全てワーキングディレクトリに戻します：
-
-```bash
-git restore .
-```
-
-#### ステップ2: 新しいブランチを作成
-
-feature/pomodoroブランチを作成して切り替えます：
-
-```bash
-git checkout -b feature/pomodoro
-```
-
-### 2. GitHub Advanced Security (GHAS) の設定
-
-GitHub Advanced Security の Code Scanning 機能を有効にすることで、コードの脆弱性を自動的に検出できます。
-
-1. フォークしたリポジトリの **Settings** タブをクリック
-2. 左サイドバーから **Security** → **Code security** を選択
-3. **Code scanning** セクションで **Set up** をクリック
-
-![GHAS Code Scanning Setup](github-copilot-workshop/img/code-scanning-setup.png)
-
-4. **Default** を選択（推奨）
-
-![GHAS Default Configuration](github-copilot-workshop/img/code-scanning-default.png)
-
-5. **Enable CodeQL** をクリック
-
-これにより、プッシュ時やプルリクエスト作成時にコードの自動スキャンが実行されます。
-
-### 3. Copilot 機能の確認
-
-GitHubで利用可能なCopilot機能を確認しましょう。
-
-1. GitHubの右上のプロフィールアイコンをクリック
-2. **Your Copilot** を選択
-
-![Your Copilot Menu](github-copilot-workshop/img/your-copilot-menu.png)
-
-以下の機能が有効になっていることを確認してください：
-
-- **Copilot in GitHub.com** - GitHubのWebサイト上でCopilotを使用
-- **Copilot coding agent** - より高度なコーディング支援
-- **MCP servers in Copilot** - Model Context Protocol サーバーの利用
-
-> aside negative
->
-> **プラン制限**: Copilot Code ReviewやCoding Agentなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。
-
-### 4. GitHub MCP Server のセットアップ
-
-Model Context Protocol (MCP) サーバーを使用することで、Copilotの機能を拡張できます。
-
-#### ステップ1: MCP サーバーの追加
-
-1. VS Code でコマンドパレットを開く: `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
-2. `mcp: add server` と入力して選択
-
-![MCP Add Server](github-copilot-workshop/img/mcp-add-server.png)
-
-3. **HTTP** を選択
-4. サーバーURL: `https://api.githubcopilot.com/mcp/` を入力
-5. Server ID の入力欄で `github-mcp-server` と入力（または Enter でスキップ）
-6. 保存先は **このワークスペースに保存** を選択
-7. GitHub アカウントで認証を行う
-
-#### ステップ2: MCP サーバーの起動確認
-
-`.vscode/mcp.json` にMCPサーバーの設定が保存されます。
-
-![MCP JSON Config](github-copilot-workshop/img/mcp-json-config.png)
-
-#### ステップ3: ツールの有効化
-
-1. Copilot Chat でツールボタンをクリック
-
-![MCP Tools Button](github-copilot-workshop/img/mcp-tools-button.png)
-
-2. GitHub MCP サーバーがリストに表示されることを確認
-3. チェックボックスにチェックを入れて有効化
-
-![MCP Enable Tools](github-copilot-workshop/img/mcp-enable-tools.png)
-
-これで、GitHub の情報を直接 Copilot Chat で参照できるようになります。
-
-> aside positive
->
-> **ヒント**: MCP サーバーを使用すると、Copilot がリポジトリの情報、Issues、Pull Requests などに直接アクセスして、より詳細な回答や提案を行うことができます。
 
 ## ポモドーロタイマーを作ってみよう
 Duration: 30
@@ -483,6 +94,20 @@ Duration: 30
 Duration: 10
 
 まず、いきなり実装を始めるのではなく、どういった方針・設計で進めるかをCopilotに相談してみましょう。ここから先は、すべてエージェントモードで進めていきます。
+
+### エージェントモードへの切り替え
+
+Copilot Chatのモード選択から「エージェント」を選択します。エージェントは、ユーザーの意図を理解し、より自律的にタスクを実行することができます。
+
+<div align="center">
+  <img src="github-copilot-workshop/img/agent_mode2.png" alt="エージェントモード選択2" width="600" />
+  
+  <div style="height: 24;"></div>
+  
+  <img src="github-copilot-workshop/img/agent_mode.png" alt="エージェントモード選択" width="600" />
+</div>
+
+### 設計の相談
 
 今回のようにUIを持ったWebアプリケーションを作成するにあたって役に立つのが、Copilot Chatに画像をアップロードする機能です。これを使うことで、アプリケーションのUIイメージをCopilotに理解させることができます。
 
@@ -554,7 +179,27 @@ Duration: 30
 
 ここまでの準備が整ったので、いよいよ実装に取り掛かりましょう。前のステップで提案された実装計画に従って、段階的に機能を実装していきます。
 
-### プロジェクト構成の準備
+### 1. ブランチの準備
+
+実装を始める前に、作業用のブランチを作成しましょう。
+
+#### ステップ1: ステージングされた変更をリセット
+
+現在ステージングエリアにある変更を全てワーキングディレクトリに戻します：
+
+```bash
+git restore .
+```
+
+#### ステップ2: 新しいブランチを作成
+
+feature/pomodoroブランチを作成して切り替えます：
+
+```bash
+git checkout -b feature/pomodoro
+```
+
+### 2. プロジェクト構成の準備
 
 まずは、今回のアーキテクチャに従ったプロジェクトのディレクトリ構成を作成しましょう。
 
@@ -608,6 +253,144 @@ Duration: 20
 
 すると、CopilotはVS Code内のターミナル内で、先ほどのコマンドを実行し、必要な依存関係をインストールします。それ以降も同様に、Copilotが何かのコマンドを実行する前には、必ずユーザーに確認を求めます。もし、そのコマンドを実行してエラーが発生した場合は、そのエラーを解決するために、エージェントは追加の修正を行います。
 
+
+## 次のタスクに向けた設定
+Duration: 20
+
+ここから先のステップでは、GitHub.com上でのCopilot機能やCoding Agentを使用します。そのために必要な設定を行いましょう。
+
+### 1. GitHub Advanced Security (GHAS) の設定
+
+GitHub Advanced Security の Code Scanning 機能を有効にすることで、コードの脆弱性を自動的に検出できます。
+
+1. フォークしたリポジトリの **Settings** タブをクリック
+2. 左サイドバーから **Security** → **Code security** を選択
+3. **Code scanning** セクションで **Set up** をクリック
+
+![GHAS Code Scanning Setup](github-copilot-workshop/img/code-scanning-setup.png)
+
+4. **Default** を選択（推奨）
+
+![GHAS Default Configuration](github-copilot-workshop/img/code-scanning-default.png)
+
+5. **Enable CodeQL** をクリック
+
+これにより、プッシュ時やプルリクエスト作成時にコードの自動スキャンが実行されます。
+
+### 2. Copilot 機能の有効化
+
+GitHubで利用可能なCopilot機能を有効化しましょう。
+
+1. GitHubの右上のプロフィールアイコンをクリック
+2. **Your Copilot** を選択
+
+![Copilot 設定](github-copilot-workshop/img/copilot-settings.png)
+
+以下の機能を有効化してください：
+
+- **Editor preview features** - エディタのプレビュー機能
+- **Copilot CLI** - ターミナルでのCopilot利用
+- **Copilot code review** - コードレビュー機能
+- **Copilot coding agent** - 自律的なコーディングエージェント
+
+> aside negative
+>
+> **プラン制限**: Copilot Code ReviewやCoding Agentなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。
+
+### 3. リポジトリの Issues と Actions を有効化
+
+フォークしたリポジトリでは、デフォルトで Issues と Actions が無効になっている場合があります。後のステップで使用するため、有効化しておきましょう。
+
+#### Issues の有効化
+
+1. フォークしたリポジトリの **Settings** タブをクリック
+2. **General** セクションの **Features** を確認
+3. **Issues** にチェックを入れる
+
+#### Actions の有効化
+
+1. リポジトリの **Actions** タブをクリック
+2. 「I understand my workflows, go ahead and enable them」をクリックして有効化
+
+### 4. GitHub MCP Server のセットアップ（オプション）
+
+Model Context Protocol (MCP) サーバーを使用することで、Copilotの機能を拡張できます。
+
+#### ステップ1: MCP サーバーの追加
+
+1. VS Code でコマンドパレットを開く: `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
+2. `mcp: add server` と入力して選択
+
+![MCP Add Server](github-copilot-workshop/img/mcp-add-server.png)
+
+3. **HTTP** を選択
+4. サーバーURL: `https://api.githubcopilot.com/mcp/` を入力
+5. Server ID の入力欄で `github-mcp-server` と入力（または Enter でスキップ）
+6. 保存先は **このワークスペースに保存** を選択
+7. GitHub アカウントで認証を行う
+
+#### ステップ2: MCP サーバーの起動確認
+
+`.vscode/mcp.json` にMCPサーバーの設定が保存されます。
+
+![MCP JSON Config](github-copilot-workshop/img/mcp-json-config.png)
+
+#### ステップ3: ツールの有効化
+
+1. Copilot Chat でツールボタンをクリック
+
+![MCP Tools Button](github-copilot-workshop/img/mcp-tools-button.png)
+
+2. GitHub MCP サーバーがリストに表示されることを確認
+3. チェックボックスにチェックを入れて有効化
+
+![MCP Enable Tools](github-copilot-workshop/img/mcp-enable-tools.png)
+
+これで、GitHub の情報を直接 Copilot Chat で参照できるようになります。
+
+> aside positive
+>
+> **ヒント**: MCP サーバーを使用すると、Copilot がリポジトリの情報、Issues、Pull Requests などに直接アクセスして、より詳細な回答や提案を行うことができます。
+
+### 4. Personal Access Token (PAT) の作成（オプション）
+
+Coding Agent が GitHub Actions で動作するために、Personal Access Token を作成します。
+
+#### ステップ1: Fine-grained PAT を作成
+
+以下のURLにアクセスして、新しいFine-grained PATを作成します：
+
+[https://github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new)
+
+設定内容：
+- **Resource owner**: 自分のユーザーアカウントを選択してください（組織ではなく個人アカウント）
+- **Repository access**: **Public repositories** を選択してください（プライベートリポジトリに追加する場合でもPublic repositoriesを選択します）
+- **Permissions**: **Copilot Requests** を有効にしてください
+
+#### ステップ2: GitHub Actions の Repository Secret に設定
+
+作成したPATをリポジトリのシークレットとして設定します：
+
+1. フォークしたリポジトリの **Settings** タブをクリック
+2. 左サイドバーから **Secrets and variables** → **Actions** を選択
+3. **New repository secret** をクリック
+4. 以下の内容を入力：
+   - **Name**: `COPILOT_GITHUB_TOKEN`
+   - **Value**: 先ほど作成したPATを貼り付け
+5. **Add secret** をクリック
+
+#### ステップ3: Workflow permissions の確認
+
+Coding Agent が Pull Request を自動作成できるように、Actions のワークフロー権限を確認します：
+
+1. フォークしたリポジトリの **Settings** タブをクリック
+2. 左サイドバーから **Actions** → **General** を選択
+3. **Workflow permissions** セクションで **Allow GitHub Actions to create and approve pull requests** にチェックが入っていることを確認
+4. チェックが入っていない場合は有効化して **Save** をクリック
+
+> aside positive
+>
+> **ヒント**: この設定により、Copilot Coding Agent が GitHub Actions のワークフロー内でCopilotの機能を利用できるようになります。
 
 ## 残りの機能を実装しよう（オプション）
 Duration: 20
@@ -714,7 +497,7 @@ plan.mdの各ステップをGitHub issuesとして起票してください
 > **MCP の利点**: GitHub MCPサーバーを使用することで、Copilotがリポジトリの情報、Issues、Pull Requests、ブランチ情報などのGitHubメタデータに直接アクセスし、より詳細な分析や提案を行うことができます。
 
 
-## GitHub.com上でのGitHub Copilot
+## [GitHub.com] Copilot Code Review
 Duration: 15
 
 Pushした後の内容をGitHub.com上でPull Requestを立てて、Copilotのコードレビュー機能を活用しましょう。
@@ -769,7 +552,7 @@ Pull Requestには、GitHub Advanced Security（GHAS）による静的脆弱性�
 >
 > **Copilot Autofixの活用**: GitHubは検出されたセキュリティ脆弱性に対して、Copilot Autofixによる自動修正提案を提供します。これにより、セキュリティ問題を迅速に解決できます。
 
-## Issueの自動起票とCoding Agent
+## [GitHub.com] Copilot Coding Agent
 Duration: 20
 
 GitHub CopilotのWebサイト版を使用して、プロジェクトの改善提案をIssueとして自動生成し、Coding Agentを活用してみましょう。
@@ -842,6 +625,340 @@ Coding Agentがアサインされると、以下のような結果が期待で�
 >
 > **MCP Serverの活用**: GitHub MCP ServerとPlaywright MCP Serverが初期設定としてCoding Agentに含まれています。これにより、単体テストだけではなく、スクリーンショットによるUIの自動チェックも行うことができます。Coding Agentは実装した機能が期待通りに動作するかを視覚的に検証し、より品質の高いコードを提供します。
 
+## [GitHub.com] Agentic Workflow
+Duration: 15
+
+GitHub Actions と Copilot を組み合わせることで、コードの変更を検知して自動的にドキュメントを更新する **Agentic Workflow** を体験しましょう。
+
+### Agentic Workflow とは
+
+Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。今回のワークショップでは、ポモドーロタイマーのコードに変更が加わった際に、関連するドキュメントを自動更新するワークフローが事前に設定されています。
+
+### 1. ワークフローの実行を確認する
+
+先ほどコードを Push したことで、Agentic Workflow が自動的にトリガーされています。
+
+1. GitHub 上でフォークしたリポジトリにアクセス
+2. **Actions** タブをクリック
+3. **Pomodoro Documentation Sync** ワークフローが実行されていることを確認
+
+![Agentic Workflow の実行](github-copilot-workshop/img/agentic-workflow1.png)
+
+このワークフローは、`pomodoro/` 配下のコードに差分が生じたときに、変更内容に応じて `pomodoro/docs/` 配下で管理しているドキュメンテーションを自動的に更新するものです。
+
+### 2. Pull Request を確認する
+
+Actions の実行が完了すると、ドキュメンテーションを更新する **Pull Request** が自動的に作成されます。
+
+1. **Pull requests** タブをクリック
+2. Copilot が作成した PR を確認
+3. ドキュメントの変更内容をレビュー
+
+### 3. 自分で Agentic Workflow を作ってみよう
+
+ここまでで Agentic Workflow の動作を確認できました。次は、自分自身で Agentic Workflow を作成してみましょう。
+
+エージェントモードで以下のプロンプトを実行してください：
+
+```
+以下のURLを参照して GitHub Agentic Workflow を作成してください。
+https://github.com/github/gh-aw/blob/main/create.md
+
+ワークフローの目的は以下のとおりです：
+- copilotWebRelay 配下のコードが更新された時に実行されます
+- copilotWebRelay 配下のコードの内容に応じて copilotWebRelay/docs のドキュメンテーションを更新し、ソースコードとドキュメンテーションが常に一致するようにします
+```
+
+> aside positive
+>
+> **Agentic Workflow の可能性**: ドキュメント更新以外にも、テストの自動生成、コードレビューの自動化、リリースノートの作成など、様々なタスクを Agentic Workflow として構築できます。
+
+## Copilot Web Relay を作ろう
+Duration: 10
+
+ここからは上級編として、**Copilot Web Relay** — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。
+
+このセクションでは、ポモドーロタイマーとは異なるアプローチを取ります。**事前に用意された設計書をCopilotに読み込ませ、設計書をもとに対話しながら段階的に実装していく**ワークフローを体験します。
+
+![Copilot Web Relay](github-copilot-workshop/img/copilot-web-relay.png)
+
+### Copilot Web Relay とは？
+
+ローカルで動作する GitHub Copilot CLI を、ターミナルを直接操作することなくブラウザ上のUIを通じてリアルタイムにやり取りできるようにするWebアプリケーションです。
+
+### アーキテクチャ概要
+
+| コンポーネント | 技術スタック | 役割 |
+|---|---|---|
+| **Browser** | React + TypeScript + Vite | ターミナル表示（xterm.js）、セッション管理 |
+| **Backend Server** | Python (FastAPI) + WebSocket | Copilot CLI プロセスの管理、WebSocket ブリッジ |
+| **CLI Bridge** | Python (asyncio + pexpect) | Copilot CLI の PTY（疑似端末）制御、入出力のストリーミング |
+
+Browser ↔ WebSocket（双方向通信）↔ Backend Server ↔ PTY/stdin/stdout（子プロセス管理）↔ Copilot CLI
+
+### 開発の進め方
+
+このセクションでは以下の流れで進めます：
+
+1. **設計書を確認** — プロジェクトに配布された設計書を確認し、アプリケーションの全体像を理解する
+2. **GitHub Copilot CLI** — ターミナルで CLI を立ち上げ、問題なく動作することを確認する
+3. **AI 駆動開発** — 設計書を活用し、GitHub Copilot CLI と対話しながら Web アプリケーションを Vibe Coding で実装する
+
+> aside positive
+>
+> **このセクションのポイント**: Copilotのハイエンドモデルを GitHub Copilot の最新機能と組み合わせて利用した時に実現できるタスクの質と量を体感いただくことがゴールです。設計書を事前に用意しておくことで、Copilotに対して「何を作るか」の文脈を明確に伝えられます。実際の開発現場でも、設計ドキュメントをCopilotのコンテキストとして活用するのは非常に効果的なプラクティスです。
+
+## 設計書の確認と GitHub Copilot CLI
+Duration: 15
+
+### 1. 設計書の確認
+
+プロジェクト内の `copilotWebRelay/planning.md` に、Copilot Web Relay の設計書が配布されています。まずはこのファイルを開いて、アプリケーションの全体像を確認しましょう。
+
+設計書には以下の内容が含まれています：
+
+- **アーキテクチャ**: Browser ↔ WebSocket ↔ FastAPI ↔ PTY ↔ Copilot CLI の構成
+- **コンポーネント構成**: Frontend（React/TS）、Backend（FastAPI）、CLI Bridge（pexpect）
+- **機能要件**: Phase 1（MVP）と Phase 2（チャット UI 強化）
+- **WebSocket プロトコル設計**: メッセージ形式と状態管理の仕様
+- **ディレクトリ構造**: ファイル配置と各ファイルの役割
+- **実装タスク一覧**: タスク間の依存関係
+- **実装上の重要な注意事項**: つまずきやすいポイントの事前対策
+
+> aside positive
+>
+> **設計書を活用するコツ**: この後の実装フェーズでは、GitHub Copilot CLI に対してプロンプトを投げる際に `planning.md を参照して` と指示することで、Copilot が設計書の文脈を理解した上でコードを生成してくれます。
+
+### 2. GitHub Copilot CLI の起動確認
+
+VS Code のターミナルを開き、以下のコマンドを入力して GitHub Copilot CLI を起動してみましょう：
+
+```bash
+copilot
+```
+
+正常に起動すると、対話型のインターフェースが表示されます。`/help` と入力して、利用可能なコマンドを確認してみましょう。
+
+> aside negative
+>
+> **GitHub Copilot CLI のセットアップについて**
+> 通常、GitHub Copilot CLI を利用するには **GitHub CLI (`gh`)** のインストールと Copilot 拡張機能のセットアップが必要です。今回のワークショップでは、**DevContainer の設定に GitHub Copilot CLI のインストールと認証が含まれている**ため、Codespaces を起動すれば `copilot` コマンドがすぐに利用できます。
+>
+> 自身の環境でセットアップする場合は、以下の手順が必要です：
+> 1. GitHub CLI をインストール: `brew install gh`（macOS）
+> 2. GitHub CLI で認証: `gh auth login`
+> 3. Copilot 拡張機能をインストール: `gh extension install github/copilot-cli`
+
+### 3. GitHub Copilot CLI のコマンド一覧
+
+GitHub Copilot CLI では、テキストで自然言語の指示を入力するほか、`/` で始まるスラッシュコマンドを使用できます。
+
+#### コード関連
+
+| コマンド | 説明 |
+|---|---|
+| `/ide` | IDE ワークスペースに接続 |
+| `/diff` | 現在のディレクトリの変更差分を確認 |
+| `/review` | コードレビューエージェントを実行して変更を分析 |
+| `/lsp` | 言語サーバーの設定を管理 |
+| `/terminal-setup` | マルチライン入力（Shift+Enter / Ctrl+Enter）のターミナル設定 |
+
+#### パーミッション
+
+| コマンド | 説明 |
+|---|---|
+| `/allow-all` | すべてのパーミッション（ツール・パス・URL）を有効化 |
+| `/add-dir` | ファイルアクセスの許可ディレクトリを追加 |
+| `/list-dirs` | 許可されたディレクトリの一覧を表示 |
+| `/cwd` | 作業ディレクトリを変更または表示 |
+| `/reset-allowed-tools` | 許可ツールのリストをリセット |
+
+#### セッション管理
+
+| コマンド | 説明 |
+|---|---|
+| `/resume` | 別のセッションに切り替え（セッションID指定可） |
+| `/rename` | 現在のセッション名を変更 |
+| `/context` | コンテキストウィンドウのトークン使用量を表示 |
+| `/usage` | セッションの使用状況メトリクスと統計を表示 |
+| `/session` | セッション情報とワークスペースサマリーを表示 |
+| `/compact` | 会話履歴を要約してコンテキストウィンドウの使用量を削減 |
+| `/share` | セッションを Markdown ファイルまたは GitHub Gist としてエクスポート |
+
+#### ヘルプ・フィードバック
+
+| コマンド | 説明 |
+|---|---|
+| `/help` | 対話コマンドのヘルプを表示 |
+| `/changelog` | CLI バージョンの変更履歴を表示 |
+| `/feedback` | CLI に関するフィードバックを送信 |
+| `/theme` | ターミナルテーマの確認・設定 |
+| `/experimental` | 利用可能な実験的機能の表示、実験モードの切り替え |
+
+#### その他
+
+| コマンド | 説明 |
+|---|---|
+| `/model` | 使用する AI モデルを選択（GPT、Claude、Gemini 等） |
+| `/clear` , `/new` | 会話履歴をクリア |
+| `/plan` | コーディング前に実装計画を作成 |
+| `/instructions` | カスタム指示ファイルの表示・切り替え |
+| `/diagnose` | 現在のセッションログを分析 |
+| `/login` , `/logout` | Copilot へのログイン・ログアウト |
+| `/user` | GitHub ユーザーの管理 |
+| `/exit` , `/quit` | CLI を終了 |
+
+#### カスタム指示ファイル
+
+Copilot CLI は以下の場所にあるカスタム指示ファイルを自動的に読み込みます：
+
+- `CLAUDE.md` / `GEMINI.md` / `AGENTS.md`（git ルートおよびカレントディレクトリ）
+- `.github/instructions/**/*.instructions.md`（git ルートおよびカレントディレクトリ）
+- `.github/copilot-instructions.md`
+- `$HOME/.copilot/copilot-instructions.md`
+
+> aside positive
+>
+> **CLI のヒント**: `/model` コマンドでモデルを切り替えることができます。実装がうまく進まない場合は、別のモデルを試してみると良い結果が得られることがあります。`/plan` コマンドを使うとコーディング前に実装計画を自動生成できるので、設計書と組み合わせると効果的です。
+
+## Vibe Coding で実装しよう
+Duration: 60
+
+設計書の確認と GitHub Copilot CLI の動作確認ができたら、いよいよ **Vibe Coding** で Copilot Web Relay を実装していきます。
+
+以下の 4 ステップを順番に実行するだけで、Copilot が設計書をもとにアプリケーションを構築してくれます。
+
+### ステップ 1: Copilot CLI を起動する
+
+VS Code のターミナルで Copilot CLI を起動します。
+
+```bash
+copilot
+```
+
+### ステップ 2: すべてのパーミッションを許可する
+
+```
+/allow-all
+```
+
+`/allow-all` は、Copilot CLI に対して**ツールの実行・ファイルアクセス・外部URLへのアクセス**のすべてのパーミッションを一括で許可するコマンドです。
+
+通常、Copilot CLI はセキュリティのために、ファイルの読み書きやコマンドの実行、外部通信を行う際にユーザーへ都度許可を求めます。`/allow-all` を実行することで、これらの確認プロンプトをスキップし、Copilot がファイルの作成・編集、パッケージのインストール、サーバーの起動などを自律的に実行できるようになります。
+
+> aside negative
+>
+> **注意**: `/allow-all` は現在のセッションに対してのみ有効です。セキュリティ上、信頼できるプロジェクトでのみ使用してください。個別に許可したい場合は、`/add-dir` でディレクトリ単位のアクセス許可を設定することもできます。
+
+### ステップ 3: ハイエンドモデルを選択する
+
+```
+/model Claude Opus 4.6
+```
+
+最も高性能なモデルを選択します。Copilot CLI は `/model` コマンドで使用する AI モデルを切り替えることができ、タスクの複雑さに応じて最適なモデルを選べます。今回のような複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。
+
+### ステップ 4: Fleet モードで一気に実装する
+
+```
+/fleet Copilot Web Relay — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。copilotWebRelay/planning.md の計画に沿って実装を進めてください。不明なことがあれば事前に私に聞いてください。
+```
+
+`/fleet` は、**複数のサブエージェントを並行して起動し、大規模なタスクを分割・同時実行する**ためのコマンドです。
+
+通常の Copilot CLI では 1 つのタスクを順番に処理しますが、`/fleet` を使うと Copilot が自動的にタスクを分解し、バックエンドの実装・フロントエンドの実装・設定ファイルの作成など複数の作業を**並行して進めます**。これにより、従来1つずつ指示して進めていた作業を、一度の指示で一気に完成させることができます。
+
+Fleet モードでは以下のことが自動的に行われます：
+
+- **タスクの分解**: 設計書を読み取り、実装すべきコンポーネントを特定
+- **並行実装**: バックエンド（FastAPI + CLI Bridge + WebSocket）とフロントエンド（React + xterm.js）を同時に実装
+- **依存関係の解決**: パッケージのインストール、設定ファイルの生成
+- **統合テスト**: 実装後の動作確認
+
+> aside positive
+>
+> **Fleet モードのポイント**: Copilot が質問してきた場合は、適切に回答してください。設計書に記載されている内容であれば「planning.md を参照してください」と返答するのも効果的です。実装の進行状況はターミナルにリアルタイムで表示されます。
+
+### つまずいた場合のヒント
+
+Fleet モードの実装でエラーが発生した場合は、以下を試してみましょう：
+
+- **エラーメッセージをそのまま Copilot に共有**: 「このエラーを修正してください」と伝えるだけで修正してくれます
+- **`/diff` で変更内容を確認**: 意図しない変更がないかチェック
+- **`/model` でモデルを変更**: 別のモデルに切り替えて再試行
+- **設計書の注意事項を確認**: `planning.md` の「実装上の重要な注意事項」セクションに、よくあるバグの対処法が記載されています
+
+> aside negative
+>
+> **よくあるつまずきポイント**:
+> - **Vite の WebSocket プロキシ**: `target` に `ws://` ではなく `http://` を指定する必要があります
+> - **React StrictMode**: `useEffect` が2回実行される問題で WebSocket 接続が不安定になることがあります
+> - **FastAPI のルーティング順序**: StaticFiles のマウントは WebSocket エンドポイントの後に定義する必要があります
+> - **xterm.js v5 のパッケージ名**: `xterm-addon-fit` ではなく `@xterm/addon-fit` を使用してください
+
+以下が、私の場合の1ショットでプロンプトを流した実装結果です。
+
+![Copilot Web Relay 実装結果](github-copilot-workshop/img/copilot-web-relay2.png)
+
+## コードを理解＆改善しよう
+Duration: 20
+
+Vibe Coding で実装した Copilot Web Relay のコードを、Copilot に解説してもらい理解を深めましょう。その後、問題点を見つけて改善まで行います。
+
+### 1. コード全体の解説を依頼
+
+まずは、実装されたコードの全体像を把握しましょう。エージェントモードで以下のプロンプトを入力してください：
+
+```
+この Copilot Web Relay アプリケーションのコード全体を確認して、アーキテクチャ、各ファイルの役割、主要な処理の流れを解説してください。
+```
+
+Copilot エージェントはプロジェクト内のファイルを自動的にスキャンし、コードの構造や処理の流れを解説してくれます。
+
+> aside positive
+>
+> **ヒント**: エージェントモードでは、Copilot が自動的にプロジェクト内のファイルを参照して回答してくれるため、手動でファイルをコンテキストに追加する必要がありません。
+
+### 2. 問題点を見つける
+
+次に、コードの品質やセキュリティの観点から問題点を洗い出してもらいましょう：
+
+```
+この Copilot Web Relay アプリケーション全体を見て、どのような問題点や改善点がありますか？設計パターン、コードの品質、保守性、セキュリティの観点から教えてください。
+```
+
+さらに、特定のコンポーネントに絞って深掘りすることもできます：
+
+```
+backend/cli_bridge.py のエラーハンドリングとリソース管理に問題はありますか？改善案を提案してください。
+```
+
+```
+frontend/src/App.tsx の WebSocket 接続管理に問題はありますか？React のベストプラクティスに従っているか確認してください。
+```
+
+### 3. 改善案を実装する
+
+見つかった問題点を実際に修正してもらいましょう：
+
+```
+提示してくれたすべての改善案を実装してください。
+```
+
+Copilot はコードに対して直接変更を提案します。変更内容を確認し、チャット欄の「保持」もしくは「元に戻す」ボタンで受け入れるかどうかを決定しましょう。
+
+### 4. 動作確認
+
+改善を実装した後は、アプリケーションが引き続き正常に動作することを確認しましょう：
+
+```
+改善を実装した結果、アプリケーションが正常に動作することを確認してください。バックエンドの起動、フロントエンドのビルド、ブラウザでの動作確認を行ってください。
+```
+
+> aside positive
+>
+> **重要**: エージェントモードでは、Copilot がより自律的に動作するため、提案される変更内容をよく確認してから受け入れるようにしましょう。エージェントはコード変更後にエラーが発生した場合、自動的に検出して修正を試みることもあります。
+
 ## おめでとうございます 🎉
 Duration: 5
 
@@ -849,16 +966,17 @@ Duration: 5
 
 このワークショップでは以下のことを学びました：
 
-- GitHub Copilotの基本的な使い方
-- Copilot Chatでのコード解説・改善
-- エージェント機能の活用
-- 実際のアプリケーション開発でのCopilot活用
+1. **GitHub Copilot の基本的な使い方**
+2. **エージェントモードでのコードの解説・改善**
+3. **AI をコントロールしながら実装するスペック駆動開発**
+4. **強力なモデルとツールを用いた AI 駆動開発**
 
 ### 次のステップ
 
 - 実際のプロジェクトでCopilotを活用してみる
 - より複雑なアプリケーション開発に挑戦する
 - Copilotの新機能をキャッチアップする
+- Copilot Web Relay を自身の環境にデプロイしてみる
 
 ### リソース
 

@@ -1,10 +1,17 @@
 {
-  "defaultVersion": "v1.0.1",
+  "defaultVersion": "v1.0.2",
   "versions": [
+    {
+      "id": "v1.0.2",
+      "version": "v1.0.2",
+      "name": "v1.0.2 (最新)",
+      "path": "versions/v1.0.2/index.html",
+      "description": "Copilot Web Relay セクション追加"
+    },
     {
       "id": "v1.0.1",
       "version": "v1.0.1",
-      "name": "v1.0.1 (最新)",
+      "name": "v1.0.1",
       "path": "versions/v1.0.1/index.html",
       "description": "2025年12月版"
     },
