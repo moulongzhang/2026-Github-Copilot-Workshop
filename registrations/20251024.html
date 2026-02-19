@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GitHub Copilot 実践ワークショップ（2025/10/24）</title>
+  <style>
+    :root{--blue-500:#0078d4;--bg:#f6f7fb;--card:#fff}
+    *{box-sizing:border-box}
+    body{font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;margin:0;background:var(--bg);color:#111}
+    .hero{background:linear-gradient(90deg,var(--blue-500) 0%,#0a73c8 40%,#7b4ef6 100%);color:#fff;padding:48px 24px;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .hero .inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:24px}
+    .hero h1{margin:0;font-size:2rem;line-height:1.1}
+    .hero .meta{margin-top:12px;font-size:0.95rem;opacity:0.95}
+    .container{max-width:1100px;margin:28px auto;padding:0 24px}
+
+    .notice{background:#fff8e1;border:1px solid #ffe0a3;padding:16px;border-radius:8px;display:flex;align-items:center;gap:12px;margin-bottom:24px}
+    .notice .dot{width:12px;height:12px;border-radius:50%;background:#d9534f;display:inline-block}
+    .layout{display:grid;grid-template-columns:1fr;gap:24px}
+
+    /* 左カラム（タイムライン） */
+    .left{background:var(--card);padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(12,23,40,0.06)}
+    .time{font-weight:600;color:#333;margin-bottom:8px}
+    .event-title{font-size:1.05rem;font-weight:700;margin:6px 0}
+    .muted{color:#666;font-size:0.95rem}
+
+    /* 右カラム */
+    .right section{background:var(--card);padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(12,23,40,0.04);margin-bottom:16px}
+    dl{display:grid;grid-template-columns:110px 1fr;gap:6px 16px}
+    dt{font-weight:700;color:#222}
+    dd{margin:0;color:#444}
+
+    .agenda-list{list-style:none;padding:0;margin:0}
+    .agenda-list li{padding:10px 0;border-bottom:1px solid #f0f2f5}
+
+    .venue small{display:block;color:#666}
+
+    .speakers{display:flex;gap:18px;align-items:center}
+    .speaker-card{display:flex;gap:14px;align-items:center}
+    .speaker-card img{width:88px;height:88px;border-radius:50%;object-fit:cover}
+    .speaker-info{font-size:0.95rem}
+    .speaker-info .name{font-weight:700;margin-bottom:4px}
+    .footer-note{font-size:0.9rem;color:#666;margin-top:6px}
+
+    @media (max-width:800px){.layout{grid-template-columns:1fr}.hero .inner{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="inner">
+      <div>
+        <span style="display:inline-block;background:#ffffff1a;padding:6px 8px;border-radius:6px;font-weight:700;font-size:0.85rem">対面</span>
+        <span style="display:inline-block;background:#ffffff1a;padding:6px 8px;border-radius:6px;font-weight:700;font-size:0.85rem;margin-left:8px">リモート</span>
+        <h1>GitHub Copilot 実践ワークショップ ～ 開発現場での活用法</h1>
+        <div class="meta">日時: 2025年10月24日 (金) 午後2時00分～4時00分 (GMT+09:00)　／　場所: 日本マイクロソフト株式会社　品川本社 31F セミナールーム + オンライン</div>
+      </div>
+      <div style="margin-left:auto;opacity:0.95">
+        <!-- 右側の装飾的な領域（背景グラデーションで代替） -->
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="layout">
+      <section class="right">
+
+        <section>
+          <h3>開催概要</h3>
+          <dl>
+            <dt>開催日時</dt>
+            <dd>2025年10月24日 (金)　14:00 – 16:00（受付 13:30〜）</dd>
+            <dt>開催場所</dt>
+            <dd>対面：日本マイクロソフト株式会社　品川本社 31F セミナールーム<br>リモート：Zoom（参加者にはURLをご案内します）<br><small>東京都港区港南2-16-3 品川グランドセントラルタワー</small></dd>
+            <dt>定員</dt>
+            <dd>対面：60名、リモート：100名（先着順）</dd>
+          </dl>
+        </section>
+
+        <div style="text-align:center;margin:32px 0">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfRArY65FOCeYNx5w0-zrVf11YaTseDgek56yzC6SVsLQABfg/viewform" 
+             target="_blank" 
+             style="display:inline-block;background:linear-gradient(45deg,var(--blue-500),#7b4ef6);color:#fff;padding:16px 40px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1.1rem;box-shadow:0 4px 16px rgba(0,120,212,0.3);transition:transform 0.2s,box-shadow 0.2s"
+             onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,120,212,0.4)'"
+             onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(0,120,212,0.3)'">
+            📝 参加申し込みはこちら
+          </a>
+        </div>
+
+        <section>
+          <h3>ワークショップの目的</h3>
+          <p>
+            GitHub Copilot は、AI によるコード補完や自動化を活用することで、開発スピードの向上や生産性の最大化を実現するツールです。しかし、「GitHub Copilot がどのように役立つのか具体的に知りたい」、「PoC（試験導入）を進める前に、実際の利用感を確かめたい」、「チームや組織でどのように Copilot を展開すればよいか分からない」といった課題を抱えている企業も少なくありません。このワークショップでは、実際に手を動かしながら GitHub Copilot の活用方法を学ぶことで、開発現場での具体的な活用イメージを持っていただける内容となっています。
+          </p>
+        </section>
+
+        <section>
+          <h3>内容</h3>
+          <div style="margin-bottom:16px">
+            <h4 style="margin:0 0 8px;font-size:1rem;color:#333">GitHub Copilot の基礎と活用シナリオ</h4>
+            <p style="margin:0;font-size:0.95rem;color:#555">GitHub Copilot の仕組みや、どのように AI がコード生成を支援するのかを解説。実際の業務シナリオに沿った活用例を紹介します。</p>
+          </div>
+          <div style="margin-bottom:16px">
+            <h4 style="margin:0 0 8px;font-size:1rem;color:#333">実践ハンズオン – GitHub Copilot を使ってみる</h4>
+            <p style="margin:0;font-size:0.95rem;color:#555">参加者が自身の環境で GitHub Copilot を実際に操作し、コード補完、エージェントモード、コードレビュー、テスト作成、ドキュメント生成 などの機能を試します。「どこまでAIに頼れるのか？」「どんなケースで使うと効果的なのか？」といった実践的な理解を深めます。</p>
+          </div>
+          <div>
+            <h4 style="margin:0 0 8px;font-size:1rem;color:#333">企業での導入・活用のベストプラクティス</h4>
+            <p style="margin:0;font-size:0.95rem;color:#555">GitHub Copilot を企業で導入する際のポイントや、PoC の進め方や、開発チーム内でのベストプラクティスについても紹介します。</p>
+          </div>
+        </section>
+
+        <section>
+          <h3>アジェンダ</h3>
+          <div class="time">14:00 - 16:00</div>
+          <div class="event-title">GitHub Copilot 実践ワークショップ ～ 開発現場での活用法</div>
+          <p class="muted">詳細なタイムテーブルは当日配布の資料でご確認ください。</p>
+        </section>
+
+        <section>
+          <h3>参加想定対象者</h3>
+          <p>
+            GitHub Copilot の導入を検討している開発者、技術リーダー、およびテクノロジーの意思決定者（CTO、エンジニアリングマネージャーなど）を対象としています。GitHub Copilot を活用して開発生産性の向上を目指す方に最適なワークショップです。
+          </p>
+        </section>
+
+        <section>
+          <h3>参加要件</h3>
+          <ol style="margin:0;padding-left:1.2rem">
+            <li style="margin-bottom:8px">GitHub へのアクセスが可能なPCをご用意ください（ご参加の際は、ご自身のPCをお持ちください。）</li>
+            <li style="margin-bottom:8px">GitHubアカウントをお持ちの方（無料アカウントでも可）<br>
+              <span style="margin-left:12px;font-size:0.9rem;color:#666">※GitHub Copilot Freeを使用します。すでに業務などでGitHub Copilotをお使いの方はそれをお使いいただけます。</span><br>
+              <span style="margin-left:12px;font-size:0.9rem;color:#666">※GitHub無料アカウントは以下より取得ください：<a href="https://github.co.jp/" target="_blank">https://github.co.jp/</a></span>
+            </li>
+            <li>ローカル環境の準備が整っていること<br>
+              <span style="margin-left:12px;font-size:0.9rem;color:#666">オプション1: GitHub Codespacesへのアクセス</span><br>
+              <span style="margin-left:12px;font-size:0.9rem;color:#666">オプション2: Visual Studio Codeをインストール済み</span>
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>当日の持ち物</h3>
+          <ul style="margin:0;padding-left:1.1rem">
+            <li><strong>対面参加の方：</strong>ノートPC、ポケットWi‑Fi（会場にて Wi‑Fi 提供あり。必要な方のみ）</li>
+            <li><strong>リモート参加の方：</strong>ノートPC、安定したインターネット接続、カメラ・マイク（推奨）</li>
+          </ul>
+          <p style="font-size:0.9rem;color:#666;margin-top:12px">
+            ※当日Microsoft社のWi-Fiを使用するため、社内規定により他社ネットワークをご利用になれない方はご自身のPCに接続可能なWi-Fiをご準備ください。
+          </p>
+        </section>
+
+        <section>
+          <h3>登壇者</h3>
+          <div class="speakers">
+            <div class="speaker-card">
+              <img src="speaker.jpg" alt="登壇者画像">
+              <div class="speaker-info">
+                <div class="name">ウィリアム ザン</div>
+                <div class="muted">ギットハブ・ジャパン合同会社 / ソリューションズエンジニア</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="footer-note">詳しい当日のアジェンダや配布資料は、参加者へ別途ご案内します。</div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

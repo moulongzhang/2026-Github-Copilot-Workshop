@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GitHub Copilot ワークショップ</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+    /* バージョン選択UI */
+    #version-selector-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #version-selector-label {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+    #version-selector {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+    }
+    #version-selector:hover {
+      border-color: #4F7DC9;
+    }
+    #content-frame {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="version-selector-container">
+    <label id="version-selector-label" for="version-selector">バージョン:</label>
+    <select id="version-selector">
+      <!-- バージョンオプションは動的に追加されます -->
+    </select>
+  </div>
+  
+  <iframe id="content-frame" src=""></iframe>
+
+  <script>
+    (async function() {
+      try {
+        // versions.jsonを読み込み
+        const response = await fetch('versions.json');
+        const data = await response.json();
+        
+        const selector = document.getElementById('version-selector');
+        const iframe = document.getElementById('content-frame');
+        
+        // バージョンオプションを追加
+        data.versions.forEach(version => {
+          const option = document.createElement('option');
+          option.value = version.path;
+          option.textContent = version.name;
+          option.dataset.id = version.id;
+          selector.appendChild(option);
+        });
+        
+        // URLパラメータからバージョンを取得、なければデフォルトバージョンを使用
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestedVersion = urlParams.get('version');
+        
+        let selectedVersion = data.versions.find(v => v.id === data.defaultVersion);
+        if (requestedVersion) {
+          const found = data.versions.find(v => v.id === requestedVersion);
+          if (found) selectedVersion = found;
+        }
+        
+        // 初期ロード
+        iframe.src = selectedVersion.path;
+        selector.value = selectedVersion.path;
+        
+        // バージョン変更時の処理
+        selector.addEventListener('change', function() {
+          const selectedPath = this.value;
+          const selectedId = this.options[this.selectedIndex].dataset.id;
+          
+          // iframeのsrcを更新
+          iframe.src = selectedPath;
+          
+          // URLパラメータを更新（ページをリロードせずに）
+          const newUrl = new URL(window.location);
+          newUrl.searchParams.set('version', selectedId);
+          window.history.pushState({}, '', newUrl);
+        });
+        
+        // ブラウザの戻る/進むボタンへの対応
+        window.addEventListener('popstate', function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const version = urlParams.get('version');
+          const versionData = data.versions.find(v => v.id === version) || 
+                            data.versions.find(v => v.id === data.defaultVersion);
+          
+          iframe.src = versionData.path;
+          selector.value = versionData.path;
+        });
+        
+      } catch (error) {
+        console.error('バージョン情報の読み込みに失敗しました:', error);
+        // エラー時はv1.0.1を直接ロード
+        document.getElementById('content-frame').src = 'versions/v1.0.1/index.html';
+      }
+    })();
+  </script>
+</body>
+</html>

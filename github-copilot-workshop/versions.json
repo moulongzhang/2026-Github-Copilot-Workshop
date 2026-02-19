@@ -1,0 +1,19 @@
+{
+  "defaultVersion": "v1.0.1",
+  "versions": [
+    {
+      "id": "v1.0.1",
+      "version": "v1.0.1",
+      "name": "v1.0.1 (最新)",
+      "path": "versions/v1.0.1/index.html",
+      "description": "2025年12月版"
+    },
+    {
+      "id": "v1.0.0",
+      "version": "v1.0.0",
+      "name": "v1.0.0",
+      "path": "versions/v1.0.0/index.html",
+      "description": "初期リリース版"
+    }
+  ]
+}

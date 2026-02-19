@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-12-15T17:15:17+09:00",
+  "id": "github-copilot-workshop",
+  "duration": 275,
+  "title": "GitHub Copilot ワークショップ",
+  "summary": "GitHub Copilot ワークショップ",
+  "source": "workshop.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "ai",
+    "development"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://example.com/feedback",
+  "url": "github-copilot-workshop"
+}
