@@ -340,6 +340,10 @@ Coding Agent が GitHub Actions で動作するために、Personal Access Token
 
 ![Fine-grained PAT の作成](github-copilot-workshop/img/fine-graiend-pat.png)
 
+作成が完了したら、表示されたPATを必ずコピーしてください。
+
+> **⚠️ 注意**: PATは作成直後の画面でのみ表示されます。画面遷移すると二度と確認できなくなるため、必ずこのタイミングでコピーしてください。
+
 #### ステップ2: GitHub Actions の Repository Secret に設定
 
 作成したPATをリポジトリのシークレットとして設定します：
