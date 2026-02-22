@@ -90,6 +90,10 @@ Duration: 30
 - ブラウザ通知とサウンド通知
 - レスポンシブなWebUI
 
+> aside positive
+>
+> **ポモドーロタイマーとは？**: ポモドーロ・テクニックは、1980年代にフランチェスコ・シリロによって考案された時間管理術です。「25分の作業 + 5分の休憩」を1セット（＝1ポモドーロ）とし、これを繰り返すことで集中力を維持しながら効率的に作業を進める手法です。詳しくは [Wikipedia: ポモドーロ・テクニック](https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF) をご覧ください。
+
 ## ポモドーロタイマーの設計を考える
 Duration: 10
 
@@ -295,7 +299,7 @@ GitHubで利用可能なCopilot機能を有効化しましょう。
 
 > aside negative
 >
-> **プラン制限**: Copilot Code ReviewやCoding Agentなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。
+> **プラン制限**: Copilot Code Review、Coding Agent、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。
 
 ### 3. リポジトリの Issues と Actions を有効化
 
