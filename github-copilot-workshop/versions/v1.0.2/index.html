@@ -345,15 +345,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="GitにコミットしてPushしよう" duration="10">
-        <p>作成したコードをGitリポジトリにコミットしてリモートブランチにPushしましょう。ここでは3つの方法を紹介します。</p>
-<h2 is-upgraded>方法A: ターミナルでコマンドを使用</h2>
-<p>従来の方法として、ターミナルでGitコマンドを直接実行する方法です：</p>
-<pre><code language="language-bash" class="language-bash">git add .
-git commit -m &#34;ポモドーロタイマー機能を追加&#34;
-git push origin feature/pomodoro-timer
-</code></pre>
-<h2 is-upgraded>方法B: VS Code の Source Control を使用</h2>
-<p>VS Codeの統合されたGit機能を使用する方法です：</p>
+        <p>作成したコードをGitリポジトリにコミットしてリモートブランチにPushしましょう。VS Codeの統合されたGit機能を使用します。</p>
 <ol type="1">
 <li><strong>VS Code の Source Control タブ</strong>を開く</li>
 <li><strong>変更されたファイル</strong>の横にある <strong>+</strong> ボタンをクリックして、ステージングに追加</li>
@@ -363,13 +355,6 @@ git push origin feature/pomodoro-timer
 <ol type="1" start="4">
 <li><strong>Commit</strong> ボタン（青いボタン）をクリックしてリモートブランチにPush</li>
 </ol>
-<h2 is-upgraded>方法C: MCP サーバーを使用（設定済みの方向け）</h2>
-<p>MCPサーバーを設定済みの方は、エージェントモードでCopilotに直接指示できます：</p>
-<pre><code>機能の作成が完了したので、コードの差分をgitのステージングにあげてください。
-
-その後、適切なコミットメッセージでコミットいただき、リモートブランチに変更をPushしてください。
-</code></pre>
-<p class="image-container"><img alt="MCP による Git ワークフロー" src="../../img/26ebf645a750b3a6.png"></p>
 <p>続いて、実装計画をGitHub Issuesとして管理していきます：</p>
 <pre><code>plan.mdの各ステップをGitHub issuesとして起票してください
 </code></pre>
