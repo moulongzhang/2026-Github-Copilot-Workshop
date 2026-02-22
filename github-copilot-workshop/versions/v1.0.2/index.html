@@ -246,37 +246,6 @@
 <li>リポジトリの <strong>Actions</strong> タブをクリック</li>
 <li>「I understand my workflows, go ahead and enable them」をクリックして有効化</li>
 </ol>
-<h2 is-upgraded>4. GitHub MCP Server のセットアップ（オプション）</h2>
-<p>Model Context Protocol (MCP) サーバーを使用することで、Copilotの機能を拡張できます。</p>
-<h3 is-upgraded>ステップ1: MCP サーバーの追加</h3>
-<ol type="1">
-<li>VS Code でコマンドパレットを開く: <code>Ctrl+Shift+P</code> (Windows/Linux) / <code>Cmd+Shift+P</code> (Mac)</li>
-<li><code>mcp: add server</code> と入力して選択</li>
-</ol>
-<p class="image-container"><img alt="MCP Add Server" src="../../img/daaeee38e7f7841.png"></p>
-<ol type="1" start="3">
-<li><strong>HTTP</strong> を選択</li>
-<li>サーバーURL: <code>https://api.githubcopilot.com/mcp/</code> を入力</li>
-<li>Server ID の入力欄で <code>github-mcp-server</code> と入力（または Enter でスキップ）</li>
-<li>保存先は <strong>このワークスペースに保存</strong> を選択</li>
-<li>GitHub アカウントで認証を行う</li>
-</ol>
-<h3 is-upgraded>ステップ2: MCP サーバーの起動確認</h3>
-<p><code>.vscode/mcp.json</code> にMCPサーバーの設定が保存されます。</p>
-<p class="image-container"><img alt="MCP JSON Config" src="../../img/b091c4e566965094.png"></p>
-<h3 is-upgraded>ステップ3: ツールの有効化</h3>
-<ol type="1">
-<li>Copilot Chat でツールボタンをクリック</li>
-</ol>
-<p class="image-container"><img alt="MCP Tools Button" src="../../img/f08d67d89c4bd3e9.png"></p>
-<ol type="1" start="2">
-<li>GitHub MCP サーバーがリストに表示されることを確認</li>
-<li>チェックボックスにチェックを入れて有効化</li>
-</ol>
-<p class="image-container"><img alt="MCP Enable Tools" src="../../img/d4c85eab549c0355.png"></p>
-<p>これで、GitHub の情報を直接 Copilot Chat で参照できるようになります。</p>
-<aside class="special"><p><strong>ヒント</strong>: MCP サーバーを使用すると、Copilot がリポジトリの情報、Issues、Pull Requests などに直接アクセスして、より詳細な回答や提案を行うことができます。</p>
-</aside>
 <h2 is-upgraded>4. Personal Access Token (PAT) の作成（オプション）</h2>
 <p>Coding Agent が GitHub Actions で動作するために、Personal Access Token を作成します。</p>
 <h3 is-upgraded>ステップ1: Fine-grained PAT を作成</h3>
@@ -345,17 +314,33 @@
       </google-codelab-step>
     
       <google-codelab-step label="GitにコミットしてPushしよう" duration="10">
-        <p>作成したコードをGitリポジトリにコミットしてリモートブランチにPushしましょう。VS Codeの統合されたGit機能を使用します。</p>
-<ol type="1">
-<li><strong>VS Code の Source Control タブ</strong>を開く</li>
-<li><strong>変更されたファイル</strong>の横にある <strong>+</strong> ボタンをクリックして、ステージングに追加</li>
-<li>✨ボタンをクリックして、Copilotにコミットメッセージを生成させる</li>
-</ol>
-<p class="image-container"><img alt="Source Control でのコミット" src="../../img/10f6739b9515ce77.png"></p>
-<ol type="1" start="4">
-<li><strong>Commit</strong> ボタン（青いボタン）をクリックしてリモートブランチにPush</li>
-</ol>
-<p>続いて、実装計画をGitHub Issuesとして管理していきます：</p>
+        <p>作成したコードをGitリポジトリにコミットしてリモートブランチにPushしましょう。ここでは2つの方法を紹介します。</p>
+<h2 is-upgraded>方法A: ターミナルでコマンドを使用</h2>
+<p>従来の方法として、ターミナルでGitコマンドを直接実行する方法です：</p>
+<pre><code>git add .
+git commit -m &#34;ポモドーロタイマー機能を追加&#34;
+git push origin feature/pomodoro-timer
+</code></pre>
+<h2 is-upgraded>方法B: 生成AIによるコミットの作成</h2>
+<p>エージェントモードでCopilotに直接指示してコミットとPushを行います。以下のプロンプトを実行してください：</p>
+<pre><code>機能の作成が完了したので、コードの差分をgitのステージングにあげてください。
+
+その後、適切なコミットメッセージでコミットいただき、リモートブランチに変更をPushしてください。
+</code></pre>
+<p class="image-container"><img alt="MCP による Git ワークフロー" src="../../img/26ebf645a750b3a6.png"></p>
+<h3 is-upgraded>【オプション】MCP サーバーによる GitHub Issues の自動起票</h3>
+<p>続いて、MCP サーバーを使用して実装計画をGitHub Issuesとして管理することもできます。</p>
+<aside class="warning"><p><strong>注意</strong>: GitHub MCP サーバーが有効化されていない場合は、<code>.vscode/mcp.json</code> ファイル内から MCP サーバーを起動してください：</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;servers&#34;: {
+    &#34;github-mcp-server&#34;: {
+      &#34;type&#34;: &#34;http&#34;,
+      &#34;url&#34;: &#34;https://api.githubcopilot.com/mcp/&#34;
+    }
+  }
+}
+</code></pre>
+</aside>
 <pre><code>plan.mdの各ステップをGitHub issuesとして起票してください
 </code></pre>
 <p>この指示により、Copilotは以下を実行します：</p>
