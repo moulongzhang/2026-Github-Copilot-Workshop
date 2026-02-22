@@ -254,10 +254,12 @@
 <p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank">https://github.com/settings/personal-access-tokens/new</a></p>
 <p>設定内容：</p>
 <ul>
+<li><strong>Token name</strong>: 任意の名前を入力してください（例: <code>copilot-workshop</code>）</li>
 <li><strong>Resource owner</strong>: 自分のユーザーアカウントを選択してください（組織ではなく個人アカウント）</li>
 <li><strong>Repository access</strong>: <strong>Public repositories</strong> を選択してください（プライベートリポジトリに追加する場合でもPublic repositoriesを選択します）</li>
 <li><strong>Permissions</strong>: <strong>Copilot Requests</strong> を有効にしてください</li>
 </ul>
+<p class="image-container"><img alt="Fine-grained PAT の作成" src="../../img/14b892fb9208458f.png"></p>
 <h3 is-upgraded>ステップ2: GitHub Actions の Repository Secret に設定</h3>
 <p>作成したPATをリポジトリのシークレットとして設定します：</p>
 <ol type="1">

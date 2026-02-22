@@ -333,9 +333,12 @@ Coding Agent が GitHub Actions で動作するために、Personal Access Token
 [https://github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new)
 
 設定内容：
+- **Token name**: 任意の名前を入力してください（例: `copilot-workshop`）
 - **Resource owner**: 自分のユーザーアカウントを選択してください（組織ではなく個人アカウント）
 - **Repository access**: **Public repositories** を選択してください（プライベートリポジトリに追加する場合でもPublic repositoriesを選択します）
 - **Permissions**: **Copilot Requests** を有効にしてください
+
+![Fine-grained PAT の作成](github-copilot-workshop/img/fine-graiend-pat.png)
 
 #### ステップ2: GitHub Actions の Repository Secret に設定
 
