@@ -49,22 +49,24 @@
       <google-codelab-step label="プロジェクトのセットアップ" duration="15">
         <p>このワークショップでは、以下のGitHubリポジトリを使用します：</p>
 <p><strong>プロジェクトURL</strong>: https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Python</p>
-<h2 is-upgraded>ステップ1: リポジトリをフォークする</h2>
-<p>まず、上記のプロジェクトURLをブラウザで開き、リポジトリをフォークします：</p>
+<h2 is-upgraded>ステップ1: テンプレートからリポジトリを作成する</h2>
+<p>まず、上記のプロジェクトURLをブラウザで開き、テンプレートから自分のリポジトリを作成します：</p>
 <ol type="1">
 <li>プロジェクトURL（https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Python）をブラウザで開く</li>
-<li>右上の <strong>Fork</strong> ボタンをクリック</li>
+<li>右上の <strong>Use this template</strong> ボタンをクリックし、<strong>Create a new repository</strong> を選択</li>
 </ol>
-<p class="image-container"><img alt="Fork ボタンをクリック" src="../../img/57690ce147443e0a.png"></p>
+<p class="image-container"><img alt="Use this template ボタンをクリック" src="../../img/f30b349b9da9c209.png"></p>
 <ol type="1" start="3">
-<li>フォーク作成画面で <strong>Create fork</strong> ボタンをクリック</li>
+<li>リポジトリ作成画面で、リポジトリ名を入力し <strong>Create repository</strong> ボタンをクリック</li>
 </ol>
-<p class="image-container"><img alt="Create fork ボタンをクリック" src="../../img/92b19af6bb66c85d.png"></p>
-<p>フォークが完成すると、あなたのGitHubアカウントにリポジトリのコピーが作成されます。</p>
+<p class="image-container"><img alt="Create repository ボタンをクリック" src="../../img/9b42f25710076003.png"></p>
+<aside class="warning"><p><strong>⚠️ 重要</strong>: リポジトリ作成時に <strong>Visibility（公開設定）は必ず「Public」</strong> を選択してください。Private リポジトリでは、一部の Copilot 機能や GitHub Actions が正しく動作しない場合があります。</p>
+</aside>
+<p>テンプレートからの作成が完了すると、あなたのGitHubアカウントに新しいリポジトリが作成されます。</p>
 <h2 is-upgraded>ステップ2: 開発環境のセットアップ</h2>
-<p>フォークしたリポジトリを使って、GitHub Codespacesで開発環境を準備します：</p>
+<p>作成したリポジトリを使って、GitHub Codespacesで開発環境を準備します：</p>
 <ol type="1">
-<li>フォークしたリポジトリのページで（<code>https://github.com/[あなたのユーザー名]/2026-Github-Copilot-Workshop-Python</code>）</li>
+<li>作成したリポジトリのページで（<code>https://github.com/[あなたのユーザー名]/2026-Github-Copilot-Workshop-Python</code>）</li>
 <li>緑色の <strong>Code</strong> ボタンをクリック</li>
 <li><strong>Codespaces</strong> タブを選択</li>
 <li><strong>Create codespace on main</strong> をクリック</li>
@@ -202,7 +204,7 @@
 <h2 is-upgraded>1. GitHub Advanced Security (GHAS) の設定</h2>
 <p>GitHub Advanced Security の Code Scanning 機能を有効にすることで、コードの脆弱性を自動的に検出できます。</p>
 <ol type="1">
-<li>フォークしたリポジトリの <strong>Settings</strong> タブをクリック</li>
+<li>自分のリポジトリの <strong>Settings</strong> タブをクリック</li>
 <li>左サイドバーから <strong>Security</strong> → <strong>Code security</strong> を選択</li>
 <li><strong>Code scanning</strong> セクションで <strong>Set up</strong> をクリック</li>
 </ol>
@@ -232,10 +234,10 @@
 <aside class="warning"><p><strong>プラン制限</strong>: Copilot Code Review、Coding Agent、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。</p>
 </aside>
 <h2 is-upgraded>3. リポジトリの Issues と Actions を有効化</h2>
-<p>フォークしたリポジトリでは、デフォルトで Issues と Actions が無効になっている場合があります。後のステップで使用するため、有効化しておきましょう。</p>
+<p>自分のリポジトリでは、デフォルトで Issues と Actions が無効になっている場合があります。後のステップで使用するため、有効化しておきましょう。</p>
 <h3 is-upgraded>Issues の有効化</h3>
 <ol type="1">
-<li>フォークしたリポジトリの <strong>Settings</strong> タブをクリック</li>
+<li>自分のリポジトリの <strong>Settings</strong> タブをクリック</li>
 <li><strong>General</strong> セクションの <strong>Features</strong> を確認</li>
 <li><strong>Issues</strong> にチェックを入れる</li>
 </ol>
@@ -289,7 +291,7 @@
 <h3 is-upgraded>ステップ2: GitHub Actions の Repository Secret に設定</h3>
 <p>作成したPATをリポジトリのシークレットとして設定します：</p>
 <ol type="1">
-<li>フォークしたリポジトリの <strong>Settings</strong> タブをクリック</li>
+<li>自分のリポジトリの <strong>Settings</strong> タブをクリック</li>
 <li>左サイドバーから <strong>Secrets and variables</strong> → <strong>Actions</strong> を選択</li>
 <li><strong>New repository secret</strong> をクリック</li>
 <li>以下の内容を入力： <ul>
@@ -302,7 +304,7 @@
 <h3 is-upgraded>ステップ3: Workflow permissions の確認</h3>
 <p>Coding Agent が Pull Request を自動作成できるように、Actions のワークフロー権限を確認します：</p>
 <ol type="1">
-<li>フォークしたリポジトリの <strong>Settings</strong> タブをクリック</li>
+<li>自分のリポジトリの <strong>Settings</strong> タブをクリック</li>
 <li>左サイドバーから <strong>Actions</strong> → <strong>General</strong> を選択</li>
 <li><strong>Workflow permissions</strong> セクションで <strong>Allow GitHub Actions to create and approve pull requests</strong> にチェックが入っていることを確認</li>
 <li>チェックが入っていない場合は有効化して <strong>Save</strong> をクリック</li>
@@ -395,7 +397,7 @@ git push origin feature/pomodoro-timer
         <p>Pushした後の内容をGitHub.com上でPull Requestを立てて、Copilotのコードレビュー機能を活用しましょう。</p>
 <h2 is-upgraded>Pull Requestの作成とCopilot Summary</h2>
 <ol type="1">
-<li>GitHub上でフォークしたリポジトリにアクセス</li>
+<li>GitHub上で自分のリポジトリにアクセス</li>
 <li><strong>Open a pull request</strong> をクリック</li>
 <li>Pull Request作成画面で、<strong>Copilotのアイコン</strong> » <strong>Summary</strong> をクリック</li>
 </ol>
@@ -499,7 +501,7 @@ git push origin feature/pomodoro-timer
 <h2 is-upgraded>1. ワークフローの実行を確認する</h2>
 <p>先ほどコードを Push したことで、Agentic Workflow が自動的にトリガーされています。</p>
 <ol type="1">
-<li>GitHub 上でフォークしたリポジトリにアクセス</li>
+<li>GitHub 上で自分のリポジトリにアクセス</li>
 <li><strong>Actions</strong> タブをクリック</li>
 <li><strong>Pomodoro Documentation Sync</strong> ワークフローが実行されていることを確認</li>
 </ol>
