@@ -473,7 +473,16 @@ git push origin feature/pomodoro-timer
         <p>GitHub Actions と Copilot を組み合わせることで、コードの変更を検知して自動的にドキュメントを更新する <strong>Agentic Workflow</strong> を体験しましょう。</p>
 <h2 is-upgraded>Agentic Workflow とは</h2>
 <p>Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。今回のワークショップでは、ポモドーロタイマーのコードに変更が加わった際に、関連するドキュメントを自動更新するワークフローが事前に設定されています。</p>
-<h2 is-upgraded>1. ワークフローの実行を確認する</h2>
+<h2 is-upgraded>1. Pull Request を main ブランチにマージする</h2>
+<p>前のステップで作成した Pull Request を main ブランチにマージしてください。</p>
+<ol type="1">
+<li>GitHub 上で自分のリポジトリにアクセス</li>
+<li><strong>Pull requests</strong> タブをクリック</li>
+<li>対象の Pull Request を開く</li>
+<li><strong>Merge pull request</strong> ボタンをクリックしてマージを実行</li>
+</ol>
+<p class="image-container"><img alt="Pull Request のマージ" src="../../img/18921e0b11f54ac5.png"></p>
+<h2 is-upgraded>2. ワークフローの実行を確認する</h2>
 <p>先ほどコードを Push したことで、Agentic Workflow が自動的にトリガーされています。</p>
 <ol type="1">
 <li>GitHub 上で自分のリポジトリにアクセス</li>
@@ -482,14 +491,14 @@ git push origin feature/pomodoro-timer
 </ol>
 <p class="image-container"><img alt="Agentic Workflow の実行" src="../../img/ef16e89e1e5c684b.png"></p>
 <p>このワークフローは、<code>pomodoro/</code> 配下のコードに差分が生じたときに、変更内容に応じて <code>pomodoro/docs/</code> 配下で管理しているドキュメンテーションを自動的に更新するものです。</p>
-<h2 is-upgraded>2. Pull Request を確認する</h2>
+<h2 is-upgraded>3. Pull Request を確認する</h2>
 <p>Actions の実行が完了すると、ドキュメンテーションを更新する <strong>Pull Request</strong> が自動的に作成されます。</p>
 <ol type="1">
 <li><strong>Pull requests</strong> タブをクリック</li>
 <li>Copilot が作成した PR を確認</li>
 <li>ドキュメントの変更内容をレビュー</li>
 </ol>
-<h2 is-upgraded>3. 自分で Agentic Workflow を作ってみよう</h2>
+<h2 is-upgraded>4. 自分で Agentic Workflow を作ってみよう</h2>
 <p>ここまでで Agentic Workflow の動作を確認できました。次は、自分自身で Agentic Workflow を作成してみましょう。</p>
 <p>エージェントモードで以下のプロンプトを実行してください：</p>
 <pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
