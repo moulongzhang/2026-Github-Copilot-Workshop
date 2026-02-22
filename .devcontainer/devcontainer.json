@@ -9,7 +9,17 @@
 			"extensions": [
 				"vsls-contrib.codetour",
 				"GitHub.copilot"
-			]
+			],
+			"settings": {
+				"mcp": {
+					"servers": {
+						"github-mcp-server": {
+							"type": "http",
+							"url": "https://api.githubcopilot.com/mcp/"
+						}
+					}
+				}
+			}
 		}
 	}
 
