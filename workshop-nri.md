@@ -35,17 +35,13 @@ Duration: 15
 
 ![Use this template ボタンをクリック](github-copilot-workshop/img/20260311_use_template.png)
 
-> aside negative
->
-> **⚠️ 重要**: リポジトリ作成時に **Visibility（公開設定）は必ず「Public」** を選択してください。Private リポジトリでは、一部の Copilot 機能や GitHub Actions が正しく動作しない場合があります。
-
 テンプレートからの作成が完了すると、あなたのGitHubアカウントに新しいリポジトリが作成されます。
 
 ### ステップ2: 開発環境のセットアップ
 
 作成したリポジトリを使って、GitHub Codespacesで開発環境を準備します：
 
-1. 作成したリポジトリのページで（`https://github.com/[あなたのユーザー名]/moulongzhang`）
+1. 作成したリポジトリのページで（`https://github.com/NRI-Enablement-Lab/[あなたのリポジトリ名]`）
 2. 緑色の **Code** ボタンをクリック
 3. **Codespaces** タブを選択
 4. **Create codespace on main** をクリック
