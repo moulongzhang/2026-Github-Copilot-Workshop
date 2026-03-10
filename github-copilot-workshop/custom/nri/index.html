@@ -29,18 +29,12 @@
                   feedback-link="https://example.com/feedback">
     
       <google-codelab-step label="ワークショップについて" duration="5">
-        <p>GitHub Copilotワークショップへようこそ！このワークショップでは、GitHub Copilot を使ってコードの解説や改善を行う方法を学びます。 GitHub Copilot Chat は Chat 体験を通じて AI との対話を行うことができます。 ぜひ、このワークショップを通じて GitHub Copilot の使い方を学んでみましょう。</p>
+        <p>GitHub Copilotワークショップへようこそ！</p>
 <p class="image-container"><img alt="GitHub Copilot Logo" src="../../img/dcd9c52ce37f5b19.png"></p>
 <h2 is-upgraded>本日のゴール</h2>
 <ul>
-<li>GitHub Copilotの各種機能を理解する</li>
-<li>エージェントモードを使って、新規にアプリケーションを開発する</li>
-</ul>
-<h2 is-upgraded>前提条件</h2>
-<ul>
-<li>Visual Studio Code がインストールされていること</li>
-<li>GitHub Copilotのライセンスがあること</li>
-<li>GitHubアカウントを持っていること</li>
+<li>Agentic Workflow</li>
+<li>GitHub Copilot CLI</li>
 </ul>
 
 
@@ -72,11 +66,12 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="[GitHub.com] Agentic Workflow" duration="15">
-        <p>GitHub Actions と Copilot を組み合わせることで、コードの変更を検知して自動的にドキュメントを更新する Agentic Workflow を体験しましょう。</p>
+      <google-codelab-step label="Agentic Workflow" duration="15">
+        <p>GitHub Actions と Copilot を組み合わせることで、自律的なタスクを実行する Agentic Workflow を体験しましょう。</p>
 <h2 is-upgraded>Agentic Workflow とは</h2>
 <p>Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。</p>
 <h2 is-upgraded>Auto Healing DevOps の作成</h2>
+<p>CI/CD のジョブが失敗した時にそれらを検知し、修正するワークフローを作成します。</p>
 <h3 is-upgraded>一つ目のプロンプト</h3>
 <p>Copilot に以下のプロンプトを入力してください：</p>
 <pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
@@ -91,13 +86,8 @@ https://github.com/github/gh-aw/blob/main/create.md
 <pre><code>System.out.println(&#34;Hell World!&#34;); を System.out.println(&#34;He World!&#34;); にして push して
 </code></pre>
 <p>Push 後、GitHub Actions のワークフローが失敗を検知し、Copilot が自動的に Issue を作成してアサインされることを確認しましょう。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="[GitHub.com] ドキュメントの自動更新" duration="15">
-        <p>コードに変更が加わった際に、関連するドキュメントを自動更新するワークフローが事前に設定されています。</p>
-<h2 is-upgraded>プロンプト</h2>
+<h2 is-upgraded>ドキュメントの自動更新</h2>
+<p>コードに変更が加わった際に、関連するドキュメントを自動更新するワークフローを作成します。</p>
 <p>Copilot に以下のプロンプトを入力してください：</p>
 <pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
 https://github.com/github/gh-aw/blob/main/create.md
