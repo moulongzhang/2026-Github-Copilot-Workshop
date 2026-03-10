@@ -79,7 +79,7 @@ https://github.com/github/gh-aw/blob/main/create.md
 ワークフローが作成できたら、意図的にビルドを失敗させて動作を確認します。Copilot に以下のプロンプトを入力してください：
 
 ```
-System.out.println("Hell World!"); を System.out.println("He World!"); にして push して
+System.out.println("Hello World!"); を System.out.println("Hell World!"); にして push して
 ```
 
 Push 後、GitHub Actions のワークフローが失敗を検知し、Copilot が自動的に Issue を作成してアサインされることを確認しましょう。
