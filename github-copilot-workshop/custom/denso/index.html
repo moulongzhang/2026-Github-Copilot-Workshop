@@ -184,7 +184,124 @@
 </ol>
 </aside>
 <h2 is-upgraded>3. GitHub Copilot CLI のコマンド一覧</h2>
-<p>GitHub Copilot CLI では、テキストで自然言語の指示を入力するほか、<code>/</code> で始まるスラッシュコマンドを使用できます。</p>
+<p>GitHub Copilot CLI では、テキストで自然言語の指示を入力するほか、<code>/</code> で始まるスラッシュコマンドやキーボードショートカットを使用できます。</p>
+<h3 is-upgraded>グローバルショートカット</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>ショートカット</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>@</code></p>
+</td><td colspan="1" rowspan="1"><p>ファイルをメンション、内容をコンテキストに含める</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+s</code></p>
+</td><td colspan="1" rowspan="1"><p>入力を保持したままコマンドを実行</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>shift+tab</code></p>
+</td><td colspan="1" rowspan="1"><p>モード切り替え（interactive → plan）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+t</code></p>
+</td><td colspan="1" rowspan="1"><p>モデルの推論表示を切り替え</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+o</code></p>
+</td><td colspan="1" rowspan="1"><p>最近のタイムラインを展開（入力なし時）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+e</code></p>
+</td><td colspan="1" rowspan="1"><p>すべてのタイムラインを展開（入力なし時）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>↑ ↓</code></p>
+</td><td colspan="1" rowspan="1"><p>コマンド履歴をナビゲート</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+c</code></p>
+</td><td colspan="1" rowspan="1"><p>キャンセル / 入力クリア / 選択コピー</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+c ×2</code></p>
+</td><td colspan="1" rowspan="1"><p>CLI を終了</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>!</code></p>
+</td><td colspan="1" rowspan="1"><p>ローカルシェルでコマンドを直接実行（Copilot をバイパス）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>Esc</code></p>
+</td><td colspan="1" rowspan="1"><p>現在の操作をキャンセル</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+d</code></p>
+</td><td colspan="1" rowspan="1"><p>シャットダウン</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+l</code></p>
+</td><td colspan="1" rowspan="1"><p>画面をクリア</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+x → o</code></p>
+</td><td colspan="1" rowspan="1"><p>最新のタイムラインイベントからリンクを開く</p>
+</td></tr>
+</table>
+<h3 is-upgraded>編集ショートカット</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>ショートカット</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+a</code></p>
+</td><td colspan="1" rowspan="1"><p>行の先頭に移動（入力時）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+e</code></p>
+</td><td colspan="1" rowspan="1"><p>行の末尾に移動（入力時）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+h</code></p>
+</td><td colspan="1" rowspan="1"><p>前の文字を削除</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+w</code></p>
+</td><td colspan="1" rowspan="1"><p>前の単語を削除</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+u</code></p>
+</td><td colspan="1" rowspan="1"><p>カーソルから行の先頭まで削除</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+k</code></p>
+</td><td colspan="1" rowspan="1"><p>カーソルから行の末尾まで削除（行末では行結合）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>meta+← →</code></p>
+</td><td colspan="1" rowspan="1"><p>単語単位でカーソル移動</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>ctrl+g</code></p>
+</td><td colspan="1" rowspan="1"><p>外部エディタでプロンプトを編集</p>
+</td></tr>
+</table>
+<h3 is-upgraded>エージェント環境</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>コマンド</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/init</code></p>
+</td><td colspan="1" rowspan="1"><p>リポジトリの Copilot 指示ファイルを初期化、または初期化提案を非表示</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/agent</code></p>
+</td><td colspan="1" rowspan="1"><p>利用可能なエージェントを一覧から選択</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/skills</code></p>
+</td><td colspan="1" rowspan="1"><p>拡張機能のスキルを管理</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/mcp</code></p>
+</td><td colspan="1" rowspan="1"><p>MCP サーバーの設定を管理</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/plugin</code></p>
+</td><td colspan="1" rowspan="1"><p>プラグインとプラグインマーケットプレイスを管理</p>
+</td></tr>
+</table>
+<h3 is-upgraded>モデルとサブエージェント</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>コマンド</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/model</code></p>
+</td><td colspan="1" rowspan="1"><p>使用する AI モデルを選択（GPT、Claude、Gemini 等）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/delegate</code></p>
+</td><td colspan="1" rowspan="1"><p>セッションを GitHub に送信し、Copilot が PR を作成</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/fleet</code></p>
+</td><td colspan="1" rowspan="1"><p>Fleet モードを有効化し、並行サブエージェントで実行</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/tasks</code></p>
+</td><td colspan="1" rowspan="1"><p>バックグラウンドタスク（サブエージェント、シェルセッション）を表示・管理</p>
+</td></tr>
+</table>
 <h3 is-upgraded>コード関連</h3>
 <table>
 <tr><td colspan="1" rowspan="1"><p>コマンド</p>
@@ -195,6 +312,9 @@
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/diff</code></p>
 </td><td colspan="1" rowspan="1"><p>現在のディレクトリの変更差分を確認</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/pr</code></p>
+</td><td colspan="1" rowspan="1"><p>現在のブランチの Pull Request を操作</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/review</code></p>
 </td><td colspan="1" rowspan="1"><p>コードレビューエージェントを実行して変更を分析</p>
@@ -233,25 +353,31 @@
 </td><td colspan="1" rowspan="1"><p>説明</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/resume</code></p>
-</td><td colspan="1" rowspan="1"><p>別のセッションに切り替え（セッションID指定可）</p>
+</td><td colspan="1" rowspan="1"><p>別のセッションに切り替え（セッションIDまたはタスクID指定可）</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/rename</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のセッション名を変更</p>
+</td><td colspan="1" rowspan="1"><p>現在のセッション名を変更、または会話から自動生成</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/context</code></p>
-</td><td colspan="1" rowspan="1"><p>コンテキストウィンドウのトークン使用量を表示</p>
+</td><td colspan="1" rowspan="1"><p>コンテキストウィンドウのトークン使用量を可視化</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/usage</code></p>
 </td><td colspan="1" rowspan="1"><p>セッションの使用状況メトリクスと統計を表示</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/session</code></p>
-</td><td colspan="1" rowspan="1"><p>セッション情報とワークスペースサマリーを表示</p>
+</td><td colspan="1" rowspan="1"><p>セッション情報の表示・管理。サブコマンドで詳細操作</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/compact</code></p>
 </td><td colspan="1" rowspan="1"><p>会話履歴を要約してコンテキストウィンドウの使用量を削減</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/share</code></p>
-</td><td colspan="1" rowspan="1"><p>セッションを Markdown ファイルまたは GitHub Gist としてエクスポート</p>
+</td><td colspan="1" rowspan="1"><p>セッションやリサーチレポートを Markdown / HTML / GitHub Gist にエクスポート</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/copy</code></p>
+</td><td colspan="1" rowspan="1"><p>直前のレスポンスをクリップボードにコピー</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/rewind</code></p>
+</td><td colspan="1" rowspan="1"><p>直前のターンを巻き戻し、ファイル変更を元に戻す</p>
 </td></tr>
 </table>
 <h3 is-upgraded>ヘルプ・フィードバック</h3>
@@ -263,7 +389,7 @@
 </td><td colspan="1" rowspan="1"><p>対話コマンドのヘルプを表示</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/changelog</code></p>
-</td><td colspan="1" rowspan="1"><p>CLI バージョンの変更履歴を表示</p>
+</td><td colspan="1" rowspan="1"><p>CLI バージョンの変更履歴を表示。<code>summarize</code> を付けると AI 要約</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/feedback</code></p>
 </td><td colspan="1" rowspan="1"><p>CLI に関するフィードバックを送信</p>
@@ -271,8 +397,23 @@
 <tr><td colspan="1" rowspan="1"><p><code>/theme</code></p>
 </td><td colspan="1" rowspan="1"><p>ターミナルテーマの確認・設定</p>
 </td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/update</code></p>
+</td><td colspan="1" rowspan="1"><p>CLI を最新バージョンに更新</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/version</code></p>
+</td><td colspan="1" rowspan="1"><p>バージョン情報の表示と更新チェック</p>
+</td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/experimental</code></p>
 </td><td colspan="1" rowspan="1"><p>利用可能な実験的機能の表示、実験モードの切り替え</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/clear</code></p>
+</td><td colspan="1" rowspan="1"><p>現在のセッションを破棄して新規開始</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/instructions</code></p>
+</td><td colspan="1" rowspan="1"><p>カスタム指示ファイルの表示・切り替え</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/streamer-mode</code></p>
+</td><td colspan="1" rowspan="1"><p>ストリーマーモードの切り替え（プレビューモデル名やクォータ詳細を非表示）</p>
 </td></tr>
 </table>
 <h3 is-upgraded>その他</h3>
@@ -280,17 +421,20 @@
 <tr><td colspan="1" rowspan="1"><p>コマンド</p>
 </td><td colspan="1" rowspan="1"><p>説明</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/model</code></p>
-</td><td colspan="1" rowspan="1"><p>使用する AI モデルを選択（GPT、Claude、Gemini 等）</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/clear</code> , <code>/new</code></p>
-</td><td colspan="1" rowspan="1"><p>会話履歴をクリア</p>
+<tr><td colspan="1" rowspan="1"><p><code>/new</code></p>
+</td><td colspan="1" rowspan="1"><p>新しい会話を開始</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/plan</code></p>
 </td><td colspan="1" rowspan="1"><p>コーディング前に実装計画を作成</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/instructions</code></p>
-</td><td colspan="1" rowspan="1"><p>カスタム指示ファイルの表示・切り替え</p>
+<tr><td colspan="1" rowspan="1"><p><code>/research</code></p>
+</td><td colspan="1" rowspan="1"><p>GitHub 検索と Web ソースを使った深層リサーチ調査を実行</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/restart</code></p>
+</td><td colspan="1" rowspan="1"><p>CLI を再起動（現在のセッションを保持）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/undo</code></p>
+</td><td colspan="1" rowspan="1"><p>直前のターンを巻き戻し、ファイル変更を元に戻す（<code>/rewind</code> と同等）</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/diagnose</code></p>
 </td><td colspan="1" rowspan="1"><p>現在のセッションログを分析</p>
@@ -312,6 +456,7 @@
 <li><code>.github/instructions/**/*.instructions.md</code>（git ルートおよびカレントディレクトリ）</li>
 <li><code>.github/copilot-instructions.md</code></li>
 <li><code>$HOME/.copilot/copilot-instructions.md</code></li>
+<li><code>COPILOT_CUSTOM_INSTRUCTIONS_DIRS</code>（環境変数で追加ディレクトリを指定）</li>
 </ul>
 <aside class="special"><p><strong>CLI のヒント</strong>: <code>/model</code> コマンドでモデルを切り替えることができます。実装がうまく進まない場合は、別のモデルを試してみると良い結果が得られることがあります。<code>/plan</code> コマンドを使うとコーディング前に実装計画を自動生成できるので、設計書と組み合わせると効果的です。</p>
 </aside>
