@@ -82,14 +82,12 @@ GitHubで利用可能なCopilot機能を有効化しましょう。
 
 以下の機能を有効化してください：
 
-- **Editor preview features** - エディタのプレビュー機能
 - **Copilot CLI** - ターミナルでのCopilot利用
 - **Copilot code review** - コードレビュー機能
-- **Copilot coding agent** - 自律的なコーディングエージェント
 
 > aside negative
 >
-> **プラン制限**: Copilot Code Review、Coding Agent、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。
+> **プラン制限**: Copilot Code Review、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。
 
 ## Copilot Web Relay を作ろう
 Duration: 10
