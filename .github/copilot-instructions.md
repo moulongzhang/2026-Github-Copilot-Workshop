@@ -46,6 +46,7 @@ echo "✅ ${LATEST_VERSION} の更新が完了しました"
 | 名前 | ソースファイル | URL |
 |------|---------------|-----|
 | NRI | `workshop-nri.md` | `custom/nri/index.html` |
+| DENSO | `workshop-denso.md` | `custom/denso/index.html` |
 
 ### カスタムバージョンの更新手順
 
