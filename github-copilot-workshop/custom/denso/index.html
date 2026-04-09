@@ -37,7 +37,7 @@
 <li>GitHub Copilot CLI の基本操作を理解する</li>
 <li>Copilot SDK を活用した Web アプリケーション開発を体験する</li>
 <li>複数の AI モデルを使ったコードレビューを実践する</li>
-<li>Agentic Workflow によるドキュメント自動更新を構築する</li>
+<li>Agentic Workflow による開発プロセスの自動化を構築する</li>
 </ul>
 <h2 is-upgraded>本日のアジェンダ</h2>
 <table>
@@ -63,7 +63,7 @@
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>5</p>
 </td><td colspan="1" rowspan="1"><p>Agentic Workflow</p>
-</td><td colspan="1" rowspan="1"><p>ドキュメンテーションの自動更新</p>
+</td><td colspan="1" rowspan="1"><p>AI エージェントによる開発プロセスの自動化</p>
 </td></tr>
 </table>
 <h2 is-upgraded>前提条件</h2>
@@ -500,10 +500,48 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Agentic Workflow — ドキュメンテーションの自動更新" duration="20">
-        <p>最後のステップでは、GitHub Actions と Copilot を組み合わせた <strong>Agentic Workflow</strong> を構築し、コード変更に連動してドキュメントを自動更新する仕組みを体験しましょう。</p>
+      <google-codelab-step label="Agentic Workflow — AI エージェントによる開発プロセスの自動化" duration="20">
+        <p>最後のステップでは、<strong>GitHub Agentic Workflow</strong> を構築し、AI エージェントが開発プロセスを自律的に自動化する仕組みを体験しましょう。</p>
 <h2 is-upgraded>Agentic Workflow とは</h2>
-<p>Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。今回は、Copilot Web Relay のコードに変更が加わった際に、関連するドキュメントを自動更新するワークフローを構築します。</p>
+<p><strong>Agentic Workflow</strong> は、GitHub Actions 上で AI エージェントが作業を自律的に実行する仕組みです。2026年2月13日にテクニカルプレビューとして発表されました。</p>
+<p>従来の GitHub Actions はあらかじめ決められたステップを順番に実行するものでしたが、Agentic Workflow では <strong>AI が状況を判断し、必要なアクションを自律的に決定・実行</strong> します。</p>
+<h2 is-upgraded>何ができるか</h2>
+<p>Agentic Workflow を使うことで、以下のような開発タスクを AI エージェントに委任できます：</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>ユースケース</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>Issue の自動トリアージ</strong></p>
+</td><td colspan="1" rowspan="1"><p>新しい Issue の内容を AI が分析し、ラベル付け・担当者アサイン・優先度設定を自動実行</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>PR レビューの自動化</strong></p>
+</td><td colspan="1" rowspan="1"><p>Pull Request の変更内容を AI がレビューし、コメントや改善提案を自動投稿</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>CI エラーの分析と修正</strong></p>
+</td><td colspan="1" rowspan="1"><p>CI/CD パイプラインのエラーを AI が分析し、原因特定と修正 PR の自動作成</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>ドキュメント管理</strong></p>
+</td><td colspan="1" rowspan="1"><p>コード変更に連動してドキュメントを自動更新し、コードとドキュメントの一貫性を維持</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>リリースノート生成</strong></p>
+</td><td colspan="1" rowspan="1"><p>マージされた PR やコミット履歴から、リリースノートを自動生成</p>
+</td></tr>
+</table>
+<h2 is-upgraded>主なメリット</h2>
+<ul>
+<li><strong>自然言語で記述</strong>: ワークフローの目的を自然言語（Markdown）で記述するだけで、AI が処理内容を判断して実行する</li>
+<li><strong>柔軟なトリガー</strong>: スケジュール実行、イベントトリガー（Push、PR作成）、Issue コメントコマンドなど、多様な起動条件に対応</li>
+<li><strong>自律的な判断</strong>: AI エージェントがコードの変更内容を理解し、何をすべきかを自ら判断する</li>
+</ul>
+<h2 is-upgraded>始め方</h2>
+<p>Agentic Workflow は <code>gh aw</code> CLI 拡張機能を使って作成します：</p>
+<ol type="1">
+<li><strong>Markdown ファイルを作成</strong> — ワークフローの目的と動作を自然言語で記述</li>
+<li><strong>コンパイル</strong> — <code>gh aw</code> が Markdown を GitHub Actions のワークフロー YAML に変換</li>
+<li><strong>コミット &amp; Push</strong> — ワークフローがリポジトリに追加され、トリガー条件に応じて自動実行</li>
+</ol>
+<aside class="special"><p><strong>参考</strong>: サンプルユースケースは「Peli&#39;s Agent Factory」（https://github.com/peli-pro-hq/agent-factory）で多数公開されています。</p>
+</aside>
 <h2 is-upgraded>ステップ 1: PAT（Personal Access Token）の作成</h2>
 <p>Agentic Workflow が GitHub Actions で Copilot を利用するために、Personal Access Token を作成します。</p>
 <h3 is-upgraded>Fine-grained PAT の作成</h3>
@@ -540,8 +578,8 @@
 <li><strong>Workflow permissions</strong> セクションで <strong>Allow GitHub Actions to create and approve pull requests</strong> にチェックが入っていることを確認</li>
 <li>チェックが入っていない場合は有効化して <strong>Save</strong> をクリック</li>
 </ol>
-<h2 is-upgraded>ステップ 2: Agentic Workflow の作成</h2>
-<p>Copilot CLI で以下のプロンプトを入力して、Agentic Workflow を作成しましょう：</p>
+<h2 is-upgraded>ステップ 2: ドキュメント自動更新ワークフローの作成</h2>
+<p>まずは、コード変更に連動してドキュメントを自動更新する Agentic Workflow を作成しましょう。Copilot CLI で以下のプロンプトを入力してください：</p>
 <pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
 https://github.com/github/gh-aw/blob/main/create.md
 
@@ -557,10 +595,10 @@ https://github.com/github/gh-aw/blob/main/create.md
 <li>GitHub の <strong>Actions</strong> タブでワークフローが実行されていることを確認</li>
 <li>ワークフロー完了後、ドキュメントを更新する <strong>Pull Request</strong> が自動的に作成されることを確認</li>
 </ol>
-<aside class="special"><p><strong>Agentic Workflow の可能性</strong>: ドキュメント更新以外にも、テストの自動生成、コードレビューの自動化、リリースノートの作成、バグの自動検知と修正提案など、様々なタスクを Agentic Workflow として構築できます。</p>
+<aside class="special"><p><strong>ポイント</strong>: AI エージェントがコードの差分を読み取り、変更内容に応じて適切なドキュメント更新を自律的に判断・実行します。開発者がドキュメント更新を忘れても、常にコードとドキュメントの一貫性が保たれます。</p>
 </aside>
 <h2 is-upgraded>ステップ 4: Auto Healing DevOps の作成（オプション）</h2>
-<p>余裕がある方は、CI/CD のジョブが失敗した時にそれを検知して自動修正するワークフローも作成してみましょう。</p>
+<p>余裕がある方は、CI/CD のジョブが失敗した時にそれを検知して自動修正する Agentic Workflow も作成してみましょう。これは <strong>CI エラー分析</strong> のユースケースです。</p>
 <pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
 https://github.com/github/gh-aw/blob/main/create.md
 
@@ -572,6 +610,8 @@ https://github.com/github/gh-aw/blob/main/create.md
 <pre><code>System.out.println(&#34;Hello World!&#34;); を System.out.println(&#34;Hell World!&#34;); にして push して
 </code></pre>
 <p>Push 後、GitHub Actions のワークフローが失敗を検知し、Copilot が自動的に Issue を作成してアサインされることを確認しましょう。</p>
+<aside class="special"><p><strong>Agentic Workflow の可能性</strong>: 今回体験したドキュメント自動更新と CI エラー分析は、Agentic Workflow のほんの一例です。Issue のトリアージ、PR レビュー、リリースノート生成、セキュリティスキャンの自動化など、開発プロセスのあらゆる場面で AI エージェントを活用できます。</p>
+</aside>
 
 
       </google-codelab-step>
@@ -583,7 +623,7 @@ https://github.com/github/gh-aw/blob/main/create.md
 <li><strong>GitHub Copilot CLI の基本操作</strong> — ターミナル上でのAIアシスタントの活用</li>
 <li><strong>Copilot SDK を活用した Web アプリケーション開発</strong> — 設計書駆動の Vibe Coding と Fleet モードによる並行実装</li>
 <li><strong>複数モデルによるコードレビュー</strong> — Claude、GPT、Gemini を使い分けた多角的なコード品質チェック</li>
-<li><strong>Agentic Workflow</strong> — GitHub Actions と Copilot を組み合わせたドキュメント自動更新</li>
+<li><strong>Agentic Workflow</strong> — GitHub Actions 上で AI エージェントが開発プロセスを自律的に自動化する仕組みの構築</li>
 </ol>
 <h2 is-upgraded>次のステップ</h2>
 <ul>
