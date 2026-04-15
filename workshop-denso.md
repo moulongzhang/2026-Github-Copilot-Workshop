@@ -191,12 +191,16 @@ copilot
 
 モデル一覧から最も高性能なモデル（例: Claude Opus 4.6）を選択してください。複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。
 
-### ステップ 4: 1プロンプトで一気に実装する
+### ステップ 4: Autopilot モードに切り替える
 
-以下のプロンプトを Copilot CLI に投げてください。これだけで、SDK を使ったブラウザ AI チャットツールが構築されます：
+**Shift+Tab** を押して、Copilot CLI を **Autopilot モード** に切り替えてください。Autopilot モードでは、Copilot がファイルの作成・編集やコマンドの実行を確認なしで自律的に進めるため、大規模な実装を一気に行う Vibe Coding に最適です。
+
+### ステップ 5: 1プロンプトで一気に実装する
+
+以下のプロンプトを Copilot CLI に投げてください。`/fleet` コマンドで複数のエージェントが並列に動作し、SDK を使ったブラウザ AI チャットツールを一気に構築します：
 
 ```
-Copilot SDK を使って、ブラウザ上で動作する AI チャット Web アプリケーションを copilotWebRelay/ ディレクトリに構築してください。
+/fleet Copilot SDK を使って、ブラウザ上で動作する AI チャット Web アプリケーションを copilotWebRelay/ ディレクトリに構築してください。
 
 SDK リファレンス: https://github.com/github/copilot-sdk
 
