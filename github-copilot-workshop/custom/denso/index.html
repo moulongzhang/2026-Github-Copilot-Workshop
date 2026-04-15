@@ -92,7 +92,7 @@
 <h2 is-upgraded>ステップ2: 開発環境のセットアップ</h2>
 <p>作成したリポジトリを使って、GitHub Codespacesで開発環境を準備します：</p>
 <ol type="1">
-<li>作成したリポジトリのページで（<code>https://github.com/[あなたのユーザー名]/moulongzhang</code>）</li>
+<li>作成したリポジトリのページで（<code>https://github.com/copilot-hands-on/[リポジトリ名]</code>）</li>
 <li>緑色の <strong>Code</strong> ボタンをクリック</li>
 <li><strong>Codespaces</strong> タブを選択</li>
 <li><strong>Create codespace on main</strong> をクリック</li>
@@ -102,7 +102,7 @@
 <p>GitHubで利用可能なCopilot機能を有効化しましょう。</p>
 <ol type="1">
 <li>GitHubの右上のプロフィールアイコンをクリック</li>
-<li><strong>Your Copilot</strong> を選択</li>
+<li><strong>Copilot Settings</strong> を選択</li>
 </ol>
 <p class="image-container"><img alt="Copilot 設定" src="../../img/e0788a8fe3eff510.png"></p>
 <p>以下の機能を有効化してください：</p>
@@ -110,19 +110,17 @@
 <li><strong>Copilot CLI</strong> - ターミナルでのCopilot利用</li>
 <li><strong>Copilot code review</strong> - コードレビュー機能</li>
 </ul>
-<aside class="warning"><p><strong>プラン制限</strong>: Copilot Code Review、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。</p>
+<aside class="warning"><p><strong>プラン制限</strong>: Copilot Code Review、Copilot CLIなどの機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。</p>
 </aside>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Copilot SDK で AI チャットツールを作ろう" duration="10">
-        <p>ここからは、<strong>Copilot SDK</strong>（<code>@github/copilot-sdk</code>）を使って、ブラウザ上で動作する生成 AI チャットツールを <strong>Copilot CLI から1つのプロンプトで</strong> 構築します。</p>
+        <p>ここからは、<strong>Copilot SDK</strong> を使って、ブラウザ上で動作する生成 AI チャットツールを <strong>Copilot CLI から1つのプロンプトで</strong> 構築します。</p>
 <h2 is-upgraded>Copilot SDK とは？</h2>
-<p><strong>Copilot SDK</strong> は、GitHub Copilot CLI をプログラムから制御するための Node.js / TypeScript SDK です。JSON-RPC を介して Copilot CLI と通信し、AI セッションの作成・メッセージの送受信・ストリーミングレスポンスの取得などをアプリケーションに組み込むことができます。</p>
-<p><strong>SDK リポジトリ</strong>: <a href="https://github.com/github/copilot-sdk/tree/main/nodejs" target="_blank">https://github.com/github/copilot-sdk/tree/main/nodejs</a></p>
-<aside class="warning"><p><strong>注意</strong>: Copilot SDK は現在パブリックプレビュー中です。破壊的変更が入る可能性があります。</p>
-</aside>
+<p><strong>Copilot SDK</strong> は、GitHub Copilot CLI をプログラムから制御するための SDK です。JSON-RPC を介して Copilot CLI と通信し、AI セッションの作成・メッセージの送受信・ストリーミングレスポンスの取得などをアプリケーションに組み込むことができます。</p>
+<p><strong>SDK リポジトリ</strong>: <a href="https://github.com/github/copilot-sdk" target="_blank">https://github.com/github/copilot-sdk</a></p>
 <h2 is-upgraded>何を作るか</h2>
 <p>ブラウザから AI とリアルタイムにチャットできる Web アプリケーションを作ります：</p>
 <ul>
@@ -156,9 +154,18 @@
 <tr><td colspan="1" rowspan="1"><p><code>approveAll</code></p>
 </td><td colspan="1" rowspan="1"><p>すべてのツール実行パーミッションを自動許可</p>
 </td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>createChatTools()</code></p>
+</td><td colspan="1" rowspan="1"><p>チャット用の標準ツールセットを生成</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hooks.onPreToolUse</code></p>
+</td><td colspan="1" rowspan="1"><p>ツール実行前のフック（入力の検証・変換などに使用）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hooks.onPostToolUse</code></p>
+</td><td colspan="1" rowspan="1"><p>ツール実行後のフック（結果のログ・加工などに使用）</p>
+</td></tr>
 </table>
 <h2 is-upgraded>SDK の基本的な使い方</h2>
-<pre><code language="language-javascript" class="language-javascript">import { CopilotClient, approveAll } from &#34;@github/copilot-sdk&#34;;
+<pre><code language="language-javascript" class="language-javascript">import { CopilotClient, approveAll, createChatTools } from &#34;@github/copilot-sdk&#34;;
 
 const client = new CopilotClient();
 await client.start();
@@ -166,6 +173,15 @@ await client.start();
 const session = await client.createSession({
     model: &#34;gpt-5&#34;,
     onPermissionRequest: approveAll,
+    tools: createChatTools(),
+    hooks: {
+        onPreToolUse: (input, invocation) =&gt; {
+            console.log(`ツール実行前: ${invocation.toolName}`, input);
+        },
+        onPostToolUse: (input, invocation) =&gt; {
+            console.log(`ツール実行後: ${invocation.toolName}`, input);
+        },
+    },
 });
 
 session.on(&#34;assistant.message_delta&#34;, (event) =&gt; {
@@ -199,9 +215,9 @@ await session.send({ prompt: &#34;Hello!&#34; });
 <p>モデル一覧から最も高性能なモデル（例: Claude Opus 4.6）を選択してください。複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。</p>
 <h2 is-upgraded>ステップ 4: 1プロンプトで一気に実装する</h2>
 <p>以下のプロンプトを Copilot CLI に投げてください。これだけで、SDK を使ったブラウザ AI チャットツールが構築されます：</p>
-<pre><code>Copilot SDK（@github/copilot-sdk）を使って、ブラウザ上で動作する AI チャット Web アプリケーションを copilotWebRelay/ ディレクトリに構築してください。
+<pre><code>Copilot SDK を使って、ブラウザ上で動作する AI チャット Web アプリケーションを copilotWebRelay/ ディレクトリに構築してください。
 
-SDK リファレンス: https://github.com/github/copilot-sdk/tree/main/nodejs
+SDK リファレンス: https://github.com/github/copilot-sdk
 
 要件:
 - バックエンド: Node.js + Express + WebSocket サーバー
@@ -248,112 +264,46 @@ SDK リファレンス: https://github.com/github/copilot-sdk/tree/main/nodejs
 <tr><td colspan="1" rowspan="1"><p><code>/review</code></p>
 </td><td colspan="1" rowspan="1"><p>コードレビューエージェントを実行して変更を分析する</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/diff</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のディレクトリの変更差分を確認する</p>
-</td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>/model</code></p>
 </td><td colspan="1" rowspan="1"><p>使用する AI モデルを選択する（Claude、GPT、Gemini 等）</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/pr</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のブランチの Pull Request を操作する</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/share</code></p>
-</td><td colspan="1" rowspan="1"><p>セッションを Markdown ファイル、HTML ファイル、または GitHub Gist としてエクスポートする</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/copy</code></p>
-</td><td colspan="1" rowspan="1"><p>直前のレスポンスをクリップボードにコピーする</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/compact</code></p>
-</td><td colspan="1" rowspan="1"><p>会話履歴を要約してコンテキストウィンドウの使用量を削減する</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/rewind</code></p>
+<tr><td colspan="1" rowspan="1"><p><code>/undo</code></p>
 </td><td colspan="1" rowspan="1"><p>直前のターンを巻き戻し、ファイル変更を元に戻す</p>
 </td></tr>
 </table>
-<h2 is-upgraded>ステップ 1: 変更差分を確認する</h2>
-<p>まず、Copilot Web Relay の実装でどのような変更が入ったかを <code>/diff</code> で確認しましょう。</p>
-<pre><code>/diff
-</code></pre>
-<p><code>/diff</code> は現在のディレクトリの変更差分をレビューするコマンドです。レビュー前に変更の全体像を把握しておくことで、レビュー結果の理解が深まります。</p>
-<h2 is-upgraded>ステップ 2: コードをコミット &amp; Push する</h2>
+<h2 is-upgraded>ステップ 1: コードをコミット &amp; Push する</h2>
 <p>Copilot CLI で以下のように指示して、実装をコミット &amp; Push します：</p>
 <pre><code>実装した Copilot Web Relay のコードをすべて git add して、適切なコミットメッセージでコミットし、feature/copilot-web-relay ブランチにプッシュしてください。
 </code></pre>
-<h2 is-upgraded>ステップ 3: モデル 1 — Claude でレビュー</h2>
-<p>Copilot CLI のデフォルトモデルは <strong>Claude Sonnet 4.5</strong> です。<code>/model</code> コマンドで使用するモデルを確認・切り替えできます。</p>
-<pre><code>/model
+<h2 is-upgraded>ステップ 2: 複数モデルでレビュー &amp; Pull Request にコメント</h2>
+<p>Copilot CLI で以下のプロンプトを入力して、複数モデルによるレビューから PR コメントまでを一気に実行します：</p>
+<pre><code>/review opus4.6, GPT5.4の各モデルでPull Requestをレビューいただき、結果をまとめていただき、結果をPull Requestにコメントとして残してください
 </code></pre>
-<p>モデル一覧が表示されるので、Claude 系のモデルを選択してください。選択したら、レビューを実行します：</p>
-<pre><code>/review
-</code></pre>
-<p><code>/review</code> コマンドはコードレビューエージェントを起動し、以下の観点で変更差分を自動分析します：</p>
+<p>このプロンプトだけで、以下が自動的に実行されます：</p>
 <ul>
-<li><strong>バグ・論理エラー</strong>: 実行時に発生しうる問題</li>
-<li><strong>セキュリティ脆弱性</strong>: インジェクション攻撃、認証の不備など</li>
-<li><strong>パフォーマンス</strong>: 非効率な処理やメモリリーク</li>
-<li><strong>ベストプラクティス</strong>: 言語やフレームワークの慣習への適合</li>
+<li><strong>Claude Opus 4.6</strong> によるコードレビュー</li>
+<li><strong>GPT-5.4</strong> によるコードレビュー</li>
+<li>各モデルのレビュー結果の統合・比較</li>
+<li>Pull Request へのレビューコメントの投稿</li>
 </ul>
-<p>レビュー結果は <code>/copy</code> でクリップボードにコピーするか、<code>/share</code> でファイルに保存しておきましょう：</p>
-<pre><code>/copy
-</code></pre>
-<aside class="special"><p><strong>ヒント</strong>: <code>/share</code> コマンドを使うと、セッションの内容を Markdown ファイル、HTML ファイル、または GitHub Gist としてエクスポートできます。後でモデル間のレビュー結果を比較する際に便利です。</p>
-</aside>
-<h2 is-upgraded>ステップ 4: モデル 2 — GPT でレビュー</h2>
-<p>会話をリセットして、GPT モデルに切り替えてレビューを実行します。</p>
-<pre><code>/new
-</code></pre>
-<pre><code>/model
-</code></pre>
-<p>モデル一覧から GPT 系のモデル（例: GPT-5）を選択してください。</p>
-<pre><code>/review
-</code></pre>
-<p>レビュー結果を保存します：</p>
-<pre><code>/copy
-</code></pre>
-<h2 is-upgraded>ステップ 5: モデル 3 — Gemini でレビュー</h2>
-<p>同様に、Gemini モデルでもレビューを実行します。</p>
-<pre><code>/new
-</code></pre>
-<pre><code>/model
-</code></pre>
-<p>モデル一覧から Gemini 系のモデル（例: Gemini 2.5 Pro）を選択してください。</p>
-<pre><code>/review
-</code></pre>
-<pre><code>/copy
-</code></pre>
-<aside class="warning"><p><strong>注意</strong>: <code>/model</code> で選択可能なモデルは、ご利用のCopilotプランや組織の設定によって異なる場合があります。各モデルの利用にはプレミアムリクエストが消費されます。</p>
-</aside>
-<h2 is-upgraded>ステップ 6: レビュー結果の比較と改善</h2>
-<p>3つのモデルによるレビュー結果を比較してみましょう。<code>/compact</code> でコンテキストを整理してから、以下のプロンプトを入力してください：</p>
-<pre><code>先ほど3つの異なるモデル（Claude、GPT、Gemini）で /review を実行しました。それぞれのレビューで指摘された内容を整理して、以下の観点で比較表を作成してください：
-- バグ・論理エラー
-- セキュリティ
-- パフォーマンス
-- コード品質・ベストプラクティス
-
-その上で、すべてのモデルが共通して指摘した問題を優先的に修正してください。
-</code></pre>
-<p>修正に問題があった場合は、<code>/rewind</code> で直前のターンを巻き戻してファイル変更を元に戻すことができます。</p>
+<p>修正に問題があった場合は、<code>/undo</code> で直前のターンを巻き戻してファイル変更を元に戻すことができます。</p>
 <aside class="special"><p><strong>複数モデルレビューのメリット</strong>:</p>
 <ul>
 <li><strong>Claude</strong>: 論理的な整合性やエッジケースの検出に強い</li>
 <li><strong>GPT</strong>: 幅広いベストプラクティスの指摘が得意</li>
-<li><strong>Gemini</strong>: セキュリティやパフォーマンスの観点に優れる</li>
 </ul>
-<p>3つのモデルが共通して指摘する問題は、信頼度が高く優先的に修正すべき問題です。</p>
+<p>複数のモデルが共通して指摘する問題は、信頼度が高く優先的に修正すべき問題です。</p>
 </aside>
-<h2 is-upgraded>ステップ 7: Pull Request の作成と GitHub 上での Code Review</h2>
-<p>ローカルでの修正が完了したら、<code>/pr</code> コマンドで Pull Request を操作できます。または GitHub 上で Pull Request を作成し、GitHub の Copilot Code Review 機能も併用しましょう：</p>
+<h2 is-upgraded>ステップ 3: GitHub 上での Code Review</h2>
+<p>GitHub 上でも Copilot Code Review 機能を併用しましょう：</p>
 <ol type="1">
-<li>修正したコードをコミット &amp; Push</li>
-<li>GitHub 上で Pull Request を作成</li>
+<li>GitHub 上で Pull Request を開く</li>
 <li><strong>Reviewers</strong> セクションで <strong>Copilot</strong> をレビュワーとしてアサイン</li>
 </ol>
 <p class="image-container"><img alt="Copilot自動アサインの設定" src="../../img/bc9c16ab7a83d165.png"></p>
 <aside class="special"><p><strong>CLI レビューと GitHub レビューの使い分け</strong>:</p>
 <ul>
 <li><strong><code>/review</code></strong><strong>（CLI）</strong>: ローカルの変更差分を対象に即座にレビューを実行。開発中の早い段階で問題を検出できる</li>
-<li><strong><code>/pr</code></strong><strong>（CLI）</strong>: 現在のブランチの Pull Request を CLI から直接操作できる</li>
 <li><strong>GitHub Code Review</strong>: Pull Request の差分を対象に、フォーマルなレビューコメントを残す。チームでのレビューフローに最適</li>
 </ul>
 <p>両方を組み合わせることで、開発の早い段階から品質を担保できます。</p>
