@@ -40,11 +40,6 @@ Duration: 15
 2. 右上の **Use this template** ボタンをクリックし、**Create a new repository** を選択
 
 ![Use this template ボタンをクリック](github-copilot-workshop/img/20260311_use_template.png)
-
-> aside negative
->
-> **⚠️ 重要**: リポジトリ作成時に **Visibility（公開設定）は必ず「Public」** を選択してください。Private リポジトリでは、一部の Copilot 機能や GitHub Actions が正しく動作しない場合があります。
-
 テンプレートからの作成が完了すると、あなたのGitHubアカウントに新しいリポジトリが作成されます。
 
 ### ステップ2: 開発環境のセットアップ
