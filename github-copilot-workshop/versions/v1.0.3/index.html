@@ -507,212 +507,88 @@ https://github.com/github/gh-aw/blob/main/create.md
 
       </google-codelab-step>
     
-      <google-codelab-step label="Copilot Web Relay を作ろう" duration="10">
-        <p>ここからは上級編として、<strong>Copilot Web Relay</strong> — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。</p>
-<p>このセクションでは、ポモドーロタイマーとは異なるアプローチを取ります。<strong>事前に用意された設計書をCopilotに読み込ませ、設計書をもとに対話しながら段階的に実装していく</strong>ワークフローを体験します。</p>
-<p class="image-container"><img alt="Copilot Web Relay" src="../../img/d7ef98dee5aeae1e.png"></p>
-<h2 is-upgraded>Copilot Web Relay とは？</h2>
-<p>ローカルで動作する GitHub Copilot CLI を、ターミナルを直接操作することなくブラウザ上のUIを通じてリアルタイムにやり取りできるようにするWebアプリケーションです。</p>
-<h2 is-upgraded>アーキテクチャ概要</h2>
+      <google-codelab-step label="Copilot SDK で AI チャットツールを作ろう" duration="10">
+        <p>ここからは、<strong>Copilot SDK</strong> を使って、ブラウザ上で動作する生成 AI チャットツールを <strong>Copilot CLI から1つのプロンプトで</strong> 構築します。</p>
+<h2 is-upgraded>Copilot SDK とは？</h2>
+<p><strong>Copilot SDK</strong> は、GitHub Copilot CLI をプログラムから制御するための SDK です。JSON-RPC を介して Copilot CLI と通信し、AI セッションの作成・メッセージの送受信・ストリーミングレスポンスの取得などをアプリケーションに組み込むことができます。</p>
+<p><strong>SDK リポジトリ</strong>: <a href="https://github.com/github/copilot-sdk" target="_blank">https://github.com/github/copilot-sdk</a></p>
+<h2 is-upgraded>何を作るか</h2>
+<p>ブラウザから AI とリアルタイムにチャットできる Web アプリケーションを作ります：</p>
+<ul>
+<li><strong>フロントエンド</strong>: ブラウザ上のチャット UI（React + TypeScript）</li>
+<li><strong>バックエンド</strong>: Copilot SDK を使って AI セッションを管理する Node.js サーバー</li>
+<li><strong>リアルタイム通信</strong>: WebSocket でストリーミングレスポンスを配信</li>
+</ul>
+<h2 is-upgraded>Copilot SDK の主要 API</h2>
 <table>
-<tr><td colspan="1" rowspan="1"><p>コンポーネント</p>
-</td><td colspan="1" rowspan="1"><p>技術スタック</p>
-</td><td colspan="1" rowspan="1"><p>役割</p>
+<tr><td colspan="1" rowspan="1"><p>API</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>Browser</strong></p>
-</td><td colspan="1" rowspan="1"><p>React + TypeScript + Vite</p>
-</td><td colspan="1" rowspan="1"><p>ターミナル表示（xterm.js）、セッション管理</p>
+<tr><td colspan="1" rowspan="1"><p><code>CopilotClient</code></p>
+</td><td colspan="1" rowspan="1"><p>CLI サーバーとの接続を管理するクライアント</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>Backend Server</strong></p>
-</td><td colspan="1" rowspan="1"><p>Python (FastAPI) + WebSocket</p>
-</td><td colspan="1" rowspan="1"><p>Copilot CLI プロセスの管理、WebSocket ブリッジ</p>
+<tr><td colspan="1" rowspan="1"><p><code>client.createSession()</code></p>
+</td><td colspan="1" rowspan="1"><p>新しい会話セッションを作成</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>CLI Bridge</strong></p>
-</td><td colspan="1" rowspan="1"><p>Python (asyncio + pexpect)</p>
-</td><td colspan="1" rowspan="1"><p>Copilot CLI の PTY（疑似端末）制御、入出力のストリーミング</p>
+<tr><td colspan="1" rowspan="1"><p><code>session.send()</code></p>
+</td><td colspan="1" rowspan="1"><p>メッセージを送信</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>session.on("assistant.message_delta")</code></p>
+</td><td colspan="1" rowspan="1"><p>ストリーミングレスポンスのチャンクを受信</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>session.on("assistant.message")</code></p>
+</td><td colspan="1" rowspan="1"><p>最終レスポンスを受信</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>session.on("session.idle")</code></p>
+</td><td colspan="1" rowspan="1"><p>セッションの処理完了を検知</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>approveAll</code></p>
+</td><td colspan="1" rowspan="1"><p>すべてのツール実行パーミッションを自動許可</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>createChatTools()</code></p>
+</td><td colspan="1" rowspan="1"><p>チャット用の標準ツールセットを生成</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hooks.onPreToolUse</code></p>
+</td><td colspan="1" rowspan="1"><p>ツール実行前のフック（入力の検証・変換などに使用）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>hooks.onPostToolUse</code></p>
+</td><td colspan="1" rowspan="1"><p>ツール実行後のフック（結果のログ・加工などに使用）</p>
 </td></tr>
 </table>
-<p>Browser ↔ WebSocket（双方向通信）↔ Backend Server ↔ PTY/stdin/stdout（子プロセス管理）↔ Copilot CLI</p>
-<h2 is-upgraded>開発の進め方</h2>
-<p>このセクションでは以下の流れで進めます：</p>
-<ol type="1">
-<li><strong>設計書を確認</strong> — プロジェクトに配布された設計書を確認し、アプリケーションの全体像を理解する</li>
-<li><strong>GitHub Copilot CLI</strong> — ターミナルで CLI を立ち上げ、問題なく動作することを確認する</li>
-<li><strong>AI 駆動開発</strong> — 設計書を活用し、GitHub Copilot CLI と対話しながら Web アプリケーションを Vibe Coding で実装する</li>
-</ol>
-<aside class="special"><p><strong>このセクションのポイント</strong>: Copilotのハイエンドモデルを GitHub Copilot の最新機能と組み合わせて利用した時に実現できるタスクの質と量を体感いただくことがゴールです。設計書を事前に用意しておくことで、Copilotに対して「何を作るか」の文脈を明確に伝えられます。実際の開発現場でも、設計ドキュメントをCopilotのコンテキストとして活用するのは非常に効果的なプラクティスです。</p>
-</aside>
+<h2 is-upgraded>SDK の基本的な使い方</h2>
+<pre><code language="language-javascript" class="language-javascript">import { CopilotClient, approveAll, createChatTools } from &#34;@github/copilot-sdk&#34;;
 
+const client = new CopilotClient();
+await client.start();
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="設計書の確認と GitHub Copilot CLI" duration="15">
-        <h2 is-upgraded>1. 設計書の確認</h2>
-<p>プロジェクト内の <code>copilotWebRelay/planning.md</code> に、Copilot Web Relay の設計書が配布されています。まずはこのファイルを開いて、アプリケーションの全体像を確認しましょう。</p>
-<p>設計書には以下の内容が含まれています：</p>
-<ul>
-<li><strong>アーキテクチャ</strong>: Browser ↔ WebSocket ↔ FastAPI ↔ PTY ↔ Copilot CLI の構成</li>
-<li><strong>コンポーネント構成</strong>: Frontend（React/TS）、Backend（FastAPI）、CLI Bridge（pexpect）</li>
-<li><strong>機能要件</strong>: Phase 1（MVP）と Phase 2（チャット UI 強化）</li>
-<li><strong>WebSocket プロトコル設計</strong>: メッセージ形式と状態管理の仕様</li>
-<li><strong>ディレクトリ構造</strong>: ファイル配置と各ファイルの役割</li>
-<li><strong>実装タスク一覧</strong>: タスク間の依存関係</li>
-<li><strong>実装上の重要な注意事項</strong>: つまずきやすいポイントの事前対策</li>
-</ul>
-<aside class="special"><p><strong>設計書を活用するコツ</strong>: この後の実装フェーズでは、GitHub Copilot CLI に対してプロンプトを投げる際に <code>planning.md を参照して</code> と指示することで、Copilot が設計書の文脈を理解した上でコードを生成してくれます。</p>
-</aside>
-<h2 is-upgraded>2. GitHub Copilot CLI の起動確認</h2>
-<p>VS Code のターミナルを開き、以下のコマンドを入力して GitHub Copilot CLI を起動してみましょう：</p>
-<pre><code language="language-bash" class="language-bash">copilot
+const session = await client.createSession({
+    model: &#34;gpt-5&#34;,
+    onPermissionRequest: approveAll,
+    tools: createChatTools(),
+    hooks: {
+        onPreToolUse: (input, invocation) =&gt; {
+            console.log(`ツール実行前: ${invocation.toolName}`, input);
+        },
+        onPostToolUse: (input, invocation) =&gt; {
+            console.log(`ツール実行後: ${invocation.toolName}`, input);
+        },
+    },
+});
+
+session.on(&#34;assistant.message_delta&#34;, (event) =&gt; {
+    process.stdout.write(event.data.deltaContent);
+});
+
+await session.send({ prompt: &#34;Hello!&#34; });
 </code></pre>
-<p>正常に起動すると、対話型のインターフェースが表示されます。<code>/help</code> と入力して、利用可能なコマンドを確認してみましょう。</p>
-<aside class="warning"><p><strong>GitHub Copilot CLI のセットアップについて</strong> 通常、GitHub Copilot CLI を利用するには <strong>GitHub CLI (</strong><strong><code>gh</code></strong><strong>)</strong> のインストールと Copilot 拡張機能のセットアップが必要です。今回のワークショップでは、<strong>DevContainer の設定に GitHub Copilot CLI のインストールと認証が含まれている</strong>ため、Codespaces を起動すれば <code>copilot</code> コマンドがすぐに利用できます。</p>
-<p>自身の環境でセットアップする場合は、以下の手順が必要です：</p>
-<ol type="1">
-<li>GitHub CLI をインストール: <code>brew install gh</code>（macOS）</li>
-<li>GitHub CLI で認証: <code>gh auth login</code></li>
-<li>Copilot 拡張機能をインストール: <code>gh extension install github/copilot-cli</code></li>
-</ol>
-</aside>
-<h2 is-upgraded>3. GitHub Copilot CLI のコマンド一覧</h2>
-<p>GitHub Copilot CLI では、テキストで自然言語の指示を入力するほか、<code>/</code> で始まるスラッシュコマンドを使用できます。</p>
-<h3 is-upgraded>コード関連</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p>コマンド</p>
-</td><td colspan="1" rowspan="1"><p>説明</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/ide</code></p>
-</td><td colspan="1" rowspan="1"><p>IDE ワークスペースに接続</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/diff</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のディレクトリの変更差分を確認</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/review</code></p>
-</td><td colspan="1" rowspan="1"><p>コードレビューエージェントを実行して変更を分析</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/lsp</code></p>
-</td><td colspan="1" rowspan="1"><p>言語サーバーの設定を管理</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/terminal-setup</code></p>
-</td><td colspan="1" rowspan="1"><p>マルチライン入力（Shift+Enter / Ctrl+Enter）のターミナル設定</p>
-</td></tr>
-</table>
-<h3 is-upgraded>パーミッション</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p>コマンド</p>
-</td><td colspan="1" rowspan="1"><p>説明</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/allow-all</code></p>
-</td><td colspan="1" rowspan="1"><p>すべてのパーミッション（ツール・パス・URL）を有効化</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/add-dir</code></p>
-</td><td colspan="1" rowspan="1"><p>ファイルアクセスの許可ディレクトリを追加</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/list-dirs</code></p>
-</td><td colspan="1" rowspan="1"><p>許可されたディレクトリの一覧を表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/cwd</code></p>
-</td><td colspan="1" rowspan="1"><p>作業ディレクトリを変更または表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/reset-allowed-tools</code></p>
-</td><td colspan="1" rowspan="1"><p>許可ツールのリストをリセット</p>
-</td></tr>
-</table>
-<h3 is-upgraded>セッション管理</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p>コマンド</p>
-</td><td colspan="1" rowspan="1"><p>説明</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/resume</code></p>
-</td><td colspan="1" rowspan="1"><p>別のセッションに切り替え（セッションID指定可）</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/rename</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のセッション名を変更</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/context</code></p>
-</td><td colspan="1" rowspan="1"><p>コンテキストウィンドウのトークン使用量を表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/usage</code></p>
-</td><td colspan="1" rowspan="1"><p>セッションの使用状況メトリクスと統計を表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/session</code></p>
-</td><td colspan="1" rowspan="1"><p>セッション情報とワークスペースサマリーを表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/compact</code></p>
-</td><td colspan="1" rowspan="1"><p>会話履歴を要約してコンテキストウィンドウの使用量を削減</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/share</code></p>
-</td><td colspan="1" rowspan="1"><p>セッションを Markdown ファイルまたは GitHub Gist としてエクスポート</p>
-</td></tr>
-</table>
-<h3 is-upgraded>ヘルプ・フィードバック</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p>コマンド</p>
-</td><td colspan="1" rowspan="1"><p>説明</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/help</code></p>
-</td><td colspan="1" rowspan="1"><p>対話コマンドのヘルプを表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/changelog</code></p>
-</td><td colspan="1" rowspan="1"><p>CLI バージョンの変更履歴を表示</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/feedback</code></p>
-</td><td colspan="1" rowspan="1"><p>CLI に関するフィードバックを送信</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/theme</code></p>
-</td><td colspan="1" rowspan="1"><p>ターミナルテーマの確認・設定</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/experimental</code></p>
-</td><td colspan="1" rowspan="1"><p>利用可能な実験的機能の表示、実験モードの切り替え</p>
-</td></tr>
-</table>
-<h3 is-upgraded>その他</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p>コマンド</p>
-</td><td colspan="1" rowspan="1"><p>説明</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/model</code></p>
-</td><td colspan="1" rowspan="1"><p>使用する AI モデルを選択（GPT、Claude、Gemini 等）</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/clear</code> , <code>/new</code></p>
-</td><td colspan="1" rowspan="1"><p>会話履歴をクリア</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/plan</code></p>
-</td><td colspan="1" rowspan="1"><p>コーディング前に実装計画を作成</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/instructions</code></p>
-</td><td colspan="1" rowspan="1"><p>カスタム指示ファイルの表示・切り替え</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/diagnose</code></p>
-</td><td colspan="1" rowspan="1"><p>現在のセッションログを分析</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/login</code> , <code>/logout</code></p>
-</td><td colspan="1" rowspan="1"><p>Copilot へのログイン・ログアウト</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/user</code></p>
-</td><td colspan="1" rowspan="1"><p>GitHub ユーザーの管理</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>/exit</code> , <code>/quit</code></p>
-</td><td colspan="1" rowspan="1"><p>CLI を終了</p>
-</td></tr>
-</table>
-<h3 is-upgraded>カスタム指示ファイル</h3>
-<p>Copilot CLI は以下の場所にあるカスタム指示ファイルを自動的に読み込みます：</p>
-<ul>
-<li><code>CLAUDE.md</code> / <code>GEMINI.md</code> / <code>AGENTS.md</code>（git ルートおよびカレントディレクトリ）</li>
-<li><code>.github/instructions/**/*.instructions.md</code>（git ルートおよびカレントディレクトリ）</li>
-<li><code>.github/copilot-instructions.md</code></li>
-<li><code>$HOME/.copilot/copilot-instructions.md</code></li>
-</ul>
-<aside class="special"><p><strong>CLI のヒント</strong>: <code>/model</code> コマンドでモデルを切り替えることができます。実装がうまく進まない場合は、別のモデルを試してみると良い結果が得られることがあります。<code>/plan</code> コマンドを使うとコーディング前に実装計画を自動生成できるので、設計書と組み合わせると効果的です。</p>
+<aside class="special"><p><strong>このセクションのポイント</strong>: 設計書や細かい仕様書を用意することなく、Copilot CLI に <strong>1つのプロンプト</strong> を投げるだけで、SDK を活用した Web アプリケーションを一気に構築します。AI 駆動開発の生産性を体感してください。</p>
 </aside>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Vibe Coding で実装しよう" duration="60">
-        <p>設計書の確認と GitHub Copilot CLI の動作確認ができたら、いよいよ <strong>Vibe Coding</strong> で Copilot Web Relay を実装していきます。</p>
-<p>以下の 5 ステップを順番に実行するだけで、Copilot が設計書をもとにアプリケーションを構築してくれます。</p>
+        <p>Copilot SDK の概要を理解したら、いよいよ <strong>Vibe Coding</strong> でブラウザ AI チャットツールを実装していきます。</p>
 <h2 is-upgraded>ステップ 1: Copilot CLI を起動する</h2>
 <p>VS Code のターミナルで Copilot CLI を起動します。</p>
 <pre><code language="language-bash" class="language-bash">copilot
@@ -725,52 +601,99 @@ https://github.com/github/gh-aw/blob/main/create.md
 <aside class="warning"><p><strong>注意</strong>: <code>/allow-all</code> は現在のセッションに対してのみ有効です。セキュリティ上、信頼できるプロジェクトでのみ使用してください。個別に許可したい場合は、<code>/add-dir</code> でディレクトリ単位のアクセス許可を設定することもできます。</p>
 </aside>
 <h2 is-upgraded>ステップ 3: ハイエンドモデルを選択する</h2>
-<pre><code>/model Claude Opus 4.6
+<pre><code>/model
 </code></pre>
-<p>最も高性能なモデルを選択します。Copilot CLI は <code>/model</code> コマンドで使用する AI モデルを切り替えることができ、タスクの複雑さに応じて最適なモデルを選べます。今回のような複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。</p>
+<p>モデル一覧から最も高性能なモデル（例: Claude Opus 4.6）を選択してください。複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。</p>
 <h2 is-upgraded>ステップ 4: Autopilot モードに切り替える</h2>
-<p><code>Shift+Tab</code> を押して、エージェントモードを <strong>Autopilot</strong> に切り替えます。</p>
-<p>Copilot CLI には以下の 3 つのエージェントモードがあり、<code>Shift+Tab</code> で順番に切り替えることができます：</p>
-<ul>
-<li><strong>Normal</strong>: ツールの実行前に毎回ユーザーの確認を求めます</li>
-<li><strong>Autopilot</strong>: ユーザーの確認なしに自律的にツールを実行します</li>
-<li><strong>Yolo</strong>: セッション中のすべての操作を自動承認します（現時点ではAutopilotと同等）</li>
-</ul>
-<p>Fleet モードで大量のファイル生成・パッケージインストールを行うため、確認プロンプトをスキップできる <strong>Autopilot</strong> モードがおすすめです。</p>
-<aside class="special"><p><strong>ヒント</strong>: 現在のエージェントモードは、Copilot CLI の入力プロンプトの左側に表示されます。<code>Shift+Tab</code> を複数回押して、目的のモードに切り替えてください。</p>
-</aside>
-<h2 is-upgraded>ステップ 5: Fleet モードで一気に実装する</h2>
-<pre><code>/fleet Copilot Web Relay — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。copilotWebRelay/planning.md の計画に沿って実装を進めてください。不明なことがあれば事前に私に聞いてください。実装が完了したら、すべてのコードを git add してコミットし、feature/copilot-web-relay ブランチにプッシュして、main ブランチへの Pull Request を作成してください。
+<p><strong>Shift+Tab</strong> を押して、Copilot CLI を <strong>Autopilot モード</strong> に切り替えてください。Autopilot モードでは、Copilot がファイルの作成・編集やコマンドの実行を確認なしで自律的に進めるため、大規模な実装を一気に行う Vibe Coding に最適です。</p>
+<h2 is-upgraded>ステップ 5: 1プロンプトで一気に実装する</h2>
+<p>以下のプロンプトを Copilot CLI に投げてください。<code>/fleet</code> コマンドで複数のエージェントが並列に動作し、SDK を使ったブラウザ AI チャットツールを一気に構築します：</p>
+<pre><code>/fleet Copilot SDK を使って、ブラウザ上で動作する AI チャット Web アプリケーションを copilotWebRelay/ ディレクトリに構築してください。
+
+SDK リファレンス: https://github.com/github/copilot-sdk
+
+要件:
+- バックエンド: Node.js + Express + WebSocket サーバー
+  - Copilot SDK の CopilotClient でセッションを管理
+  - createSession() でモデル &#34;gpt-5&#34; を使用、onPermissionRequest には approveAll を使用
+  - session.on(&#34;assistant.message_delta&#34;) でストリーミングレスポンスを WebSocket 経由でクライアントに配信
+  - session.on(&#34;session.idle&#34;) で完了を通知
+- フロントエンド: React + TypeScript + Vite
+  - モダンなチャット UI（メッセージ入力欄、送信ボタン、チャット履歴表示）
+  - WebSocket でサーバーに接続し、ストリーミングレスポンスをリアルタイム表示
+  - Markdown レンダリング対応
+- 開発環境: npm scripts でバックエンドとフロントエンドを同時起動できること
+- 動作確認まで行ってください
 </code></pre>
-<p><code>/fleet</code> は、<strong>複数のサブエージェントを並行して起動し、大規模なタスクを分割・同時実行する</strong>ためのコマンドです。</p>
-<p>通常の Copilot CLI では 1 つのタスクを順番に処理しますが、<code>/fleet</code> を使うと Copilot が自動的にタスクを分解し、バックエンドの実装・フロントエンドの実装・設定ファイルの作成など複数の作業を<strong>並行して進めます</strong>。これにより、従来1つずつ指示して進めていた作業を、一度の指示で一気に完成させることができます。</p>
-<p>Fleet モードでは以下のことが自動的に行われます：</p>
-<ul>
-<li><strong>タスクの分解</strong>: 設計書を読み取り、実装すべきコンポーネントを特定</li>
-<li><strong>並行実装</strong>: バックエンド（FastAPI + CLI Bridge + WebSocket）とフロントエンド（React + xterm.js）を同時に実装</li>
-<li><strong>依存関係の解決</strong>: パッケージのインストール、設定ファイルの生成</li>
-<li><strong>統合テスト</strong>: 実装後の動作確認</li>
-</ul>
-<aside class="special"><p><strong>Fleet モードのポイント</strong>: Copilot が質問してきた場合は、適切に回答してください。設計書に記載されている内容であれば「planning.md を参照してください」と返答するのも効果的です。実装の進行状況はターミナルにリアルタイムで表示されます。</p>
+<aside class="special"><p><strong>1プロンプトのコツ</strong>: 要件を箇条書きで構造化し、使用する技術スタック・SDK の API・期待する動作を明確に伝えることで、Copilot が正確にアプリケーションを構築してくれます。</p>
 </aside>
 <h2 is-upgraded>つまずいた場合のヒント</h2>
-<p>Fleet モードの実装でエラーが発生した場合は、以下を試してみましょう：</p>
+<p>実装でエラーが発生した場合は、以下を試してみましょう：</p>
 <ul>
 <li><strong>エラーメッセージをそのまま Copilot に共有</strong>: 「このエラーを修正してください」と伝えるだけで修正してくれます</li>
 <li><strong><code>/diff</code></strong><strong> で変更内容を確認</strong>: 意図しない変更がないかチェック</li>
 <li><strong><code>/model</code></strong><strong> でモデルを変更</strong>: 別のモデルに切り替えて再試行</li>
-<li><strong>設計書の注意事項を確認</strong>: <code>planning.md</code> の「実装上の重要な注意事項」セクションに、よくあるバグの対処法が記載されています</li>
 </ul>
 <aside class="warning"><p><strong>よくあるつまずきポイント</strong>:</p>
 <ul>
+<li><strong>Copilot SDK のインストール</strong>: <code>npm install @github/copilot-sdk</code> が正しく実行されていることを確認</li>
+<li><strong>認証</strong>: Copilot CLI がログイン済みであること（<code>copilot</code> コマンドが動作すること）</li>
 <li><strong>Vite の WebSocket プロキシ</strong>: <code>target</code> に <code>ws://</code> ではなく <code>http://</code> を指定する必要があります</li>
 <li><strong>React StrictMode</strong>: <code>useEffect</code> が2回実行される問題で WebSocket 接続が不安定になることがあります</li>
-<li><strong>FastAPI のルーティング順序</strong>: StaticFiles のマウントは WebSocket エンドポイントの後に定義する必要があります</li>
-<li><strong>xterm.js v5 のパッケージ名</strong>: <code>xterm-addon-fit</code> ではなく <code>@xterm/addon-fit</code> を使用してください</li>
 </ul>
 </aside>
-<p>以下が、私の場合の1ショットでプロンプトを流した実装結果です。</p>
-<p class="image-container"><img alt="Copilot Web Relay 実装結果" src="../../img/90abb3d34df273d5.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Copilot Code Review — 複数モデルによるコードレビュー" duration="30">
+        <p>Copilot Web Relay の実装が完了したら、<strong>Copilot CLI のレビュー関連コマンド</strong> を使って、複数の AI モデルでコードレビューを行いましょう。異なるモデルの視点から品質・セキュリティ・パフォーマンスの問題を多角的に検出することがゴールです。</p>
+<h2 is-upgraded>レビューに使う主なコマンド</h2>
+<p>Copilot CLI にはコードレビューに活用できるコマンドが複数用意されています。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>コマンド</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/review</code></p>
+</td><td colspan="1" rowspan="1"><p>コードレビューエージェントを実行して変更を分析する</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/model</code></p>
+</td><td colspan="1" rowspan="1"><p>使用する AI モデルを選択する（Claude、GPT、Gemini 等）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>/undo</code></p>
+</td><td colspan="1" rowspan="1"><p>直前のターンを巻き戻し、ファイル変更を元に戻す</p>
+</td></tr>
+</table>
+<h2 is-upgraded>ステップ 1: コードをコミット &amp; Push する</h2>
+<p>Copilot CLI で以下のように指示して、実装をコミット &amp; Push します：</p>
+<pre><code>実装した Copilot Web Relay のコードをすべて git add して、適切なコミットメッセージでコミットし、feature/copilot-web-relay ブランチにプッシュして、main ブランチへの Pull Request を作成してください。
+</code></pre>
+<h2 is-upgraded>ステップ 2: 複数モデルでレビュー &amp; Pull Request にコメント</h2>
+<p>Copilot CLI で以下のプロンプトを入力して、複数モデルによるレビューから PR コメントまでを一気に実行します：</p>
+<pre><code>/review opus4.6, GPT5.4の各モデルでPull Requestをレビューいただき、結果をまとめていただき、結果をPull Requestにコメントとして残してください
+</code></pre>
+<p>このプロンプトだけで、以下が自動的に実行されます：</p>
+<ul>
+<li><strong>Claude Opus 4.6</strong> によるコードレビュー</li>
+<li><strong>GPT-5.4</strong> によるコードレビュー</li>
+<li>各モデルのレビュー結果の統合・比較</li>
+<li>Pull Request へのレビューコメントの投稿</li>
+</ul>
+<p>修正に問題があった場合は、<code>/undo</code> で直前のターンを巻き戻してファイル変更を元に戻すことができます。</p>
+<aside class="special"><p><strong>複数モデルレビューのメリット</strong>:</p>
+<ul>
+<li><strong>Claude</strong>: 論理的な整合性やエッジケースの検出に強い</li>
+<li><strong>GPT</strong>: 幅広いベストプラクティスの指摘が得意</li>
+</ul>
+<p>複数のモデルが共通して指摘する問題は、信頼度が高く優先的に修正すべき問題です。</p>
+</aside>
+<aside class="special"><p><strong>CLIレビューとGitHub.comのCode Reviewの使い分け</strong>:</p>
+<ul>
+<li><strong><code>/review</code></strong><strong>（CLI）</strong>: ローカルの変更差分を対象に即座にレビューを実行。開発中の早い段階で問題を検出できる</li>
+<li><strong>GitHub Code Review</strong>: Pull Request の差分を対象に、フォーマルなレビューコメントを残す。チームでのレビューフローに最適</li>
+</ul>
+<p>両方を組み合わせることで、開発の早い段階から品質を担保できます。</p>
+</aside>
 
 
       </google-codelab-step>
