@@ -648,7 +648,7 @@ https://github.com/github/gh-aw/blob/main/create.md
 ## Copilot SDK で AI チャットツールを作ろう
 Duration: 10
 
-ここからは、**Copilot SDK** を使って、ブラウザ上で動作する生成 AI チャットツールを **Copilot CLI から1つのプロンプトで** 構築します。
+ここからは、**Copilot SDK** を使って、ブラウザ上で動作する生成 AI チャットツール「**Copilot Web Relay**」を **Copilot CLI から1つのプロンプトで** 構築します。
 
 ### Copilot SDK とは？
 
