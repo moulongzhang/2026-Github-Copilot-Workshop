@@ -55,10 +55,7 @@
 <li>プロジェクトURL（https://github.com/NRI-Enablement-Lab/moulongzhang）をブラウザで開く</li>
 <li>右上の <strong>Use this template</strong> ボタンをクリックし、<strong>Create a new repository</strong> を選択</li>
 </ol>
-<p class="image-container"><img alt="Use this template ボタンをクリック" src="../../img/c09446109f5e979b.png"></p>
-<aside class="warning"><p><strong>⚠️ 重要</strong>: リポジトリ作成時に <strong>Visibility（公開設定）は必ず「Public」</strong> を選択してください。Private リポジトリでは、一部の Copilot 機能や GitHub Actions が正しく動作しない場合があります。</p>
-</aside>
-<p>テンプレートからの作成が完了すると、あなたのGitHubアカウントに新しいリポジトリが作成されます。</p>
+<p><img alt="Use this template ボタンをクリック" src="../../img/c09446109f5e979b.png"> テンプレートからの作成が完了すると、あなたのGitHubアカウントに新しいリポジトリが作成されます。</p>
 <h2 is-upgraded>ステップ2: 開発環境のセットアップ</h2>
 <p>作成したリポジトリを使って、GitHub Codespacesで開発環境を準備します：</p>
 <ol type="1">
@@ -630,7 +627,7 @@ https://github.com/github/gh-aw/blob/main/create.md
     
       <google-codelab-step label="Vibe Coding で実装しよう" duration="60">
         <p>設計書の確認と GitHub Copilot CLI の動作確認ができたら、いよいよ <strong>Vibe Coding</strong> で Copilot Web Relay を実装していきます。</p>
-<p>以下の 4 ステップを順番に実行するだけで、Copilot が設計書をもとにアプリケーションを構築してくれます。</p>
+<p>以下の 5 ステップを順番に実行するだけで、Copilot が設計書をもとにアプリケーションを構築してくれます。</p>
 <h2 is-upgraded>ステップ 1: Copilot CLI を起動する</h2>
 <p>VS Code のターミナルで Copilot CLI を起動します。</p>
 <pre><code language="language-bash" class="language-bash">copilot
@@ -646,8 +643,19 @@ https://github.com/github/gh-aw/blob/main/create.md
 <pre><code>/model Claude Opus 4.6
 </code></pre>
 <p>最も高性能なモデルを選択します。Copilot CLI は <code>/model</code> コマンドで使用する AI モデルを切り替えることができ、タスクの複雑さに応じて最適なモデルを選べます。今回のような複数コンポーネントを持つ Web アプリケーションの構築には、推論能力の高いハイエンドモデルが効果的です。</p>
-<h2 is-upgraded>ステップ 4: Fleet モードで一気に実装する</h2>
-<pre><code>/fleet Copilot Web Relay — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。copilotWebRelay/planning.md の計画に沿って実装を進めてください。不明なことがあれば事前に私に聞いてください。
+<h2 is-upgraded>ステップ 4: Autopilot モードに切り替える</h2>
+<p><code>Shift+Tab</code> を押して、エージェントモードを <strong>Autopilot</strong> に切り替えます。</p>
+<p>Copilot CLI には以下の 3 つのエージェントモードがあり、<code>Shift+Tab</code> で順番に切り替えることができます：</p>
+<ul>
+<li><strong>Normal</strong>: ツールの実行前に毎回ユーザーの確認を求めます</li>
+<li><strong>Autopilot</strong>: ユーザーの確認なしに自律的にツールを実行します</li>
+<li><strong>Yolo</strong>: セッション中のすべての操作を自動承認します（現時点ではAutopilotと同等）</li>
+</ul>
+<p>Fleet モードで大量のファイル生成・パッケージインストールを行うため、確認プロンプトをスキップできる <strong>Autopilot</strong> モードがおすすめです。</p>
+<aside class="special"><p><strong>ヒント</strong>: 現在のエージェントモードは、Copilot CLI の入力プロンプトの左側に表示されます。<code>Shift+Tab</code> を複数回押して、目的のモードに切り替えてください。</p>
+</aside>
+<h2 is-upgraded>ステップ 5: Fleet モードで一気に実装する</h2>
+<pre><code>/fleet Copilot Web Relay — ブラウザから GitHub Copilot CLI にアクセスできる Web アプリケーションを構築します。copilotWebRelay/planning.md の計画に沿って実装を進めてください。不明なことがあれば事前に私に聞いてください。実装が完了したら、すべてのコードを git add してコミットし、feature/copilot-web-relay ブランチにプッシュして、main ブランチへの Pull Request を作成してください。
 </code></pre>
 <p><code>/fleet</code> は、<strong>複数のサブエージェントを並行して起動し、大規模なタスクを分割・同時実行する</strong>ためのコマンドです。</p>
 <p>通常の Copilot CLI では 1 つのタスクを順番に処理しますが、<code>/fleet</code> を使うと Copilot が自動的にタスクを分解し、バックエンドの実装・フロントエンドの実装・設定ファイルの作成など複数の作業を<strong>並行して進めます</strong>。これにより、従来1つずつ指示して進めていた作業を、一度の指示で一気に完成させることができます。</p>
