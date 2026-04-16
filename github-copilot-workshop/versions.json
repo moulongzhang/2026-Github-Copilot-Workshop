@@ -1,10 +1,17 @@
 {
-  "defaultVersion": "v1.0.2",
+  "defaultVersion": "v1.0.3",
   "versions": [
+    {
+      "id": "v1.0.3",
+      "version": "v1.0.3",
+      "name": "v1.0.3 (最新)",
+      "path": "versions/v1.0.3/index.html",
+      "description": "Public警告削除・STEP5 PR作成指示追加"
+    },
     {
       "id": "v1.0.2",
       "version": "v1.0.2",
-      "name": "v1.0.2 (最新)",
+      "name": "v1.0.2",
       "path": "versions/v1.0.2/index.html",
       "description": "Copilot Web Relay セクション追加"
     },
