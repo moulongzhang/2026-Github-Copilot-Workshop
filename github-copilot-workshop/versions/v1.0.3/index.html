@@ -701,22 +701,22 @@ SDK リファレンス: https://github.com/github/copilot-sdk
       </google-codelab-step>
     
       <google-codelab-step label="コードを理解＆改善しよう" duration="20">
-        <p>Vibe Coding で実装した Copilot Web Relay のコードを、Copilot に解説してもらい理解を深めましょう。その後、問題点を見つけて改善まで行います。</p>
+        <p>Vibe Coding で実装した Copilot SDK チャットツールのコードを、Copilot に解説してもらい理解を深めましょう。その後、問題点を見つけて改善まで行います。</p>
 <h2 is-upgraded>1. コード全体の解説を依頼</h2>
 <p>まずは、実装されたコードの全体像を把握しましょう。エージェントモードで以下のプロンプトを入力してください：</p>
-<pre><code>この Copilot Web Relay アプリケーションのコード全体を確認して、アーキテクチャ、各ファイルの役割、主要な処理の流れを解説してください。
+<pre><code>copilotWebRelay/ 配下の AI チャットアプリケーションのコード全体を確認して、アーキテクチャ、各ファイルの役割、主要な処理の流れを解説してください。特に Copilot SDK の使い方（CopilotClient、createSession、ストリーミングレスポンス）がどのように実装されているかを重点的に説明してください。
 </code></pre>
 <p>Copilot エージェントはプロジェクト内のファイルを自動的にスキャンし、コードの構造や処理の流れを解説してくれます。</p>
 <aside class="special"><p><strong>ヒント</strong>: エージェントモードでは、Copilot が自動的にプロジェクト内のファイルを参照して回答してくれるため、手動でファイルをコンテキストに追加する必要がありません。</p>
 </aside>
 <h2 is-upgraded>2. 問題点を見つける</h2>
 <p>次に、コードの品質やセキュリティの観点から問題点を洗い出してもらいましょう：</p>
-<pre><code>この Copilot Web Relay アプリケーション全体を見て、どのような問題点や改善点がありますか？設計パターン、コードの品質、保守性、セキュリティの観点から教えてください。
+<pre><code>copilotWebRelay/ 配下のアプリケーション全体を見て、どのような問題点や改善点がありますか？設計パターン、コードの品質、保守性、セキュリティの観点から教えてください。
 </code></pre>
 <p>さらに、特定のコンポーネントに絞って深掘りすることもできます：</p>
-<pre><code>backend/cli_bridge.py のエラーハンドリングとリソース管理に問題はありますか？改善案を提案してください。
+<pre><code>バックエンドの WebSocket サーバーと Copilot SDK セッション管理に問題はありますか？エラーハンドリングやリソース管理の改善案を提案してください。
 </code></pre>
-<pre><code>frontend/src/App.tsx の WebSocket 接続管理に問題はありますか？React のベストプラクティスに従っているか確認してください。
+<pre><code>フロントエンドの WebSocket 接続管理やストリーミングレスポンスの表示に問題はありますか？React のベストプラクティスに従っているか確認してください。
 </code></pre>
 <h2 is-upgraded>3. 改善案を実装する</h2>
 <p>見つかった問題点を実際に修正してもらいましょう：</p>
