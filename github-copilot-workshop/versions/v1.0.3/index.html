@@ -193,7 +193,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="次のタスクに向けた設定" duration="20">
-        <p>ここから先のステップでは、GitHub.com上でのCopilot機能やCoding Agentを使用します。そのために必要な設定を行いましょう。</p>
+        <p>ここから先のステップでは、GitHub.com上でのCopilot機能やCloud Agentを使用します。そのために必要な設定を行いましょう。</p>
 <h2 is-upgraded>1. GitHub Advanced Security (GHAS) の設定</h2>
 <p>GitHub Advanced Security の Code Scanning 機能を有効にすることで、コードの脆弱性を自動的に検出できます。</p>
 <ol type="1">
@@ -222,9 +222,9 @@
 <li><strong>Editor preview features</strong> - エディタのプレビュー機能</li>
 <li><strong>Copilot CLI</strong> - ターミナルでのCopilot利用</li>
 <li><strong>Copilot code review</strong> - コードレビュー機能</li>
-<li><strong>Copilot coding agent</strong> - 自律的なコーディングエージェント</li>
+<li><strong>Copilot Cloud Agent</strong> - 自律的なコーディングエージェント</li>
 </ul>
-<aside class="warning"><p><strong>プラン制限</strong>: Copilot Code Review、Coding Agent、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。</p>
+<aside class="warning"><p><strong>プラン制限</strong>: Copilot Code Review、Cloud Agent、Copilot CLIなどの高度な機能は、GitHub Copilot Business/Enterprise プランでのみ利用可能です。Freeプランをご利用の場合、これらの機能は利用できません。</p>
 </aside>
 <h2 is-upgraded>3. リポジトリの Issues と Actions を有効化</h2>
 <p><strong>⚠️ この手順は、Issues や Actions が無効になっているユーザーのみ対象です。</strong> すでに有効になっている場合はスキップしてください。</p>
@@ -241,7 +241,7 @@
 <li>「I understand my workflows, go ahead and enable them」をクリックして有効化</li>
 </ol>
 <h2 is-upgraded>4. Personal Access Token (PAT) の作成（オプション）</h2>
-<p>Coding Agent が GitHub Actions で動作するために、Personal Access Token を作成します。</p>
+<p>Cloud Agent が GitHub Actions で動作するために、Personal Access Token を作成します。</p>
 <h3 is-upgraded>ステップ1: Fine-grained PAT を作成</h3>
 <p>以下のURLにアクセスして、新しいFine-grained PATを作成します：</p>
 <p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank">https://github.com/settings/personal-access-tokens/new</a></p>
@@ -269,14 +269,14 @@
 <li><strong>Add secret</strong> をクリック</li>
 </ol>
 <h3 is-upgraded>ステップ3: Workflow permissions の確認</h3>
-<p>Coding Agent が Pull Request を自動作成できるように、Actions のワークフロー権限を確認します：</p>
+<p>Cloud Agent が Pull Request を自動作成できるように、Actions のワークフロー権限を確認します：</p>
 <ol type="1">
 <li>自分のリポジトリの <strong>Settings</strong> タブをクリック</li>
 <li>左サイドバーから <strong>Actions</strong> → <strong>General</strong> を選択</li>
 <li><strong>Workflow permissions</strong> セクションで <strong>Allow GitHub Actions to create and approve pull requests</strong> にチェックが入っていることを確認</li>
 <li>チェックが入っていない場合は有効化して <strong>Save</strong> をクリック</li>
 </ol>
-<aside class="special"><p><strong>ヒント</strong>: この設定により、Copilot Coding Agent が GitHub Actions のワークフロー内でCopilotの機能を利用できるようになります。</p>
+<aside class="special"><p><strong>ヒント</strong>: この設定により、Copilot Cloud Agent が GitHub Actions のワークフロー内でCopilotの機能を利用できるようになります。</p>
 </aside>
 
 
@@ -401,8 +401,8 @@ git push origin feature/pomodoro
 
       </google-codelab-step>
     
-      <google-codelab-step label="[GitHub.com] Copilot Coding Agent" duration="20">
-        <p>GitHub CopilotのWebサイト版を使用して、プロジェクトの改善提案をIssueとして自動生成し、Coding Agentを活用してみましょう。</p>
+      <google-codelab-step label="[GitHub.com] Copilot Cloud Agent" duration="20">
+        <p>GitHub CopilotのWebサイト版を使用して、プロジェクトの改善提案をIssueとして自動生成し、Cloud Agentを活用してみましょう。</p>
 <h2 is-upgraded>GitHub Copilotでのissue自動起票</h2>
 <ol type="1">
 <li><strong>GitHub.com</strong> にアクセスし、右上の <strong>Copilot</strong> アイコンをクリック</li>
@@ -435,16 +435,16 @@ git push origin feature/pomodoro
 テスト目的: ゲーミフィケーション要素がモチベーション維持と継続利用に与える影響を測定
 </code></pre>
 <p class="image-container"><img alt="GitHub Copilotでのissue作成" src="../../img/a69389a1032d0aab.png"></p>
-<h2 is-upgraded>Issueの作成とCoding Agentのアサイン</h2>
+<h2 is-upgraded>Issueの作成とCloud Agentのアサイン</h2>
 <ol type="1">
 <li><strong>Copilotが3つのIssueを自動生成</strong>します</li>
 <li>各Issueの内容を確認し、必要に応じて編集</li>
 <li><strong>Create</strong> ボタンをクリックして各Issueを作成</li>
-<li>Issue画面に遷移後、<strong>Assignees</strong> セクションで <strong>Copilot</strong> を選択してCoding Agentをアサイン</li>
+<li>Issue画面に遷移後、<strong>Assignees</strong> セクションで <strong>Copilot</strong> を選択してCloud Agentをアサイン</li>
 </ol>
-<p class="image-container"><img alt="Coding AgentをIssueにアサイン" src="../../img/14fa8fd6031e20b8.png"></p>
+<p class="image-container"><img alt="Cloud AgentをIssueにアサイン" src="../../img/14fa8fd6031e20b8.png"></p>
 <h2 is-upgraded>期待されるPull Requestの結果</h2>
-<p>Coding Agentがアサインされると、以下のような結果が期待できます：</p>
+<p>Cloud Agentがアサインされると、以下のような結果が期待できます：</p>
 <ul>
 <li><strong>自動的なコード実装</strong>: 各Issueの要件に基づいた機能実装</li>
 <li><strong>Pull Requestの作成</strong>: 実装完了後の自動PR作成</li>
@@ -456,7 +456,7 @@ git push origin feature/pomodoro
 <p class="image-container"><img alt="カスタマイズ性向上のPR結果" src="../../img/8184bbbafbf918ee.png"></p>
 <h3 is-upgraded>パターンC: ゲーミフィケーション要素の追加</h3>
 <p class="image-container"><img alt="ゲーミフィケーション要素のPR結果" src="../../img/3e0271a144640fba.png"></p>
-<aside class="special"><p><strong>MCP Serverの活用</strong>: GitHub MCP ServerとPlaywright MCP Serverが初期設定としてCoding Agentに含まれています。これにより、単体テストだけではなく、スクリーンショットによるUIの自動チェックも行うことができます。Coding Agentは実装した機能が期待通りに動作するかを視覚的に検証し、より品質の高いコードを提供します。</p>
+<aside class="special"><p><strong>MCP Serverの活用</strong>: GitHub MCP ServerとPlaywright MCP Serverが初期設定としてCloud Agentに含まれています。これにより、単体テストだけではなく、スクリーンショットによるUIの自動チェックも行うことができます。Cloud Agentは実装した機能が期待通りに動作するかを視覚的に検証し、より品質の高いコードを提供します。</p>
 </aside>
 
 
