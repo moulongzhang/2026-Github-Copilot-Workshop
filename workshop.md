@@ -241,58 +241,6 @@ Duration: 20
 
 すると、CopilotはVS Code内のターミナル内で、先ほどのコマンドを実行し、必要な依存関係をインストールします。それ以降も同様に、Copilotが何かのコマンドを実行する前には、必ずユーザーに確認を求めます。もし、そのコマンドを実行してエラーが発生した場合は、そのエラーを解決するために、エージェントは追加の修正を行います。
 
-## [GitHub.com] Agentic Workflow
-Duration: 15
-
-GitHub Actions と Copilot を組み合わせることで、コードの変更を検知して自動的にドキュメントを更新する Agentic Workflow を体験しましょう。
-
-### Agentic Workflow とは
-
-Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。
-
-### Auto Healing DevOps の作成
-
-#### 一つ目のプロンプト
-
-Copilot に以下のプロンプトを入力してください：
-
-```
-以下のURLを参照して GitHub Agentic Workflow を作成してください。
-https://github.com/github/gh-aw/blob/main/create.md
-
-ワークフローの目的は以下のとおりです：
-リポジトリで失敗したワークフロー実行を検知し、原因を分析してIssueを自動作成する。
-作成したissueにはCopilotを自動アサインする。
-```
-
-#### 二つ目のプロンプト
-
-ワークフローが作成できたら、意図的にビルドを失敗させて動作を確認します。Copilot に以下のプロンプトを入力してください：
-
-```
-System.out.println("Hell World!"); を System.out.println("He World!"); にして push して
-```
-
-Push 後、GitHub Actions のワークフローが失敗を検知し、Copilot が自動的に Issue を作成してアサインされることを確認しましょう。
-
-## [GitHub.com] ドキュメントの自動更新
-Duration: 15
-
-コードに変更が加わった際に、関連するドキュメントを自動更新するワークフローが事前に設定されています。
-
-### プロンプト
-
-Copilot に以下のプロンプトを入力してください：
-
-```
-以下のURLを参照して GitHub Agentic Workflow を作成してください。
-https://github.com/github/gh-aw/blob/main/create.md
-
-ワークフローの目的は以下のとおりです：
-- copilotWebRelay 配下のコードが更新された時に実行されます
-- copilotWebRelay 配下のコードの内容に応じて copilotWebRelay/docs のドキュメンテーションを更新し、ソースコードとドキュメンテーションが常に一致するようにします
-```
-
 ## 次のタスクに向けた設定
 Duration: 20
 

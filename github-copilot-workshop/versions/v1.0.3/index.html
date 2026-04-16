@@ -192,44 +192,6 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="[GitHub.com] Agentic Workflow" duration="15">
-        <p>GitHub Actions と Copilot を組み合わせることで、コードの変更を検知して自動的にドキュメントを更新する Agentic Workflow を体験しましょう。</p>
-<h2 is-upgraded>Agentic Workflow とは</h2>
-<p>Agentic Workflow は、GitHub Actions のワークフロー内で Copilot（AI）を活用し、コードの変更に応じた自律的なタスクを実行する仕組みです。</p>
-<h2 is-upgraded>Auto Healing DevOps の作成</h2>
-<h3 is-upgraded>一つ目のプロンプト</h3>
-<p>Copilot に以下のプロンプトを入力してください：</p>
-<pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
-https://github.com/github/gh-aw/blob/main/create.md
-
-ワークフローの目的は以下のとおりです：
-リポジトリで失敗したワークフロー実行を検知し、原因を分析してIssueを自動作成する。
-作成したissueにはCopilotを自動アサインする。
-</code></pre>
-<h3 is-upgraded>二つ目のプロンプト</h3>
-<p>ワークフローが作成できたら、意図的にビルドを失敗させて動作を確認します。Copilot に以下のプロンプトを入力してください：</p>
-<pre><code>System.out.println(&#34;Hell World!&#34;); を System.out.println(&#34;He World!&#34;); にして push して
-</code></pre>
-<p>Push 後、GitHub Actions のワークフローが失敗を検知し、Copilot が自動的に Issue を作成してアサインされることを確認しましょう。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="[GitHub.com] ドキュメントの自動更新" duration="15">
-        <p>コードに変更が加わった際に、関連するドキュメントを自動更新するワークフローが事前に設定されています。</p>
-<h2 is-upgraded>プロンプト</h2>
-<p>Copilot に以下のプロンプトを入力してください：</p>
-<pre><code>以下のURLを参照して GitHub Agentic Workflow を作成してください。
-https://github.com/github/gh-aw/blob/main/create.md
-
-ワークフローの目的は以下のとおりです：
-- copilotWebRelay 配下のコードが更新された時に実行されます
-- copilotWebRelay 配下のコードの内容に応じて copilotWebRelay/docs のドキュメンテーションを更新し、ソースコードとドキュメンテーションが常に一致するようにします
-</code></pre>
-
-
-      </google-codelab-step>
-    
       <google-codelab-step label="次のタスクに向けた設定" duration="20">
         <p>ここから先のステップでは、GitHub.com上でのCopilot機能やCoding Agentを使用します。そのために必要な設定を行いましょう。</p>
 <h2 is-upgraded>1. GitHub Advanced Security (GHAS) の設定</h2>
