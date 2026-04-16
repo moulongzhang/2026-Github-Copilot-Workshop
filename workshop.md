@@ -637,6 +637,8 @@ https://github.com/github/gh-aw/blob/main/create.md
 ワークフローの目的は以下のとおりです：
 - copilotWebRelay 配下のコードが更新された時に実行されます
 - copilotWebRelay 配下のコードの内容に応じて copilotWebRelay/docs のドキュメンテーションを更新し、ソースコードとドキュメンテーションが常に一致するようにします
+
+作成したワークフローファイルをコミットし、Pull Requestを作成してください。
 ```
 
 > aside positive
