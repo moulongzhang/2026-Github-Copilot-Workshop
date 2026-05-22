@@ -19,22 +19,13 @@ GitHub Copilotの機能を学ぶためのハンズオンワークショップで
 
 ### 必要なツール
 
-- **claat** (Codelabs as a Thing): Markdownファイルから Codelabs 形式のHTMLを生成するツール
+- **Go** (1.24以降): claat の実行に必要です
+- **claat** (Codelabs as a Thing): Markdownファイルから Codelabs 形式のHTMLを生成するツール（`go.mod` の `tool` ディレクティブでバージョン固定済み）
 
-### clatのインストール
-
-#### macOSの場合
-
-**方法: Homebrewを使用（推奨）**
+### claatの利用方法
 
 ```bash
-brew install claat
-```
-
-### インストールの確認
-
-```bash
-claat version
+go tool claat --help
 ```
 
 ## 📝 ワークショップの編集と生成
@@ -61,10 +52,10 @@ Markdownファイルから Codelabs 形式のHTMLを生成します：
 
 ```bash
 # 基本的な生成
-claat export workshop.md
+go tool claat export workshop.md
 
 # 出力ディレクトリを指定して生成
-claat export -o github-copilot-workshop workshop.md
+go tool claat export -o github-copilot-workshop workshop.md
 ```
 
 生成されたHTMLは `github-copilot-workshop/` ディレクトリに出力されます。
@@ -74,7 +65,7 @@ claat export -o github-copilot-workshop workshop.md
 生成されたコンテンツをローカルでプレビューできます：
 
 ```bash
-claat serve
+go tool claat serve
 ```
 
 ブラウザで `http://localhost:9090` を開くと、生成されたワークショップを確認できます。
@@ -83,16 +74,16 @@ claat serve
 
 ```bash
 # ヘルプを表示
-claat help
+go tool claat help
 
 # 特定のフォーマットで生成
-claat export -f html workshop.md
+go tool claat export -f html workshop.md
 
 # 既存のコンテンツを更新
-claat update workshop.md
+go tool claat update workshop.md
 
 # 複数のファイルを一括生成
-claat export *.md
+go tool claat export *.md
 ```
 
 ## 📂 ディレクトリ構造
