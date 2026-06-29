@@ -1,0 +1,283 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Bandai Namco Studios GitHub Copilot ハンズオン</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+  <style id="bns-token-fix">pre .lit, code .lit { color: inherit !important; }</style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="github-copilot-workshop"
+                  title="Bandai Namco Studios GitHub Copilot ハンズオン"
+                  environment="web"
+                  feedback-link="https://example.com/feedback">
+    
+      <google-codelab-step label="ワークショップについて" duration="5">
+        <p>バンダイナムコスタジオの皆さま、本日はお集まりいただきありがとうございます。GitHub からお届けする 1 時間のハンズオンへようこそ。本セッションは GitHub の社員が直接ご案内します。</p>
+<p class="image-container"><img alt="GitHub Copilot Logo" src="../../img/dcd9c52ce37f5b19.png"></p>
+<p>短い時間ですが、<strong>手を動かして GitHub Copilot を体感する</strong>ことをゴールに据えています。普段エンジニアでない方でも、AI とどう付き合うかの勘所を掴んでいただけるよう構成しています。</p>
+<h2 is-upgraded>本日のゴール</h2>
+<ul>
+<li>VS Code / GitHub Copilot CLI / Copilot App が動く状態を確認する</li>
+<li>トークン / AI Credit を抑えるコツを理解する</li>
+<li><strong>Copilot App</strong> で「調査 → 要件 → 計画 → 実装」をローカルファイルで状態管理しながら進める</li>
+<li>用途に応じてモデルを使い分け（Opus 4.8 / Sonnet 4.6 / MAI-Code-1-Flash）、コストを振り返る</li>
+</ul>
+<h2 is-upgraded>全体の流れ</h2>
+<p><strong>VS Code / Copilot App 確認 → トークン最適化の基礎 → 演習: トークン最適なタスク管理ツールの開発（調査 → 要件 → 計画 → 実装 → コスト振り返り）</strong></p>
+<p>すべて <strong>GitHub Copilot App</strong> を中心に進めます。</p>
+<aside class="special"><p> 本日のメイン演習は <strong>GitHub Copilot App</strong> を中心に行います。GitHub Issues / Pull Request を使った issue-driven 開発が使えない環境でも、<code>research.md</code> / <code>spec.md</code> / <code>plan/</code> といった<strong>ローカルファイルを「状態」として扱う</strong>ことで、AI 駆動開発の流れをそのまま再現できます。</p>
+</aside>
+<h2 is-upgraded>前提条件</h2>
+<ul>
+<li>GitHub Copilot Business のライセンス（876 Enterprise / GitHub EMU アカウント）</li>
+<li>Windows または macOS</li>
+<li>Visual Studio Code（Agents Window）または GitHub Copilot App</li>
+<li>プロジェクト作業フォルダで GitHub Copilot CLI を使えること</li>
+</ul>
+<aside class="special"><p> 配布済みの「イベント参加準備ガイド」に沿って、876 Enterprise ユーザーアカウント認証とアプリのセットアップが完了している前提で進めます。未完了の方はお声がけください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="VS Code / Copilot App の確認" duration="5">
+        <p>本日のメイン演習は <strong>GitHub Copilot App</strong> を中心に行います。Copilot App を起点に、対象フォルダを開き、VS Code と Terminal（Copilot CLI）まで一通り動くことを確認しましょう。</p>
+<h2 is-upgraded>1. Copilot App の起動確認</h2>
+<p>Copilot App を起動します。モデル選択・セッション管理・Autopilot などのメニューが表示されれば起動成功です。</p>
+<h2 is-upgraded>2. 対象フォルダを開く</h2>
+<p><strong>session の「+」</strong> をクリックし、<strong>Local folder or repository</strong> からプロジェクト作業フォルダを選んで開きます。</p>
+<h2 is-upgraded>3. セッションでレスポンスを確認</h2>
+<p>開いたフォルダの右の <strong>「+」ボタン</strong>でセッションを開き、入力欄に次のように打ってレスポンスが返ることを確認します。</p>
+<pre><code>hoge
+</code></pre>
+<p>何らかの応答が返れば、Copilot App は正常に動作しています。</p>
+<h2 is-upgraded>4. VS Code へのアクセス確認</h2>
+<p>Copilot App 画面の<strong>右上から VS Code を起動</strong>し、GitHub Copilot にアクセスできること（Copilot が有効になっていること）を確認します。</p>
+<h2 is-upgraded>5. Copilot CLI の起動確認</h2>
+<p>Copilot App 画面の<strong>右上から Terminal を起動</strong>し、次を入力して Copilot CLI が立ち上がることを確認します。</p>
+<pre><code language="language-bash" class="language-bash">copilot
+</code></pre>
+<p>対話型インターフェースが表示されたら成功です。<code>/user</code> でログイン中のアカウント（876 Enterprise ユーザーであること）も確認できます。</p>
+<aside class="warning"><p> いずれかが起動しない場合は GitHub EMU アカウント（876 Enterprise）でログインできているかを確認します。CLI では <code>/login</code> で再認証、<code>/logout</code> で切り替えができます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="参考情報: トークン / AI Credit を抑えるコツ" duration="10">
+        <p>Copilot Business は AI Credits（UBB: 使用量ベース課金）で動きます。次の演習に入る前に、<strong>消費を抑えながら品質を上げる</strong>ための要点を読み物として押さえておきましょう。以下は GitHub のウェビナー「エージェントの品質とトークンの最適化」の要約です。</p>
+<h2 is-upgraded>1. モデルは「必要十分」で選ぶ</h2>
+<ul>
+<li>計画・設計・デバッグなど高い推論が要る作業: Opus / GPT-5.5 系</li>
+<li>通常の実装: Sonnet / GPT-5.4 系</li>
+<li>小さなリファクタ・反復作業・ドキュメント更新: Haiku / mini 系</li>
+<li>迷ったら <strong>Auto Mode</strong> を基本に</li>
+</ul>
+<h2 is-upgraded>2. コンテキストは入れすぎない</h2>
+<ul>
+<li>入るからといって埋めない。モデルは先頭と末尾を重視し、<strong>中盤は抜けやすい</strong>（Context Rot）</li>
+<li>新しいタスクは <code>/clear</code>、長いセッションは <code>/compact</code> を慎重に使う</li>
+<li>必要な文脈だけ与え、不要な情報は足さない</li>
+</ul>
+<h2 is-upgraded>3. プロンプトで迷わせない</h2>
+<ul>
+<li>具体的に、背景・理由も添えて指示する</li>
+<li>「X なら停止」のように<strong>停止条件</strong>を書く</li>
+<li>調査 → 計画 → 実装と作業を分割する（この後の演習がまさにこの形です）</li>
+</ul>
+<h2 is-upgraded>4. 失敗を減らす仕組みを入れる</h2>
+<ul>
+<li>エージェントの失敗は後続で積み上がる。テスト・リンター・スキャンなど決定論的なガードレールを置く</li>
+<li>繰り返すミスは簡潔な <code>copilot-instructions.md</code> に反映する</li>
+</ul>
+<h2 is-upgraded>参考リンク</h2>
+<ul>
+<li><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank">Copilot のモデルと課金</a></li>
+<li><a href="https://artificialanalysis.ai/models?intelligence-index-cost=intelligence-index-cost" target="_blank">モデル比較（Artificial Analysis）</a></li>
+<li><a href="https://www.producttalk.org/context-rot/" target="_blank">Context Rot とは</a></li>
+<li><a href="https://ashy-dune-0b4215a0f.7.azurestaticapps.net/detailed/index.html#/scenarios" target="_blank">トークン最適化 Tips 集（シナリオ別）</a></li>
+<li><a href="https://github.ondemand.goldcast.io/on-demand/04d8b78c-7149-48df-91a1-68029e126c4a?utm_medium=email&utm_source=ent&utm_campaign=701Kg000000Pj6vIAC" target="_blank">トークン最適化ウェビナー（レコーディング）</a></li>
+<li><a href="https://github.com/rtk-ai/rtk" target="_blank">シェル出力を抑えるツール例 rtk</a></li>
+<li><a href="https://github.com/jsturtevant/copilot-codeact-plugin" target="_blank">複数ツール呼び出しをまとめる Copilot CodeAct Plugin</a></li>
+</ul>
+<aside class="special"><p> 実利用に基づく削減アドバイスは、Copilot App / CLI で <code>/chronicle cost-tips</code> を実行すると得られます（最後の演習で実際に使います）。ポイントを一言でいえば「<strong>適切なモデル × 余計な文脈を入れない × 作業を分割する</strong>」。次の演習では、これを実際の開発フローで体験します。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="演習: トークン最適なタスク管理ツールの開発" duration="3">
+        <p>ここからが本日の演習です。<strong>GitHub Copilot App</strong> を使って、小さな CLI タスク管理ツールを「調査 → 要件 → 計画 → 実装」の順で、<strong>トークンを最適化しながら</strong>作ります。</p>
+<h2 is-upgraded>なぜ「ローカルで状態管理」なのか</h2>
+<p>GitHub Issues / Pull Request を起点にする issue-driven 開発は強力ですが、社内ポリシーやリポジトリ権限の都合で<strong>使えない場面</strong>があります。そこで本演習では、各フェーズの成果物を以下のように<strong>ローカルファイル</strong>として残し、それ自体を開発の「状態（state）」として扱います。</p>
+<pre><code>your-project/
+├── research.md      ← フェーズ1: 調査結果
+├── spec.md          ← フェーズ2: 実装要件
+└── plan/
+    ├── task.md      ← フェーズ3: 大タスク
+    ├── 1.md         ← 小タスク（実装順）
+    ├── 2.md
+    └── 3.md
+</code></pre>
+<aside class="special"><p> ポイントは <strong>1フェーズ = 1セッション</strong>。フェーズが終わったら成果物をファイルに保存し、<code>/clear</code>（または新しいセッションを開く）でコンテキストをリセットして次に進みます。こうするとコンテキストが汚れず、トークン消費も抑えられ、各フェーズの責務が明確になります。</p>
+</aside>
+<h2 is-upgraded>作るもの（題材）</h2>
+<p>依存ゼロに近い<strong>シンプルな CLI タスク管理ツール</strong>を作ります。タスクの追加・一覧・完了・削除ができ、データはローカルの JSON ファイルに保存する、それだけの小さなアプリです。題材を小さくすることで、**作る対象ではなく「進め方」**に集中できます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="フェーズ1: 調査（research.md）" duration="8">
+        <p>最初の調査フェーズは <strong>Copilot CLI</strong> で行います。Copilot App 画面の<strong>右上から Terminal を開き</strong>、<code>copilot</code> で CLI を起動します。</p>
+<pre><code language="language-bash" class="language-bash">copilot
+</code></pre>
+<p>起動したら、<code>/model</code> で <strong>Claude Opus 4.8</strong> を選択します。高い推論力で調査・設計の土台を作るフェーズです。</p>
+<pre><code>/model
+</code></pre>
+<p>次に、<code>/research</code> コマンドで調査を依頼します。<code>/research</code> は、Web やコードベースを横断的に調べて結果をまとめる調査専用のコマンドです。</p>
+<pre><code>/research 依存を最小にした CLI タスク管理ツールを作りたいです。Python と Node.js の素の標準ライブラリだけで実装する場合の、それぞれの長所・短所、ファイル保存（JSON）の扱い方、CLI 引数のパース方法を比較してください。実装はまだしないでください。
+</code></pre>
+<p>調査結果が返ってきたら、<strong>VS Code で内容を確認</strong>します。納得できる内容であれば、CLI に保存を依頼します。</p>
+<pre><code>今の調査結果を research.md に保存してください。
+</code></pre>
+<p>保存できたら、このフェーズは完了です。セッションをクリアして状態をリセットします。</p>
+<pre><code>/clear
+</code></pre>
+<aside class="special"><p> ここで一度クリアするのが肝心です。「調査」という役割を終えたコンテキストを次に持ち込まないことで、要件フェーズがクリーンな状態で始められます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="フェーズ2: 要件定義（spec.md）" duration="8">
+        <p>新しいセッションを開き、<code>research.md</code> をもとに実装要件をまとめます。要件作成・検証・保存まで<strong>1つのプロンプト</strong>で依頼します。</p>
+<p><code>/rubber-duck</code> は、原作者が気づきにくい論理の穴・抜け漏れ・設計の矛盾を指摘してくれる検証専用のコマンドです。</p>
+<pre><code language="language-text" class="language-text">@research.md を読んで、CLI タスク管理ツールの実装要件（spec）を作成してください。対象ユーザー、機能要件（追加・一覧・完了・削除）、データ形式、CLI コマンド仕様、非機能要件、対象外（やらないこと）を明記してください。要件を /rubber-duck で検証し、反映した内容を spec.md に保存してください。
+</code></pre>
+<p>保存できたら、<strong>新しいセッションを開いて</strong>次のフェーズに進みます。</p>
+<aside class="special"><p><strong>rubber-duck のコツ</strong>: 「厳しくレビューして」と添えると、より踏み込んだ指摘が得られます。指摘を鵜呑みにせず、自分で取捨選択することも大切です。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="フェーズ3: 計画（plan/ ディレクトリ）" duration="7">
+        <p>また新しいセッションを開き、調査と要件をもとに実装計画を立てます。計画作成と <code>/rubber-duck</code> 検証を<strong>1つのプロンプト</strong>で依頼します。</p>
+<pre><code language="language-text" class="language-text">@research.md と @spec.md をもとに、CLI タスク管理ツールの実装計画を作成してください。
+
+- 大タスクと小タスクに分解する
+- 実装順序を決める
+- 各タスクのブロッカー（依存・前提）を明記する
+- 各タスクのテストの成功条件と失敗条件を明記する
+
+成果物は plan/ ディレクトリに保存してください。大タスクは plan/task.md に、小タスクは plan/1.[このファイルがどんな計画かわかる名前].md, plan/2.[同上].md, plan/3.[同上].md ... のように、実装順のインデックスと内容のわかるファイル名を付けて1ファイルずつ作成してください。
+
+最後に作成した計画を /rubber-duck で検証してください。
+</code></pre>
+<p>保存できたら、<strong>新しいセッションを開いて</strong>次のフェーズに進みます。</p>
+<aside class="warning"><p> 計画フェーズの品質が、実装フェーズの成否をほぼ決めます。テストの「成功条件・失敗条件」が各小タスクに明記されているか、必ず VS Code で確認してから次に進みましょう。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="フェーズ4: 実装（Autopilot &#43; サブセッション）" duration="10">
+        <p>いよいよ実装です。Copilot App で新しいセッションを開き、モデルを <strong>Claude Sonnet 4.6</strong> に切り替え、<strong>Autopilot モード</strong>にします（Autopilot では確認なしで自律的にファイル作成・編集・コマンド実行が進みます）。</p>
+<p>次のように、計画に沿った実装をまとめて依頼します。</p>
+<pre><code language="language-text" class="language-text">@plan/task.md と @plan/ 配下の小タスク（1.md, 2.md, ...）に従って、CLI タスク管理ツールを実装してください。
+
+各小タスクは MAI-Code-1-Flash モデルのサブセッションで実装してください。実装順序を守り、各タスクのテストの成功条件を満たしていることを確認しながら、すべてのタスクが完了するまで進めてください。
+</code></pre>
+<aside class="special"><p><strong>ローカル LLM を試してみたい方は</strong>、サブセッションの実行を LiteLLM 経由の BYOK モデルに指定してみてください。</p>
+</aside>
+<p>ここでのポイントは <strong>役割分担</strong>です。</p>
+<ul>
+<li><strong>親セッション（Sonnet 4.6 / Autopilot）</strong>: 計画全体を統括し、タスクの進行を管理する</li>
+<li><strong>サブセッション（MAI-Code-1-Flash または LiteLLM 経由の BYOK モデル）</strong>: 個々の小タスクを高速・低コストに実装する</li>
+</ul>
+<aside class="special"><p> 軽量で高速な MAI-Code-1-Flash（または手元の BYOK モデル）を「実装の手」として小タスクに割り当て、推論力の高い Sonnet 4.6 を「司令塔」にすることで、<strong>速度・コスト・品質のバランス</strong>を取ります。これが、用途に応じてモデルを使い分ける実践例です。</p>
+</aside>
+<p>実装が進む間は、VS Code でファイルの変化を眺めてみましょう。<code>plan/</code> の各タスクが1つずつ消化されていく様子が、ローカルの「状態」が前進していく感覚そのものです。</p>
+<p>つまずいた場合は、次を試します。</p>
+<ul>
+<li>エラーメッセージをそのまま貼って「これを直して」と伝える</li>
+<li>うまくいかない小タスクだけ別モデルで再実行する</li>
+<li><code>plan/</code> の該当タスクのテスト条件を見直す</li>
+</ul>
+<h2 is-upgraded>動作を確認する</h2>
+<p>すべてのタスクが完了したら、実際にアプリを起動して挙動を確かめましょう。</p>
+<pre><code language="language-text" class="language-text">実装した CLI タスク管理ツールを実際に起動して、タスクの追加・一覧・完了・削除がひと通り動作することを確認してください。動かない箇所があれば修正してください。
+</code></pre>
+<p>ターミナルで自分でもコマンドを叩いてみて、データがローカルファイルに保存され、再起動しても状態が残ることを確かめると、「ローカルで状態を管理する」感覚がより掴めます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="フェーズ5: コストを振り返る" duration="4">
+        <p>実装が一区切りしたら、今回の演習で<strong>どれくらいトークンを消費し、いくらかかったか</strong>を振り返ります。Copilot のセッション履歴は <code>~/.copilot/data.db</code> に記録されているので、これを Copilot 自身に集計してもらいましょう。</p>
+<p>実装に使ったセッションで、次のように依頼します（<code>[ご自身のプロジェクト]</code> は自分の作業フォルダ名に置き換えてください）。</p>
+<pre><code language="language-text" class="language-text">~/.copilot/data.db の session テーブルを参照して、[ご自身のプロジェクト] 上で行ったすべてのセッションで使用したトークン数を計測し、価格表に合わせて金額も算出してください。
+https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing
+</code></pre>
+<p>モデルごとのトークン数と概算コストが出てきます。フェーズごとにセッションを分けたことが、どうコンテキスト消費に効いたかを確認しましょう。</p>
+<h2 is-upgraded>次のステップ: /chronicle cost-tips</h2>
+<p>最後に、コスト最適化のヒントをまとめて確認できる <code>/chronicle cost-tips</code> を実行してみましょう。</p>
+<pre><code language="language-text" class="language-text">/chronicle cost-tips
+</code></pre>
+<p>表示されるヒントと、今回の集計結果・フェーズごとにセッションを分けた実践を照らし合わせると、どこでトークンを節約できたかが具体的に見えてきます。</p>
+<aside class="special"><p><strong>本演習の学び</strong>: 「調査 → 要件 → 計画 → 実装」を<strong>フェーズごとにセッションを分け、成果物をローカルファイルに残す</strong>ことで、issue-driven が使えない環境でも状態を管理しながら AI 駆動開発を進められます。モデルの使い分け（Opus 4.8 で設計、Sonnet 4.6 で統括、MAI-Code-1-Flash / BYOK で実装）と rubberduck による検証が、品質とコストの両立を支えます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="おめでとうございます 🎉" duration="5">
+        <p>1 時間お疲れさまでした。本日は次を体験しました。</p>
+<ol type="1">
+<li>Copilot App / CLI の基本操作とトークン最適化の考え方</li>
+<li><code>/research</code> を使った調査と research.md への保存</li>
+<li><code>/rubber-duck</code> で検証しながらの要件定義（spec.md）と計画（plan/）</li>
+<li>Autopilot + サブセッション（MAI-Code-1-Flash / BYOK）による実装</li>
+<li><code>~/.copilot/data.db</code> を使ったトークン・コストの振り返りと <code>/chronicle cost-tips</code></li>
+</ol>
+<p>これらを通じて、issue-driven が使えない環境でも <strong>ローカルファイルを「状態」として spec-driven 開発を進める</strong>流れを体験しました。</p>
+<h2 is-upgraded>トライアルライセンス施策のご案内</h2>
+<p>876 Enterprise の Copilot ライセンスをお持ちでない方向けに、<strong>期間限定の GitHub Copilot Business トライアル（3000 AI Credits）</strong> を用意しています。Web フォーム申請で自動付与、先着順で定員を順次拡大します。本日の課題を実施し、後日の事後アンケートにご回答ください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot" target="_blank">GitHub Copilot Documentation</a></li>
+<li><a href="https://docs.github.com/copilot/using-github-copilot/best-practices-for-using-github-copilot" target="_blank">GitHub Copilot ベストプラクティス</a></li>
+</ul>
+<p>質疑応答（17:45-17:55）で何でもお尋ねください。ありがとうございました！</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
