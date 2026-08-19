@@ -90,7 +90,8 @@
 </aside>
 <h2 is-upgraded>出典とライセンス</h2>
 <p>このワークショップは <a href="https://github.com/github-samples/copilot-workshops" target="_blank">github-samples/copilot-workshops</a> の <a href="https://github-samples.github.io/copilot-workshops/app/" target="_blank">GitHub Copilot app ワークショップ</a>（日本語版 <code>docs/ja-jp/app</code>）をベースに、Google Codelab 形式へ再構成したものです。</p>
-<p>原典は <strong>MIT License</strong> で公開されています。</p>
+<p>このワークショップで使用するサンプルアプリは <a href="https://github.com/github-samples/tailspin-toys" target="_blank">github-samples/tailspin-toys</a> を日本語化した <a href="https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA" target="_blank">moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA</a> です。アプリケーションのソースコードは原典のままで、ドキュメント・指示ファイル・スキル・Issue のみを日本語化しています。</p>
+<p>いずれも <strong>MIT License</strong> で公開されています。</p>
 <p>MIT License</p>
 <p>Copyright (c) 2023 GitHub</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &#34;Software&#34;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
@@ -134,12 +135,16 @@
 <h2 is-upgraded>ラボ用リポジトリを設定する</h2>
 <p>Tailspin Toys プロジェクトの自分用コピーを使って作業します。<a href="https://docs.github.com/repositories/creating-and-managing-repositories/creating-a-template-repository" target="_blank">テンプレートリポジトリ</a>からコピーを作成してください。新しいリポジトリにはラボに必要なすべてのファイルが含まれています。次のレッスンで、このリポジトリをアプリに接続します。</p>
 <ol type="1">
-<li>新しいブラウザーウィンドウで、このラボの GitHub リポジトリ <code>https://github.com/github-samples/tailspin-toys</code> を開きます。</li>
+<li>新しいブラウザーウィンドウで、このラボの GitHub リポジトリ <code>https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA</code> を開きます。</li>
 <li>ラボ用リポジトリのページで <strong>Use this template</strong> ボタンを選択し、<strong>Create a new repository</strong> を選択して、リポジトリの自分用コピーを作成します。<img alt="Use this template ボタンのドロップダウンで Create a new repository が選択されている画面" src="../../img/ecca0a011f192ff.png"></li>
-<li>GitHub または Microsoft が主催するイベントの一環としてワークショップに参加している場合は、メンターの指示に従ってください。それ以外の場合は、GitHub Copilot を利用できる Organization に新しいリポジトリを作成できます。<img alt="github-samples/tailspin-toys がテンプレートに設定され、リポジトリ名が入力された Create a new repository フォーム" src="../../img/f0edc632bcac4f65.png"></li>
+<li>GitHub または Microsoft が主催するイベントの一環としてワークショップに参加している場合は、メンターの指示に従ってください。それ以外の場合は、GitHub Copilot を利用できる Organization に新しいリポジトリを作成できます。<img alt="テンプレートが設定され、リポジトリ名が入力された Create a new repository フォーム" src="../../img/f0edc632bcac4f65.png"></li>
+</ol>
+<aside class="special"><p> リポジトリ名は <code>tailspin-toys</code> にすることをおすすめします。以降のレッスンではこの名前で説明しますが、別の名前でも問題なく進められます。同じ名前のリポジトリがすでにある場合は、<code>tailspin-toys-ja</code> などに変更してください。</p>
+</aside>
+<ol type="1" start="4">
 <li>作成したリポジトリのパス (<strong>organization-or-user-name/repository-name</strong>) を記録します。このラボで後ほど使用します。</li>
 </ol>
-<aside class="special"><p> テンプレートからリポジトリを作成すると、GitHub Issue のバックログが自動的に作成されます。ワークショップ全体を通してこれらの Issue を使用するため、自分で作成する必要はありません。</p>
+<aside class="special"><p> テンプレートからリポジトリを作成すると、GitHub Issue のバックログが自動的に作成されます。ワークショップ全体を通してこれらの Issue を使用するため、自分で作成する必要はありません。Issue が表示されるまで 1 分ほどかかる場合があります。</p>
 </aside>
 <h2 is-upgraded>まとめと次のステップ</h2>
 <p>準備が整いました。プロジェクトをコンピューター上でビルドしてテストできるように Node.js をインストールし、テンプレートから Tailspin Toys リポジトリの自分用コピーを作成しました。</p>
@@ -193,9 +198,9 @@
 <ol type="1">
 <li>サイドバーで <strong>My work</strong> を選択します。</li>
 <li>テンプレートはバックログに 8 件の Issue を用意しています。このワークショップでは次の 3 件に焦点を当てます。表示されていることを確認してください。<ul>
-<li>Allow users to filter games by category and publisher</li>
-<li>Update our repository coding standards</li>
-<li>Implement pagination on the game list page</li>
+<li>ユーザーがカテゴリーとパブリッシャーでゲームを絞り込めるようにする</li>
+<li>リポジトリのコーディング標準を更新する</li>
+<li>ゲーム一覧ページにページネーションを実装する</li>
 </ul>
 </li>
 <li>Issue を選択して詳細を読みます。各 Issue はエージェントセッションの開始点にもなります。ワークショップの後半では、これらの Issue から作業を開始します。</li>
@@ -206,7 +211,7 @@
 <p>アプリに慣れるには、アプリ自体について質問するのが効果的です。その用途には <strong>quick chat</strong> が適しています。Quick chats ではブランチや worktree を作成せずに質問やブレインストーミングができるため、セッションを必要としない、その場限りの簡単な質問に最適です。</p>
 <ol type="1">
 <li>サイドバーで <strong>Quick chats</strong> の横にある <strong>+</strong> を選択し、新しいチャットを開きます。</li>
-<li>アプリのセッションがどのように動作するかを尋ねます。<pre><code language="language-plaintext" class="language-plaintext">How does the GitHub Copilot app use worktrees?
+<li>アプリのセッションがどのように動作するかを尋ねます。<pre><code language="language-plaintext" class="language-plaintext">GitHub Copilot app は worktree をどのように使っていますか？
 </code></pre>
 </li>
 <li>会話ビューで回答を読みます。各セッションが分離された独自の git worktree で実行されるため、変更が競合することなく複数のエージェントを並列実行できることがわかります。会話はいつでも継続でき、新しいチャットも開始できます。</li>
@@ -251,7 +256,7 @@
 <li>GitHub Copilot app に戻ります。アプリを閉じている場合は開きます。</li>
 <li><strong>Home screen</strong> を選択します。</li>
 <li>リポジトリに <code>tailspin-toys</code> が選択されていることを確認します。<img alt="リポジトリセレクターに tailspin-toys が設定され、プロンプトの下にモデルセレクターが表示された GitHub Copilot app のプロンプトボックス" src="../../img/d86e3c7f621c7cb1.png"></li>
-<li>次のプロンプトを使って変更を依頼します。<pre><code language="language-plaintext" class="language-plaintext">On the game cards, show each game&#39;s star rating. The Game type already includes a starRating field — it&#39;s a number out of 5, or null when a game hasn&#39;t been rated yet. Display it on each card in src/components/GameCard.astro, and when starRating is null show &#34;No rating yet&#34; instead. Keep the change small and don&#39;t restructure the card layout.
+<li>次のプロンプトを使って変更を依頼します。<pre><code language="language-plaintext" class="language-plaintext">ゲームカードに各ゲームの星評価を表示してください。Game 型にはすでに starRating フィールドが含まれています。これは 5 点満点の数値で、まだ評価されていないゲームの場合は null になります。src/components/GameCard.astro の各カードに星評価を表示し、starRating が null の場合は代わりに &#34;No rating yet&#34; と表示してください。変更は小さくとどめ、カードのレイアウトは作り直さないでください。
 </code></pre>
 </li>
 </ol>
@@ -385,11 +390,11 @@
 </aside>
 <ol type="1">
 <li>サイドバーで <strong>My work</strong> を選択します。</li>
-<li><strong>Update our repository coding standards</strong> というタイトルの Issue を選択して開きます。</li>
+<li><strong>リポジトリのコーディング標準を更新する</strong> というタイトルの Issue を選択して開きます。</li>
 <li>右上の <strong>New session</strong> を選択し、Issue に基づく新しいセッションを開始します。<img alt="GitHub Copilot app の Issue ビューで、右上の New session ボタンを矢印で示した画面" src="../../img/9087c3e775c3545.png"></li>
 <li>次のプロンプトを使い、Issue に記載された要件を満たすように指示ファイルを更新することを Copilot に依頼します。</li>
 </ol>
-<pre><code language="language-plaintext" class="language-plaintext">Following this issue, make the updates to the instructions files in this project to meet the requirements documented. Don&#39;t create the PR quite yet!
+<pre><code language="language-plaintext" class="language-plaintext">この issue に従って、記載されている要件を満たすように、このプロジェクトの指示ファイルを更新してください。PR はまだ作成しないでください。
 </code></pre>
 <p>Copilot が更新を行います。</p>
 <h2 is-upgraded>変更をレビューする</h2>
@@ -403,7 +408,7 @@
 <ol type="1" start="3">
 <li>次のプロンプトを使い、Copilot が今後生成するコード例を作成するよう依頼します。</li>
 </ol>
-<pre><code language="language-plaintext" class="language-plaintext">Do not make any updates, but show me what the code would look like. Based on the new instructions, if I asked Copilot to create a new library component to return all Publishers what would that code look like?
+<pre><code language="language-plaintext" class="language-plaintext">実際の更新は行わず、コードがどのようになるかを見せてください。新しい指示に基づくと、すべての Publisher を返す新しいライブラリコンポーネントの作成を Copilot に依頼した場合、そのコードはどのようなものになりますか？
 </code></pre>
 <ol type="1" start="4">
 <li>Copilot が提案するコードをレビューします。更新された指示で求めたとおり、TSDoc doc comment とファイルヘッダーコメントが含まれていることを確認します。</li>
@@ -480,10 +485,10 @@
 <p>Issue を開いて新しいセッションを開始し、Plan モードに切り替えて計画を作成します。</p>
 <ol type="1">
 <li>ナビゲーションタブから <strong>My work</strong> を選択します。</li>
-<li><strong>Allow users to filter games by category and publisher</strong> というタイトルの Issue を選択します。</li>
+<li><strong>ユーザーがカテゴリーとパブリッシャーでゲームを絞り込めるようにする</strong> というタイトルの Issue を選択します。</li>
 <li>右上の <strong>New session</strong> を選択します。<img alt="GitHub Copilot app の Issue ビューで、右上の New session ボタンを矢印で示した画面" src="../../img/9087c3e775c3545.png"></li>
 <li>モードに <strong>Plan</strong> と表示されるまで Shift+Tab を選択します。<img alt="モードセレクターが Plan に設定され、矢印で示された GitHub Copilot app のプロンプトボックス" src="../../img/358436733c2ed5a5.png"></li>
-<li>次のプロンプトを送信します。Issue から開始したため、フィルター機能の Issue はすでにこのセッションのコンテキストに含まれています。<pre><code language="language-plaintext" class="language-plaintext">Plan the work based on the requirements documented in the issue. Please ask any clarifying questions you might have as you build the plan.
+<li>次のプロンプトを送信します。Issue から開始したため、フィルター機能の Issue はすでにこのセッションのコンテキストに含まれています。<pre><code language="language-plaintext" class="language-plaintext">issue に記載されている要件に基づいて作業を計画してください。計画を立てる過程で確認したいことがあれば、遠慮なく質問してください。
 </code></pre>
 </li>
 <li>計画の作成中に、エージェントから追加の質問が提示される場合があります。自分で機能を構築するときの方針に基づいて回答します。</li>
@@ -499,7 +504,7 @@
 <li><strong>Plan summary</strong> ダイアログのオプション一覧で、<strong>Approve and implement with autopilot</strong> に最も近いオプションを選択します。</li>
 </ol>
 <p>Copilot が実装作業を開始します。</p>
-<aside class="special"><p> Copilot が必要なコードの作成を自動的に開始しない場合は、&#34;Go ahead and start building out the plan!&#34; のようなプロンプトを使って開始を依頼できます。</p>
+<aside class="special"><p> Copilot が必要なコードの作成を自動的に開始しない場合は、「計画に沿って実装を進めてください」のようなプロンプトを使って開始を依頼できます。</p>
 <p>必要な更新の作成には数分かかります。エージェントはファイルを編集および作成し、テストを作成して実行し、反復します。この時間に、ここまで学習した内容を振り返ったり、飲み物を用意したりできます。</p>
 </aside>
 <h2 is-upgraded>変更をレビューする</h2>
@@ -524,7 +529,7 @@
 <p>スキルはプロジェクトの <code>.github/skills</code> フォルダー、またはグローバルの <code>~/.copilot/skills</code> に配置します。各スキルは、YAML frontmatter (<code>name</code> と <code>description</code>) と、それに続く Markdown の指示が記載された <code>SKILL.md</code> ファイルを含むフォルダーです。</p>
 <pre><code language="language-yaml" class="language-yaml">---
 name: quality-checks
-description: Run the project&#39;s test suites and linter to verify code changes are ready to commit, push, or merge.
+description: このプロジェクトのすべてのテスト、lint、品質チェックの実行を担当します — Vitest のユニットテスト、Playwright の E2E テスト、ESLint の実行、失敗のデバッグ、コード変更の検証、commit・push・merge 前の準備状態の確認を行います。（抜粋）
 ---
 </code></pre>
 <p>スキルには、スクリプト、アセット、参考資料を含むサブフォルダーも追加できます。完全な構造については、<a href="https://agentskills.io/specification" target="_blank">エージェントスキルの仕様</a>を参照してください。</p>
@@ -604,7 +609,7 @@ description: Run the project&#39;s test suites and linter to verify code changes
 <h2 is-upgraded>Playwright で機能を確認するよう Copilot に依頼する</h2>
 <p>Playwright MCP server を使って機能を手動テストするよう Copilot に依頼します。</p>
 <ol type="1">
-<li>次のプロンプトを使い、新しい機能を検証するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Start the dev server then use the Playwright MCP server to validate the functionality you just added exists. Use the details in the issue to ensure the newly added behavior matches the specs.
+<li>次のプロンプトを使い、新しい機能を検証するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">開発サーバーを起動し、Playwright MCP server を使って、今追加した機能が実際に存在することを検証してください。issue に記載された内容を参照し、新しく追加された挙動が仕様と一致していることを確認してください。
 </code></pre>
 </li>
 </ol>
@@ -710,7 +715,7 @@ description: Run the project&#39;s test suites and linter to verify code changes
 <li>GitHub Copilot app に戻ります。アプリを閉じている場合は開きます。</li>
 <li><strong>Home screen</strong> を選択します。</li>
 <li>リポジトリに <code>tailspin-toys</code> が選択されていることを確認します。</li>
-<li>プロンプトボックスで次のプロンプトを使用し、要件を満たすキャンバスを作成します。<pre><code language="language-plaintext" class="language-plaintext">Create a basic Kanban board canvas that allows me to quickly triage work. Highlight the three issues which are most likely to need attention right now, with the remainder in a second section down below. The top three cards should include a description of the issue&#39;s content and a justification of why they&#39;re at the top of the list. Each issue should have a button that allows me to add it to the current context for the current session so I can get to work on it straightaway.
+<li>プロンプトボックスで次のプロンプトを使用し、要件を満たすキャンバスを作成します。<pre><code language="language-plaintext" class="language-plaintext">作業をすばやくトリアージできる、シンプルなカンバンボードのキャンバスを作成してください。今すぐ対応が必要と考えられる issue を 3 件選んで上部で強調表示し、残りはその下の 2 つ目のセクションにまとめてください。上位 3 件のカードには、その issue の内容の説明と、なぜ優先度が高いのかという理由を含めてください。各 issue には、現在のセッションのコンテキストに追加できるボタンを付けて、すぐに作業に取りかかれるようにしてください。
 </code></pre>
 </li>
 </ol>
@@ -720,7 +725,7 @@ description: Run the project&#39;s test suites and linter to verify code changes
 <h2 is-upgraded>キャンバスを保存してリポジトリにマージする</h2>
 <p>キャンバスは、指示ファイルやスキルと同様に、リポジトリのアセットにできます。Copilot にリポジトリへの追加とマージを依頼し、チーム全体で使用できるようにします。</p>
 <ol type="1">
-<li>同じセッションで、次のプロンプトを使ってキャンバスをリポジトリに保存するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Let&#39;s save this canvas definition to the repository so I can share it with my development team
+<li>同じセッションで、次のプロンプトを使ってキャンバスをリポジトリに保存するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">このキャンバスの定義をリポジトリに保存して、開発チームと共有できるようにしてください
 </code></pre>
 </li>
 <li>Copilot がキャンバスファイルを保存したら、右上隅にある <strong>Create PR</strong> の横のドロップダウンを選択します。</li>
@@ -739,7 +744,7 @@ description: Run the project&#39;s test suites and linter to verify code changes
 <p>キャンバスを作成できたので、新しいセッションを開始して使用します。</p>
 <ol type="1">
 <li>Copilot app で <strong>tailspin-toys</strong> の横にある <strong>New session</strong> を選択し、新しいセッションを開始します。</li>
-<li>次のプロンプトを使い、トリアージ用キャンバスを開くよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Open the triage issues canvas
+<li>次のプロンプトを使い、トリアージ用キャンバスを開くよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">トリアージ用の issue キャンバスを開いてください
 </code></pre>
 </li>
 <li>作成したキャンバスが新しいセッションで開いたことを確認します。</li>
@@ -783,7 +788,7 @@ description: Run the project&#39;s test suites and linter to verify code changes
 <li>サイドバーで <strong>Automations</strong> を選択してから <strong>New automation</strong> を選択します。</li>
 <li><code>Recap my recent work</code> などの名前を付けます。</li>
 <li>トリガーを選択します。<strong>Manual</strong> はオンデマンドで実行し、<strong>On a schedule</strong> は自動的に実行し、<strong>When an issue is created</strong> は新しい Issue に反応します。このレッスンでは <strong>Manual</strong> を選択します。</li>
-<li>automation が何も変更しないように、次の例のような読み取り専用のプロンプトを入力します。<pre><code language="language-plaintext" class="language-plaintext">Summarize the pull requests merged in this repository over the last week, and list any issues still open in the backlog.
+<li>automation が何も変更しないように、次の例のような読み取り専用のプロンプトを入力します。<pre><code language="language-plaintext" class="language-plaintext">このリポジトリで直近 1 週間にマージされた pull request を要約し、バックログに残っている issue を一覧にしてください。
 </code></pre>
 </li>
 <li>プロジェクト (Tailspin Toys リポジトリ) を選択し、automation を作成します。</li>

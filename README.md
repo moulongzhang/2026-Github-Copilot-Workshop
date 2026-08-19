@@ -144,6 +144,18 @@ v1.0.4 は v1.0.3 の新しいスナップショットではなく **別トラ�
 
 https://moulongzhang.github.io/2026-Github-Copilot-Workshop/github-copilot-workshop/?version=v1.0.4
 
+### v1.0.4 で使用するサンプルアプリ
+
+v1.0.4 では、日本語化したサンプルアプリのテンプレートリポジトリを使用します。
+
+**[moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA](https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA)**
+
+[github-samples/tailspin-toys](https://github.com/github-samples/tailspin-toys)（MIT License）をベースに、ドキュメント・`.github/instructions`・`.github/skills`・`.github/agents`・自動生成される Issue（`.github/bootstrap-issues`）を日本語化したものです。アプリケーションのソースコードは原典のままです。
+
+参加者は **Use this template** で自分のコピーを作成し、リポジトリ名を `tailspin-toys` にします。
+
+> **注意**: `.github/bootstrap-issues/*.md` の Issue タイトルは `workshop-beginner.md` 本文中でそのまま引用しています。タイトルを変更する場合はワークショップ側も更新してください。
+
 v1.0.4 は [github-samples/copilot-workshops](https://github.com/github-samples/copilot-workshops)（MIT License）の日本語版コンテンツをベースにしています。
 
 ## 🚀 デプロイ
