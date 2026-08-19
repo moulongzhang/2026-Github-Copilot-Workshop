@@ -738,7 +738,7 @@ Copilot app が PR の作成と管理を開始します。最初にプロジェ�
 - [GitHub Copilot app について](https://docs.github.com/copilot/concepts/agents/github-copilot-app)
 
 ## レッスン 6: Stacked Pull Requests
-Duration: 25
+Duration: 35
 
 ここまでは、1 つのセッションで 1 つの pull request を作成し、マージしてきました。しかし実務では、1 つの機能がデータベース・バックエンド・フロントエンドといった複数の層にまたがることがよくあります。このような大きな変更を 1 つの巨大な pull request にまとめると、レビューが難しくなります。このレッスンでは、1 つの機能を 3 つの層に分割し、それぞれをサブセッションで実装して、**Stacked Pull Requests**（積み重ねた pull request）として提出します。
 
@@ -839,14 +839,14 @@ GitHub のスタック機能は、GitHub CLI（`gh`）の **`gh stack` 拡張** 
     ```
 
 > aside positive
-> 公式ドキュメントには「To use stacked pull requests with AI coding agents, like GitHub Copilot, install the `gh-stack` skill」と記載されています。このスキルを入れてから Copilot に委任すると、エージェントが `gh stack init`・`gh stack add`・`gh stack submit` などを使って、各 pull request のベースブランチを自動で正しく設定します。
+> 公式ドキュメントには「To use stacked pull requests with AI coding agents, like GitHub Copilot, install the `gh-stack` skill」と記載されています。このスキルを入れておくと、Copilot が `gh stack init` や `gh stack submit` などを使って、複数のブランチを 1 本のスタックにまとめ、各 pull request のベースブランチを自動で正しく設定できます。
 
 > aside negative
 > Stacked Pull Requests はパブリックプレビューの機能です。UI や挙動が変わることがあります。利用には GitHub CLI 2.90.0 以降と Git 2.20 以降が必要です。
 
 ### セッションを開始して作業を委任する
 
-親 issue からセッションを開始し、そのセッションに 3 つの層の実装を委任します。Copilot app は、各子 issue を **サブセッション**（このセッションから起動される子セッション）で担当し、それぞれの成果物を Stacked Pull Request として積み上げます。
+親 issue からセッションを開始し、そのセッションに 3 つの層の実装を委任します。Copilot app は、各子 issue を **サブセッション**（このセッションから起動される子セッション）で担当します。各サブセッションは独立した worktree とブランチを持つため、`gh stack` のスタック状態はサブセッション間で共有されません。そこで、**各サブセッションは自分の層のブランチを作って push するだけ**にとどめ、3 層がそろってから **親セッションが 3 つのブランチをまとめて 1 本のスタックにして pull request を提出** します。この流れなら、サブセッションでの分担実装と、1 本のスタックとしての提出を両立できます。
 
 1. GitHub Copilot app に戻ります。
 2. ナビゲーションタブから **My work** を選択します。
@@ -856,32 +856,40 @@ GitHub のスタック機能は、GitHub CLI（`gh`）の **`gh stack` 拡張** 
 6. 次のプロンプトを送信します。issue 番号・ブランチ名・ベースブランチ・使用するコマンドを具体的に指定しているため、そのまま実行できます（番号が異なる場合は自分の環境に合わせて読み替えてください）。
 
     ```plaintext
-    この issue（#9）は、ゲームの資金調達の進捗表示という 1 つの機能を、Data Base・Back End・Front End の 3 層に分割した親 issue です。gh-stack スキルと gh stack コマンドを使って、3 つの子 issue（#10 Data Base、#11 Back End、#12 Front End）を Stacked Pull Requests として実装してください。
+    この issue（#9）は、ゲームの資金調達の進捗表示という 1 つの機能を、Data Base・Back End・Front End の 3 層に分割した親 issue です。3 つの子 issue（#10 Data Base、#11 Back End、#12 Front End）を、依存する pull request のスタック（Stacked Pull Requests）として実装してください。
 
     進め方:
     1. まず 3 つの子 issue（#10、#11、#12）の本文と受け入れ条件を読み、依存順が #10 → #11 → #12（Data Base → Back End → Front End）であることを確認してください。
-    2. 各子 issue を、それぞれ独立したサブセッションで担当してください。1 つのサブセッションが 1 つの層、1 つのブランチ、1 つの pull request に対応します。
-    3. まず一番下の層だけを作ってください。gh stack init で main をトランクとしてスタックを開始し、ブランチ feat/funding-database を作成して、#10 Data Base の変更（db/ 配下のスキーマ・マイグレーション・シードデータ）だけを実装・コミットしてください。後続の層に属する変更をこのブランチに含めないでください。
-    4. 次に、gh stack add でスタックの上に feat/funding-backend を追加し、#11 Back End の変更（src/types/game.ts、src/lib/games.ts、新規の src/lib/funding.ts とそのユニットテスト）を実装・コミットしてください。このブランチのベースは自動的に feat/funding-database になります。
-    5. 続けて、gh stack add でスタックの上に feat/funding-frontend を追加し、#12 Front End の変更（新規の src/components/FundingProgress.astro、GameCard.astro と詳細ページへの組み込み、新規の e2e テスト）を実装・コミットしてください。このブランチのベースは自動的に feat/funding-backend になります。
-    6. 各層の実装が終わるたびに、その層で /quality-checks を実行し、ユニットテスト・lint・e2e テストが通ることを確認してから次の層に進んでください。あわせて、その層の diff がその層だけに閉じていることを自分でレビューしてください。
-    7. 3 層すべてが完成したら、gh stack push で全ブランチを push し、gh stack submit で 3 つの依存する pull request をまとめて作成し、スタックとしてリンクしてください。pull request は draft ではなく ready for review として作成してください。各 pull request の説明には、その層の変更内容と対応する子 issue 番号を記載してください。
+    2. 各子 issue を、それぞれ独立したサブセッションで担当してください。1 つのサブセッションが 1 つの層、1 つのブランチに対応します。各サブセッションは自分の層のブランチを作って push するところまで行い、この段階では pull request は作らないでください。ブランチ名は次の固定名にしてください。
+       - #10 Data Base: feat/funding-database（main から分岐）
+       - #11 Back End: feat/funding-backend（feat/funding-database から分岐）
+       - #12 Front End: feat/funding-frontend（feat/funding-backend から分岐）
+    3. 依存順のとおり、必ず一番下の層から実装してください。#10 のサブセッションでは、main から feat/funding-database を作成し、#10 Data Base の変更（db/ 配下のスキーマ・マイグレーション・シードデータ）だけを実装・コミットして push してください。後続の層に属する変更をこのブランチに含めないでください。
+    4. 次に #11 のサブセッションでは、feat/funding-database から feat/funding-backend を分岐させ、#11 Back End の変更（src/types/game.ts、src/lib/games.ts、新規の src/lib/funding.ts とそのユニットテスト）だけを実装・コミットして push してください。
+    5. 続けて #12 のサブセッションでは、feat/funding-backend から feat/funding-frontend を分岐させ、#12 Front End の変更（新規の src/components/FundingProgress.astro、GameCard.astro と詳細ページへの組み込み、新規の e2e テスト）だけを実装・コミットして push してください。
+    6. 各サブセッションでは、実装が終わったら /quality-checks を実行し、ユニットテスト・lint・e2e テストが通ることを確認してから push してください。あわせて、その層の diff がその層だけに閉じていることを自分でレビューしてください。
+    7. 3 層すべてのブランチが push できたら、親セッションに戻り、次のコマンドで 3 つのブランチを 1 本のスタックにまとめ、依存する pull request として一括で提出してください。gh stack init は既存のブランチを下から順に取り込み、gh stack submit --auto --open は各 pull request を ready for review（draft ではなく）として作成し、正しいベースブランチでスタックにリンクします。
+       gh stack init feat/funding-database feat/funding-backend feat/funding-frontend
+       gh stack submit --auto --open
     8. 最後に gh stack view を実行し、3 つのブランチ・pull request・ベースブランチ・ステータスが正しく積み重なっていることを報告してください。
     ```
 
-7. エージェントが作業を開始します。まず親 issue と 3 つの子 issue を読み、依存順を確認してから、`gh stack init` でスタックを開始し、Data Base の層のサブセッションを起動します。
+7. エージェントが作業を開始します。まず親 issue と 3 つの子 issue を読み、依存順を確認してから、Data Base の層のサブセッションを起動します。3 層のブランチがそろうと、親セッションが `gh stack init` と `gh stack submit --auto --open` でスタックをまとめて提出します。
 
 > aside positive
 > 公式の Copilot チュートリアルでは、「Start the pr-stack and build only the first layer:（スタックを開始し、最初の層だけを作る）」のように、一度に 1 層ずつ指示することが推奨されています。層が大きくなりすぎたら、「このブランチは大きくなっています。独立してレビューできる 2 つの層に分割する方法を提案してください」と依頼して、さらに分割することもできます。
 
 > aside positive
-> Copilot が層をまたぐ作業を 1 つのセッション内で進めようとした場合は、「各子 issue をそれぞれ別のサブセッションで担当し、層ごとにブランチと pull request を分けてください」と念押しできます。サブセッションは、このセッションの配下にグループ化されて表示されます。
+> 各層をサブセッションで分担させると、それぞれが独立した worktree で作業するため、`gh stack` のスタック状態はサブセッション間で共有されません。そこで、各サブセッションには **ブランチを作って push するところまで** を任せ、スタック化は最後に **親セッションが `gh stack init` で 3 つのブランチをまとめて** 行います。`gh stack init` は、既存のブランチを下から順に取り込んでスタックにできます。サブセッションは、このセッションの配下にグループ化されて表示されます。
+
+> aside positive
+> 3 層すべての実装・テスト・CI を実際に回すと、環境によっては 30 分以上かかることがあります。ライブでは設計と一番下の Data Base の層までを見せ、残りの層とマージは録画で確認する、といった進め方も有効です。
 
 > aside negative
 > 各層は必ず **下から順に** 実装してください。順序を飛ばすと、上位の層が存在しない下位の層に依存してしまい、スタックが成立しません。**一番下の層のミスは、その上のすべてのブランチに波及します。** 次の層に進む前に、必ず一番下の層をレビューしてください。
 
-> aside positive
-> `gh stack submit` を **自分でターミナルから実行する** 場合は、対話型のエディター画面が開きます。PR のないブランチは既定ですべて含まれ、チェックボックスまたは `^x` で除外できます。各 PR のタイトル・説明・draft 状態をその場で編集し、<kbd>Ctrl</kbd>+<kbd>S</kbd> ですべてを一度に submit します。新規 PR は既定で **ready for review** になり、**CREATE AS** トグルで draft に切り替えられます。エージェント（Copilot）が非対話環境で実行する場合はこのエディターをスキップするため、上のプロンプトでは明示的に ready for review を指定しています。
+> aside negative
+> `gh stack submit` をエージェントのように **非対話環境で実行する** 場合（または `--auto` を渡した場合）は、既定で pull request が **draft** として作成されます。ready for review にするには **`--open`** フラグが必要です。上のプロンプトでは `gh stack submit --auto --open` を指定して、3 つの pull request が最初から review 可能な状態になるようにしています。自分でターミナルから対話的に `gh stack submit` を実行する場合は、単一画面のエディターが開き、各 PR のタイトル・説明・draft 状態を編集して <kbd>Ctrl</kbd>+<kbd>S</kbd> で一括 submit できます（`^x` で除外、**CREATE AS** トグルで draft 切り替え、新規 PR は既定で ready for review）。
 
 ### Stacked PR を確認する
 
