@@ -50,7 +50,7 @@ stays at `v1.0.3`; link to the beginner track with `?version=v1.0.4`.
 
 v1.0.4 uses a Japanese sample app template, not the upstream English one:
 
-**[moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA](https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA)**
+**[moulongzhang/Tailspin-Toys-JA](https://github.com/moulongzhang/Tailspin-Toys-JA)**
 
 It is a translation of `github-samples/tailspin-toys` (MIT) where the docs,
 `.github/instructions`, `.github/skills`, `.github/agents`, and the seeded issue

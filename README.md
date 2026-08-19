@@ -148,7 +148,7 @@ https://moulongzhang.github.io/2026-Github-Copilot-Workshop/github-copilot-works
 
 v1.0.4 では、日本語化したサンプルアプリのテンプレートリポジトリを使用します。
 
-**[moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA](https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA)**
+**[moulongzhang/Tailspin-Toys-JA](https://github.com/moulongzhang/Tailspin-Toys-JA)**
 
 [github-samples/tailspin-toys](https://github.com/github-samples/tailspin-toys)（MIT License）をベースに、ドキュメント・`.github/instructions`・`.github/skills`・`.github/agents`・自動生成される Issue（`.github/bootstrap-issues`）を日本語化したものです。アプリケーションのソースコードは原典のままです。
 
