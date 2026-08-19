@@ -33,7 +33,7 @@
 <p><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank"><strong>GitHub Copilot app</strong></a> は Copilot CLI を基盤とするデスクトップアプリケーションで、エージェント主導の開発を単一の作業用ワークスペースで実現します。並列エージェントセッション、切り替え可能なセッションモード、共有キャンバス、GitHub Issue と pull request のネイティブ管理機能を備えています。さらに、リベース、レビューのフィードバック、CI の修正、マージまで pull request を導く <strong>Agent Merge</strong> も利用できます。</p>
 <p class="image-container"><img alt="GitHub Copilot Logo" src="../../img/dcd9c52ce37f5b19.png"></p>
 <h2 is-upgraded>本日のゴール</h2>
-<p>一連のレッスンでは、アプリをインストールしてプロジェクトを設定した後、アプリのワークスペースと、テンプレートによって用意されたバックログを確認します。まず、星評価を追加する小さな変更に取り組みます。次に、Issue に基づいてカスタム指示の標準を追加し、分離されたエージェントセッションでフィルター機能を構築して、再利用可能なスキルで検証します。Playwright MCP server を追加して実際のブラウザーで機能を確認した後、段階的にマージの自動化を進め、最後は <strong>Agent Merge</strong> で pull request をマージします。最後に、共有キャンバスで共同作業し、繰り返し発生する作業を自動化します。アイデアから機能のマージまで、開発の一連の流れを体験できます。</p>
+<p>一連のレッスンでは、アプリをインストールしてプロジェクトを設定した後、アプリのワークスペースと、テンプレートによって用意されたバックログを確認します。まず、星評価を追加する小さな変更に取り組みます。次に、Issue に基づいてカスタム指示の標準を追加し、分離されたエージェントセッションでフィルター機能を構築して、再利用可能なスキルで検証します。段階的にマージの自動化を進め、<strong>Agent Merge</strong> で pull request をマージします。最後に、1 つの機能を複数の層に分割し、<strong>Stacked Pull Requests</strong> としてまとめてマージします。アイデアから機能のマージまで、開発の一連の流れを体験できます。</p>
 <h2 is-upgraded>レッスンの構成</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p>レッスン</p>
@@ -60,21 +60,17 @@
 </td><td colspan="1" rowspan="1"><p>コア機能</p>
 </td><td colspan="1" rowspan="1"><p>Plan と Autopilot を使ってフィルター機能を構築し、スキルで検証します</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>5. Playwright MCP によるテスト</p>
-</td><td colspan="1" rowspan="1"><p>外部ツール</p>
-</td><td colspan="1" rowspan="1"><p>Playwright MCP server を追加し、ブラウザーで機能を確認します</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>6. Agent Merge によるマージ</p>
+<tr><td colspan="1" rowspan="1"><p>5. Agent Merge によるマージ</p>
 </td><td colspan="1" rowspan="1"><p>マージ</p>
 </td><td colspan="1" rowspan="1"><p>Agent Merge でフィルター機能の pull request を修正してマージします</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>7. キャンバスを使った計画</p>
-</td><td colspan="1" rowspan="1"><p>コラボレーション</p>
-</td><td colspan="1" rowspan="1"><p>共有キャンバスを作成し、作業の計画と追跡に使用します</p>
+<tr><td colspan="1" rowspan="1"><p>6. Stacked Pull Requests</p>
+</td><td colspan="1" rowspan="1"><p>分割と統合</p>
+</td><td colspan="1" rowspan="1"><p>1 つの機能を 3 層に分割し、積み重ねた pull request をまとめてマージします</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>8. 振り返りと次のステップ</p>
+<tr><td colspan="1" rowspan="1"><p>7. 振り返りと次のステップ</p>
 </td><td colspan="1" rowspan="1"><p>まとめ</p>
-</td><td colspan="1" rowspan="1"><p>繰り返し発生するタスクを自動化し、次に学ぶ内容を確認します</p>
+</td><td colspan="1" rowspan="1"><p>ベストプラクティスを振り返り、次に学ぶ内容を確認します</p>
 </td></tr>
 </table>
 <h2 is-upgraded>前提条件</h2>
@@ -90,7 +86,7 @@
 </aside>
 <h2 is-upgraded>出典とライセンス</h2>
 <p>このワークショップは <a href="https://github.com/github-samples/copilot-workshops" target="_blank">github-samples/copilot-workshops</a> の <a href="https://github-samples.github.io/copilot-workshops/app/" target="_blank">GitHub Copilot app ワークショップ</a>（日本語版 <code>docs/ja-jp/app</code>）をベースに、Google Codelab 形式へ再構成したものです。</p>
-<p>このワークショップで使用するサンプルアプリは <a href="https://github.com/github-samples/tailspin-toys" target="_blank">github-samples/tailspin-toys</a> を日本語化した <a href="https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA" target="_blank">moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA</a> です。アプリケーションのソースコードは原典のままで、ドキュメント・指示ファイル・スキル・Issue のみを日本語化しています。</p>
+<p>このワークショップで使用するサンプルアプリは <a href="https://github.com/github-samples/tailspin-toys" target="_blank">github-samples/tailspin-toys</a> を日本語化した <a href="https://github.com/moulongzhang/Tailspin-Toys-JA" target="_blank">moulongzhang/Tailspin-Toys-JA</a> です。アプリケーションのソースコードは原典のままで、ドキュメント・指示ファイル・スキル・Issue のみを日本語化しています。</p>
 <p>いずれも <strong>MIT License</strong> で公開されています。</p>
 <p>MIT License</p>
 <p>Copyright (c) 2023 GitHub</p>
@@ -135,7 +131,7 @@
 <h2 is-upgraded>ラボ用リポジトリを設定する</h2>
 <p>Tailspin Toys プロジェクトの自分用コピーを使って作業します。<a href="https://docs.github.com/repositories/creating-and-managing-repositories/creating-a-template-repository" target="_blank">テンプレートリポジトリ</a>からコピーを作成してください。新しいリポジトリにはラボに必要なすべてのファイルが含まれています。次のレッスンで、このリポジトリをアプリに接続します。</p>
 <ol type="1">
-<li>新しいブラウザーウィンドウで、このラボの GitHub リポジトリ <code>https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA</code> を開きます。</li>
+<li>新しいブラウザーウィンドウで、このラボの GitHub リポジトリ <code>https://github.com/moulongzhang/Tailspin-Toys-JA</code> を開きます。</li>
 <li>ラボ用リポジトリのページで <strong>Use this template</strong> ボタンを選択し、<strong>Create a new repository</strong> を選択して、リポジトリの自分用コピーを作成します。<img alt="Use this template ボタンのドロップダウンで Create a new repository が選択されている画面" src="../../img/ecca0a011f192ff.png"></li>
 <li>GitHub または Microsoft が主催するイベントの一環としてワークショップに参加している場合は、メンターの指示に従ってください。それ以外の場合は、GitHub Copilot を利用できる Organization に新しいリポジトリを作成できます。<img alt="テンプレートが設定され、リポジトリ名が入力された Create a new repository フォーム" src="../../img/f0edc632bcac4f65.png"></li>
 </ol>
@@ -191,7 +187,7 @@
 <li><strong>Sessions</strong> - エージェントが作業する場所です。各セッションは分離された独自のワークスペースで実行されるため、変更が競合することなく複数のセッションを同時に実行できます。次のレッスンで最初のセッションを開始します。</li>
 <li><strong>Quick chats</strong> - 独自のブランチやワークスペースを必要としない、質問やブレインストーミング向けの簡易的な会話です。このレッスンの最後に試します。</li>
 <li><strong>My work</strong> - アプリの <strong>GitHub ネイティブ統合</strong>を通じて表示される Issue と pull request です。アプリを離れずに、Issue と pull request の参照や絞り込み、CI ステータスの確認、Issue からのセッション開始、pull request のレビューを行えます。</li>
-<li><strong>Automations</strong> - スケジュールまたはオンデマンドで実行する、保存済みのエージェントタスクです。ワークショップの終盤で作成します。</li>
+<li><strong>Automations</strong> - スケジュールまたはオンデマンドで実行する、保存済みのエージェントタスクです。</li>
 </ul>
 <h3 is-upgraded>用意されたバックログを確認する</h3>
 <p>アプリは GitHub とネイティブに統合されているため、リポジトリで待機中の作業がアプリ内に表示されます。テンプレートからリポジトリを作成したときに、バックログとなる Issue が用意されています。表示されていることを確認します。</p>
@@ -552,7 +548,7 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 <li>Copilot app に戻ります。</li>
 <li>スラッシュコマンド <code>/quality-checks</code> を使ってスキルを直接呼び出し、Enter を選択します。</li>
 <li>エージェントはスキルに従って単体テスト、linter、エンドツーエンドテストを実行し、結果を報告します。失敗したものがあれば、問題を修正して、すべて成功するまでチェックを再実行するよう依頼します。</li>
-<li><strong>このセッションを開いたままにします。</strong> 次のレッスンでは Playwright MCP server を追加し、実際のブラウザーでフィルター機能が動作することを確認します。</li>
+<li><strong>このセッションを開いたままにします。</strong> 次のレッスンでは、この pull request のマージを <strong>Agent Merge</strong> に任せます。</li>
 </ol>
 <h2 is-upgraded>まとめと次のステップ</h2>
 <p>実際の機能をエンドツーエンドで構築し、チームの基準に照らして検証しました。具体的には、次の作業を行いました。</p>
@@ -562,7 +558,7 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 <li>生成されたヘルパーが、レッスン3でマージしたドキュメント標準に従っていることを確認した。</li>
 <li><code>quality-checks</code> スキルで作業を検証した。</li>
 </ul>
-<p>次は Playwright MCP server を接続し、実際のブラウザーでフィルター機能を確認するようエージェントに依頼します。レッスン 5「Playwright MCP server によるテスト」に進んでください。</p>
+<p>次は、pull request の作成からマージまでを <strong>Agent Merge</strong> に任せます。レッスン 5「Agent Merge によるマージ」に進んでください。</p>
 <h2 is-upgraded>リソース</h2>
 <ul>
 <li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/agent-sessions" target="_blank">GitHub Copilot app でのエージェントセッションの操作</a></li>
@@ -574,71 +570,8 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 
       </google-codelab-step>
     
-      <google-codelab-step label="レッスン 5: Playwright MCP によるテスト" duration="15">
-        <p>前のレッスンでは、プロジェクトの自動テストスイートを使ってフィルター機能を作成し、検証しました。テストによってコードの検証を自動化できますが、エージェント自身が動作を確認できるようにすることも効果的です。実際に作成している UI で問題を見つけた場合に、エージェントが対応できるようになります。MCP を使って AI エージェントに外部機能へのアクセスを提供する方法を確認し、Copilot が構築中のサイトを直接操作できるように Playwright MCP server を追加します。</p>
-<p>このレッスンでは、次の内容を学習します。</p>
-<ul>
-<li>Model Context Protocol (MCP) の概要と、GitHub Copilot app での使用方法を理解する。</li>
-<li>アプリの設定から Playwright MCP server を追加する。</li>
-<li>エージェントにブラウザーを操作させ、フィルター機能を確認する。</li>
-</ul>
-<h2 is-upgraded>シナリオ</h2>
-<p>単体テストとエンドツーエンドテストは重要ですが、UI の更新を検証するには、実際に UI を操作する必要があります。変更作業をさらに自動化し、更新が期待どおりに動作するという確信を高めるために、ユーザーと同じ方法で Copilot が作業中の Web サイトを使用できるようにします。</p>
-<h2 is-upgraded>Model Context Protocol (MCP) とは</h2>
-<p><a href="https://github.blog/ai-and-ml/llms/what-the-heck-is-mcp-and-why-is-everyone-talking-about-it/" target="_blank">Model Context Protocol (MCP)</a> は、AI エージェントが外部のツールやサービスと通信するための手段を提供します。MCP を使うと、AI エージェントは外部のツールやサービスとリアルタイムで通信できます。その結果、最新情報へのアクセス (resources を使用) や、ユーザーに代わる操作 (tools を使用) が可能になります。</p>
-<p>これらの tools と resources には、AI エージェントと外部のツールやサービスをつなぐ MCP server を通じてアクセスします。MCP server は、AI エージェントと外部ツール (既存の API や NPM パッケージなどのローカルツール) 間の通信を管理します。各 MCP server は、AI エージェントがアクセスできる異なる tools と resources のセットを表します。</p>
-<p>よく使われる既存の MCP server には、次のものがあります。</p>
-<ul>
-<li><a href="https://github.com/github/github-mcp-server" target="_blank"><strong>GitHub MCP Server</strong></a>: GitHub リポジトリを管理するための API セットにアクセスできます。AI エージェントは、新しいリポジトリの作成、既存のリポジトリの更新、Issue と pull request の管理などを行えます。</li>
-<li><a href="https://github.com/microsoft/playwright-mcp" target="_blank"><strong>Playwright MCP Server</strong></a>: Playwright を使ったブラウザー自動化機能を提供します。AI エージェントは、Web ページへの移動、フォームへの入力、ボタンの選択などを行えます。</li>
-</ul>
-<p>さまざまな tools と resources にアクセスできる MCP server がほかにも多数あります。GitHub は、エコシステム内での発見と貢献を促進するために <a href="https://github.com/mcp" target="_blank">MCP registry</a> をホストしています。</p>
-<aside class="warning"><p> MCP server は、プロジェクト内のほかの依存関係と同様に扱ってください。使用する前にソースコードを慎重に確認し、発行元を検証して、セキュリティ上の影響を考慮します。信頼できる MCP server だけを使用し、機密性の高いリソースや操作へのアクセスを許可するときは注意してください。</p>
-</aside>
-<h2 is-upgraded>Playwright MCP server を追加する</h2>
-<p>MCP server はアプリの設定から追加して管理します。アプリには一般的なサーバーのカタログが含まれているため、<a href="https://github.com/microsoft/playwright-mcp" target="_blank">Playwright MCP server</a> は数回の操作で追加できます。</p>
-<ol type="1">
-<li>Ctrl+, を選択して、Copilot app の設定ページを開きます。</li>
-<li><strong>MCP servers</strong> を選択します。</li>
-<li>検索ダイアログに <code>Playwright</code> と入力します。</li>
-<li><strong>Popular MCP servers</strong> の一覧から <strong>Playwright</strong> を選択します。</li>
-<li><strong>Add server</strong> を選択し、利用可能な MCP server の一覧に追加します。</li>
-<li>Esc を選択して設定ダイアログを閉じます。</li>
-</ol>
-<p>これで Playwright MCP server を追加できました。</p>
-<h2 is-upgraded>Playwright で機能を確認するよう Copilot に依頼する</h2>
-<p>Playwright MCP server を使って機能を手動テストするよう Copilot に依頼します。</p>
-<ol type="1">
-<li>次のプロンプトを使い、新しい機能を検証するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">開発サーバーを起動し、Playwright MCP server を使って、今追加した機能が実際に存在することを検証してください。issue に記載された内容を参照し、新しく追加された挙動が仕様と一致していることを確認してください。
-</code></pre>
-</li>
-</ol>
-<p>Copilot は Playwright MCP server を通じてブラウザーを起動し、各手順を実行して、確認結果を報告します。タスクの実行中、システム上で実際にブラウザーが開く様子を確認できます。</p>
-<ol type="1" start="2">
-<li>Issue の受け入れ条件と照らし合わせて概要を読みます。問題がある場合は、pull request を作成する前に追加の質問をするか、コードを修正するよう依頼します。</li>
-<li>次のレッスンでこの作業を完了するため、セッションを開いたままにします。</li>
-</ol>
-<p>これで Copilot は、ユーザーと同じように機能を確認し、ブラウザーでも動作を検証しました。</p>
-<h2 is-upgraded>まとめと次のステップ</h2>
-<p>GitHub Copilot app から Playwright MCP server を使い、実際のブラウザーで機能を確認しました。学習した内容は次のとおりです。</p>
-<ul>
-<li>Model Context Protocol (MCP) の概要と、アプリで MCP tools を利用する仕組みを学習した。</li>
-<li>アプリの設定から Playwright MCP server を追加した。</li>
-<li>エージェントにブラウザーを操作させ、フィルター機能を確認した。</li>
-</ul>
-<p>機能の構築と検証が完了し、動作することも確認できました。次は、<strong>Agent Merge</strong> を使って pull request の作成とマージをエージェントに任せ、機能をリリースします。レッスン 6「Agent Merge によるマージ」に進んでください。</p>
-<h2 is-upgraded>リソース</h2>
-<ul>
-<li><a href="https://github.blog/ai-and-ml/llms/what-the-heck-is-mcp-and-why-is-everyone-talking-about-it/" target="_blank">MCP とは何か、なぜ注目されているのか</a></li>
-<li><a href="https://github.com/microsoft/playwright-mcp" target="_blank">Microsoft Playwright MCP Server</a></li>
-<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app での MCP server の構成</a></li>
-</ul>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="レッスン 6: Agent Merge によるマージ" duration="15">
-        <p>フィルター機能の構築と検証が完了し、ブラウザーで動作することも確認できました。最後のステップはマージです。このワークショップではすでに2回マージしており、どちらも pull request を作成して github.com で自分でマージしました。今回は、pull request のライフサイクル全体をアプリ内から管理する <strong>Agent Merge</strong> に処理を任せます。</p>
+      <google-codelab-step label="レッスン 5: Agent Merge によるマージ" duration="15">
+        <p>フィルター機能の構築と検証が完了しました。最後のステップはマージです。このワークショップではすでに2回マージしており、どちらも pull request を作成して github.com で自分でマージしました。今回は、pull request のライフサイクル全体をアプリ内から管理する <strong>Agent Merge</strong> に処理を任せます。</p>
 <p>このレッスンでは、次の内容を学習します。</p>
 <ul>
 <li>Agent Merge の概要と、マージのライフサイクルを自動化する仕組みを学ぶ。</li>
@@ -672,7 +605,7 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 <li>フィルター機能のセッションで Agent Merge を有効にした。</li>
 <li>pull request の作成、CI の実行、すべて成功した後のマージを確認した。</li>
 </ul>
-<p>次は、エージェントと一緒に作業を計画して視覚化する、より高度な方法である<strong>キャンバス</strong>を確認します。レッスン 7「キャンバスを使った計画」に進んでください。</p>
+<p>次は、1 つの機能をデータベース・バックエンド・フロントエンドの 3 層に分割し、依存関係を保ったまま <strong>Stacked Pull Requests</strong> としてまとめてマージします。レッスン 6「Stacked Pull Requests」に進んでください。</p>
 <h2 is-upgraded>リソース</h2>
 <ul>
 <li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests" target="_blank">GitHub Copilot app での Issue と pull request の管理</a></li>
@@ -682,120 +615,15 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 
       </google-codelab-step>
     
-      <google-codelab-step label="レッスン 7: キャンバスを使った計画" duration="15">
-        <p>ここまでは、チャットを通じてエージェントを指示してきました。しかし、多くの作業は会話の中ではなく、ボード、ドキュメント、チェックリスト上で行われます。<strong>キャンバス</strong>は、まさにそのような作業のために、アプリ内でユーザーとエージェントが共有できる領域です。このレッスンでは、ここまで取り組んできたバックログの計画と追跡に使用する、シンプルなキャンバスを作成します。</p>
-<p>このレッスンでは、次の内容を学習します。</p>
-<ul>
-<li>キャンバスの概要と使用する場面を理解する。</li>
-<li>バックログをトリアージする共有 Kanban ボードのキャンバスを作成する。</li>
-<li>キャンバスをリポジトリに保存し、チーム向けにマージする。</li>
-<li>新しいセッションでキャンバスを開き、そこから作業を開始する。</li>
-</ul>
-<h2 is-upgraded>シナリオ</h2>
-<p>Issue の一覧は、どのような状況でも負担に感じることがあります。Tailspin Toys の開発者は、Issue をすばやくトリアージし、Copilot app で作業を開始できるツールを探しています。</p>
-<h2 is-upgraded>キャンバスとは</h2>
-<p><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">キャンバス</a>は、計画、トリアージボード、リリースチェックリスト、ダッシュボード、ドキュメントなどの作業成果物を扱う、共有の対話型領域です。チャットは意図の説明や曖昧さの検討に適していますが、多くの作業は具体的な<em>領域</em>上で行われます。キャンバスを使うと、その領域でエージェントと直接共同作業できます。</p>
-<p>キャンバスは<strong>双方向</strong>です。エージェントが作業中にキャンバスを更新できる一方で、ユーザーも同じ領域を編集できます。キャンバスを作成すると、エージェントはプロンプトとワークフローに基づいて内容を構築します。その後も、機能の追加、削除、修正を依頼できます。作成したキャンバスは、アプリの右側のパネルに開きます。</p>
-<p>一般的な例は次のとおりです。</p>
-<ul>
-<li>1日の計画を立て、Issue と pull request に優先順位を付けるための <strong>Markdown canvases</strong>。</li>
-<li>ユーザーとエージェントがカードを追加し、作業を列間で移動する <strong>Agentic kanban boards</strong>。</li>
-<li>リポジトリの重要な Issue と繰り返し現れるテーマをまとめる <strong>Issue triage boards</strong>。</li>
-</ul>
-<h2 is-upgraded>キャンバスを使用する理由</h2>
-<p>タスクに構造、反復、検証が必要で、チャットだけでは不十分な場合はキャンバスを使用します。キャンバスでは次のことができます。</p>
-<ul>
-<li>ワークフローに合った実際の成果物に、エージェントの作業を結び付ける。</li>
-<li>共有領域で作業を直接調整または修正し、その変更を基にエージェントに作業を続けさせる。</li>
-<li>チャットの応答だけでなく、成果物への目に見える変更として進捗を確認する。</li>
-</ul>
-<h2 is-upgraded>作業を追跡するキャンバスを作成する</h2>
-<p>星評価、ドキュメント標準、フィルター機能をすべてマージし、多くの成果をリリースしました。しかし、バックログにはまだ項目が残っています。作業をすばやくトリアージするためのキャンバスを作成します。</p>
-<ol type="1">
-<li>GitHub Copilot app に戻ります。アプリを閉じている場合は開きます。</li>
-<li><strong>Home screen</strong> を選択します。</li>
-<li>リポジトリに <code>tailspin-toys</code> が選択されていることを確認します。</li>
-<li>プロンプトボックスで次のプロンプトを使用し、要件を満たすキャンバスを作成します。<pre><code language="language-plaintext" class="language-plaintext">作業をすばやくトリアージできる、シンプルなカンバンボードのキャンバスを作成してください。今すぐ対応が必要と考えられる issue を 3 件選んで上部で強調表示し、残りはその下の 2 つ目のセクションにまとめてください。上位 3 件のカードには、その issue の内容の説明と、なぜ優先度が高いのかという理由を含めてください。各 issue には、現在のセッションのコンテキストに追加できるボタンを付けて、すぐに作業に取りかかれるようにしてください。
-</code></pre>
-</li>
-</ol>
-<p>Copilot がキャンバスの作成を開始します。</p>
-<aside class="special"><p> 作成には数分かかります。複雑なタスクであるため、最初のバージョンでは満足できない場合があります。理想のツールになるまで、プロンプトで構築を続けるよう依頼できます。</p>
-</aside>
-<h2 is-upgraded>キャンバスを保存してリポジトリにマージする</h2>
-<p>キャンバスは、指示ファイルやスキルと同様に、リポジトリのアセットにできます。Copilot にリポジトリへの追加とマージを依頼し、チーム全体で使用できるようにします。</p>
-<ol type="1">
-<li>同じセッションで、次のプロンプトを使ってキャンバスをリポジトリに保存するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">このキャンバスの定義をリポジトリに保存して、開発チームと共有できるようにしてください
-</code></pre>
-</li>
-<li>Copilot がキャンバスファイルを保存したら、右上隅にある <strong>Create PR</strong> の横のドロップダウンを選択します。</li>
-<li><strong>Agent merge</strong> を選択して Agent Merge を有効にします。<img alt="GitHub Copilot app で展開された Create PR ドロップダウンの Agent merge オプションを矢印で示した画面" src="../../img/c2ba7579f8fe4fc.png"></li>
-<li>ボタンのテキストが <strong>Agent merge</strong> に変わります。</li>
-<li><strong>Agent merge</strong> ボタンを選択し、Agent Merge のプロセスを開始します。</li>
-</ol>
-<p>Copilot app が PR の作成と管理を開始します。最初にプロジェクトを調査して PR の最適な作成方法を判断し、PR を作成します。</p>
-<p>しばらくすると、Copilot が再び作業を開始し、リポジトリ上ですべてのテストを実行する CI プロセスなど、PR の条件を確認します。ほかのチームメンバーによるレビュー、実行が必要なチェック (CI プロセス)、PR をマージできるかどうかのステータスを報告します。</p>
-<ol type="1" start="6">
-<li><strong>Agent merge</strong> の横にあるドロップダウンを選択してから <strong>Merge pull request</strong> を選択し、Agent Merge に pull request のマージを許可します。<img alt="Agent merge ドロップダウンで、エージェントに許可された Address reviews、Fix CI failures、Resolve conflicts の操作と、矢印で示された Merge pull request" src="../../img/969c0a77be31aa73.png"></li>
-<li>すべての CI プロセスが成功するまで待ちます。成功すると、Copilot が pull request を自動的にマージします。</li>
-</ol>
-<p>これでチーム用の新しい共有キャンバスを作成できました。</p>
-<h2 is-upgraded>キャンバスで作業する</h2>
-<p>キャンバスを作成できたので、新しいセッションを開始して使用します。</p>
-<ol type="1">
-<li>Copilot app で <strong>tailspin-toys</strong> の横にある <strong>New session</strong> を選択し、新しいセッションを開始します。</li>
-<li>次のプロンプトを使い、トリアージ用キャンバスを開くよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">トリアージ用の issue キャンバスを開いてください
-</code></pre>
-</li>
-<li>作成したキャンバスが新しいセッションで開いたことを確認します。</li>
-<li>最も関心のある Issue の1つで <strong>Add to current context</strong> を選択します。</li>
-<li>Copilot が Issue の作業を開始します。</li>
-</ol>
-<p>これで、作成したキャンバスを使って開発プロセスを効率化できました。</p>
-<h2 is-upgraded>まとめと次のステップ</h2>
-<p>ユーザーとエージェントが共同作業できる共有領域を作成しました。具体的には、次の作業を行いました。</p>
-<ul>
-<li>キャンバスの概要と使用する場面を学習した。</li>
-<li>エージェントと共有の Kanban トリアージボードのキャンバスを作成した。</li>
-<li>Agent Merge を使ってキャンバスをリポジトリに保存し、マージした。</li>
-<li>新しいセッションでキャンバスを開き、そこから作業を開始した。</li>
-</ul>
-<p>バックログを追跡できるようになったので、ここまで構築した内容と今後の進め方を振り返ります。レッスン 8「振り返りと次のステップ」に進んでください。</p>
-<h2 is-upgraded>リソース</h2>
-<ul>
-<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">GitHub Copilot app での canvas extension の操作</a></li>
-<li><a href="https://awesome-copilot.github.com/extensions/" target="_blank">Awesome Copilot の Canvases</a></li>
-<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
-</ul>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="レッスン 8: 振り返りと次のステップ" duration="10">
+      <google-codelab-step label="レッスン 7: 振り返りと次のステップ" duration="10">
         <p>ここ数回のレッスンでは、GitHub Copilot app を使い、アイデアから機能のマージまでを実践しました。取り組んだ内容は次のとおりです。</p>
 <ul>
 <li>リポジトリを接続し、アプリのワークスペースと用意されたバックログを確認した。</li>
 <li>直接指定したタスクと Issue からセッションを開始し、Plan モードと Autopilot モードでエージェントの動作を制御した。</li>
 <li>カスタム指示と再利用可能なスキルでエージェントをガイドした。</li>
-<li>Playwright MCP server を使い、実際のブラウザーで作業をテストした。</li>
-<li>共有キャンバスでエージェントと共同作業した。</li>
 <li>github.com で自分でマージする方法から、<strong>Agent Merge</strong> に pull request のマージを任せる方法まで、段階的なマージ自動化を使って変更をリリースした。</li>
 </ul>
-<p>繰り返し発生する作業を自動化し、ベストプラクティスと今後の進め方を確認します。</p>
-<h2 is-upgraded>繰り返し発生する作業を自動化する</h2>
-<p>アプリでは、<strong>automations</strong> を使って、スケジュールまたはオンデマンドでエージェントを実行できます。新しい Issue のトリアージや最近のアクティビティの振り返りなど、定型的なタスクに適しています。シンプルで破壊的でない automation を作成します。</p>
-<ol type="1">
-<li>サイドバーで <strong>Automations</strong> を選択してから <strong>New automation</strong> を選択します。</li>
-<li><code>Recap my recent work</code> などの名前を付けます。</li>
-<li>トリガーを選択します。<strong>Manual</strong> はオンデマンドで実行し、<strong>On a schedule</strong> は自動的に実行し、<strong>When an issue is created</strong> は新しい Issue に反応します。このレッスンでは <strong>Manual</strong> を選択します。</li>
-<li>automation が何も変更しないように、次の例のような読み取り専用のプロンプトを入力します。<pre><code language="language-plaintext" class="language-plaintext">このリポジトリで直近 1 週間にマージされた pull request を要約し、バックログに残っている issue を一覧にしてください。
-</code></pre>
-</li>
-<li>プロジェクト (Tailspin Toys リポジトリ) を選択し、automation を作成します。</li>
-<li>オンデマンドで実行し、結果を確認します。</li>
-</ol>
-<aside class="special"><p> Automations はローカルまたはクラウドで実行できます。スケジュールに従って無人で実行する場合は、<strong>Run in the cloud</strong> を有効にし、automation に使用を許可する <strong>Tools</strong> を選択します。出力を信頼できるようになるまでは、スケジュールされた automations の範囲を限定し、破壊的でないものにしてください。</p>
-</aside>
+<p>ベストプラクティスと今後の進め方を確認します。</p>
 <h2 is-upgraded>ベストプラクティス</h2>
 <p>AI ツールを使用するときは、その周辺の基盤が出力の品質を左右します。このワークショップでは、指示ファイル、スキル、カスタムエージェントがそれぞれ役割を果たしました。これらに投資し、セッション間で再利用してください。</p>
 <p>タスクに合わせて<strong>モードとモデル</strong>を選択します。構築前にアプローチを検討するには <strong>Plan</strong>、対象を絞った変更で作業に関与し続けるには <strong>Interactive</strong>、範囲が明確で分離されたタスクに限って <strong>Autopilot</strong> を使用します。定型的な編集には高速なモデルを選び、複雑な作業には推論能力が高く、より多くの推論を行うモデルを選びます。</p>
@@ -819,8 +647,6 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 <li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
 <li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/getting-started" target="_blank">GitHub Copilot app の概要</a></li>
 <li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app のカスタマイズ</a></li>
-<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/using-automations" target="_blank">Automations の使用</a></li>
-<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">Canvas extensions の操作</a></li>
 <li><a href="https://docs.github.com/copilot/concepts/about-cloud-and-local-sandboxes" target="_blank">クラウドサンドボックスとローカルサンドボックスについて</a></li>
 </ul>
 

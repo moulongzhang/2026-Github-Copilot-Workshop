@@ -48,7 +48,7 @@ SOFTWARE.
 対象 / Applies to: v1.0.4 で使用するサンプルアプリのテンプレートリポジトリ
 (the sample application template used by v1.0.4)
 
-- https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA
+- https://github.com/moulongzhang/Tailspin-Toys-JA
 
 出典 / Source: https://github.com/github-samples/tailspin-toys
 （ドキュメント・指示ファイル・スキル・Issue を日本語化したもの。アプリケーションの
