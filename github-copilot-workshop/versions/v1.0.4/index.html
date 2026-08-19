@@ -1,0 +1,834 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GitHub Copilot app 入門ワークショップ</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="github-copilot-workshop"
+                  title="GitHub Copilot app 入門ワークショップ"
+                  environment="web"
+                  feedback-link="https://example.com/feedback">
+    
+      <google-codelab-step label="ワークショップについて" duration="5">
+        <p>GitHub Copilot app 入門ワークショップへようこそ！</p>
+<p><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank"><strong>GitHub Copilot app</strong></a> は Copilot CLI を基盤とするデスクトップアプリケーションで、エージェント主導の開発を単一の作業用ワークスペースで実現します。並列エージェントセッション、切り替え可能なセッションモード、共有キャンバス、GitHub Issue と pull request のネイティブ管理機能を備えています。さらに、リベース、レビューのフィードバック、CI の修正、マージまで pull request を導く <strong>Agent Merge</strong> も利用できます。</p>
+<p class="image-container"><img alt="GitHub Copilot Logo" src="../../img/dcd9c52ce37f5b19.png"></p>
+<h2 is-upgraded>本日のゴール</h2>
+<p>一連のレッスンでは、アプリをインストールしてプロジェクトを設定した後、アプリのワークスペースと、テンプレートによって用意されたバックログを確認します。まず、星評価を追加する小さな変更に取り組みます。次に、Issue に基づいてカスタム指示の標準を追加し、分離されたエージェントセッションでフィルター機能を構築して、再利用可能なスキルで検証します。Playwright MCP server を追加して実際のブラウザーで機能を確認した後、段階的にマージの自動化を進め、最後は <strong>Agent Merge</strong> で pull request をマージします。最後に、共有キャンバスで共同作業し、繰り返し発生する作業を自動化します。アイデアから機能のマージまで、開発の一連の流れを体験できます。</p>
+<h2 is-upgraded>レッスンの構成</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>レッスン</p>
+</td><td colspan="1" rowspan="1"><p>トピック</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>0. 前提条件</p>
+</td><td colspan="1" rowspan="1"><p>セットアップ</p>
+</td><td colspan="1" rowspan="1"><p>Node.js をインストールし、Tailspin Toys プロジェクトの自分用コピーを作成します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>1. Copilot app のインストール</p>
+</td><td colspan="1" rowspan="1"><p>セットアップ</p>
+</td><td colspan="1" rowspan="1"><p>アプリをインストールしてプロジェクトを接続し、ワークスペースを確認します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>2. 最初のエージェントセッションの実行</p>
+</td><td colspan="1" rowspan="1"><p>最初の変更</p>
+</td><td colspan="1" rowspan="1"><p>セッションを開始し、最初の pull request として小さな変更をリリースします</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>3. カスタム指示による Copilot のガイド</p>
+</td><td colspan="1" rowspan="1"><p>コンテキスト</p>
+</td><td colspan="1" rowspan="1"><p>Issue に基づいてドキュメント標準を追加し、マージします</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>4. Autopilot による機能の構築</p>
+</td><td colspan="1" rowspan="1"><p>コア機能</p>
+</td><td colspan="1" rowspan="1"><p>Plan と Autopilot を使ってフィルター機能を構築し、スキルで検証します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>5. Playwright MCP によるテスト</p>
+</td><td colspan="1" rowspan="1"><p>外部ツール</p>
+</td><td colspan="1" rowspan="1"><p>Playwright MCP server を追加し、ブラウザーで機能を確認します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>6. Agent Merge によるマージ</p>
+</td><td colspan="1" rowspan="1"><p>マージ</p>
+</td><td colspan="1" rowspan="1"><p>Agent Merge でフィルター機能の pull request を修正してマージします</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>7. キャンバスを使った計画</p>
+</td><td colspan="1" rowspan="1"><p>コラボレーション</p>
+</td><td colspan="1" rowspan="1"><p>共有キャンバスを作成し、作業の計画と追跡に使用します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>8. 振り返りと次のステップ</p>
+</td><td colspan="1" rowspan="1"><p>まとめ</p>
+</td><td colspan="1" rowspan="1"><p>繰り返し発生するタスクを自動化し、次に学ぶ内容を確認します</p>
+</td></tr>
+</table>
+<h2 is-upgraded>前提条件</h2>
+<p>このワークショップに参加する前に、次のものを用意してください。</p>
+<ul>
+<li>有効な <strong>Copilot Student、Pro、Pro+、Business、Enterprise</strong> のいずれかのプランが設定された GitHub アカウント</li>
+<li><strong>macOS、Linux、Windows</strong> のいずれかを実行するコンピューター</li>
+<li>コンピューターに<a href="https://github.com/git-guides/install-git" target="_blank">インストールされた Git</a></li>
+</ul>
+<aside class="special"><p> 有料プランを利用していない場合、認証済みの学生は <a href="https://github.com/education/students" target="_blank">GitHub Education</a> を通じて GitHub Copilot を無料で利用できます。<strong>Copilot Student</strong> プランには、このワークショップで使用するエージェント、MCP、コードレビュー、Copilot CLI の各機能が含まれているため、すべてのレッスンを完了できます。</p>
+</aside>
+<aside class="warning"><p> **Copilot app は codespace ではなく自分のコンピューターで実行します。**レッスン 0 では、アプリをインストールする前に Node.js をインストールし、プロジェクトの自分用コピーを作成します。また、Copilot Business または Copilot Enterprise を使用している場合、アプリを使用するには管理者が <strong>Copilot CLI</strong> ポリシーを有効にする必要があります。</p>
+</aside>
+<h2 is-upgraded>出典とライセンス</h2>
+<p>このワークショップは <a href="https://github.com/github-samples/copilot-workshops" target="_blank">github-samples/copilot-workshops</a> の <a href="https://github-samples.github.io/copilot-workshops/app/" target="_blank">GitHub Copilot app ワークショップ</a>（日本語版 <code>docs/ja-jp/app</code>）をベースに、Google Codelab 形式へ再構成したものです。</p>
+<p>原典は <strong>MIT License</strong> で公開されています。</p>
+<p>MIT License</p>
+<p>Copyright (c) 2023 GitHub</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &#34;Software&#34;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 0: 前提条件" duration="15">
+        <p>GitHub Copilot app は、Copilot と GitHub の両方を一元的に扱うデスクトップアプリです。Issue や pull request にすばやくアクセスでき、もちろん GitHub Copilot を使った開発も可能です。このワークショップでは、Astro で構築された Tailspin Toys アプリと GitHub Copilot app を使い、ローカル環境で作業します。始める前に、Node.js がローカルにインストールされていることを確認してから、Copilot app をインストールします。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>プロジェクトのテストを実行できるよう Node.js をインストールする。</li>
+<li>テンプレートから Tailspin Toys プロジェクトの自分用コピーを作成する。</li>
+</ul>
+<h2 is-upgraded>Node.js をインストールする</h2>
+<p>いくつかのレッスンでは、エージェントに機能を構築させ、Tailspin Toys のテストスイートをローカルで実行します。そのためには <a href="https://nodejs.org/" target="_blank"><strong>Node.js</strong></a> (プロジェクトに必要な唯一のランタイム) が必要です。バージョン <strong>22 以降</strong>をインストールしてください。現在の <strong>LTS</strong> リリースを選ぶと安心です。</p>
+<p>どのプラットフォームでも、公式インストーラーを使うのが最も簡単です。</p>
+<ol type="1">
+<li>Windows Terminal、macOS のターミナル、または普段使用しているターミナルを開きます。</li>
+<li>次のコマンドを実行し、Node.js 22 以降がインストールされていることを確認します。<pre><code language="language-shell" class="language-shell">node --version
+</code></pre>
+</li>
+<li><code>v22</code> 以上のバージョン番号が表示された場合は、次のセクションに進めます。</li>
+</ol>
+<aside class="special"><p> Node.js がインストールされていない場合、または更新が必要な場合にのみ、以降の手順を実行してください。</p>
+</aside>
+<ol type="1" start="4">
+<li><a href="https://nodejs.org/en/download" target="_blank">Node.js のダウンロードページ</a>を開きます。</li>
+<li>使用しているオペレーティングシステム向けの <strong>LTS</strong> ビルドをダウンロードします。</li>
+<li>インストーラーを実行し、既定の設定を選択します。Windows では、<strong>Add to PATH</strong> を選択したままにします。</li>
+<li>インストールが完了したら、新しいターミナルを開きます。</li>
+<li>新しいターミナルで次のコマンドを実行し、インストールを確認します。<pre><code language="language-bash" class="language-bash">node --version
+</code></pre>
+</li>
+<li><code>v22.x.x</code> 以上が表示されることを確認します。</li>
+</ol>
+<aside class="special"><p> コンテナーを使用する場合、<a href="https://www.docker.com/products/docker-desktop/" target="_blank"><strong>Docker</strong></a> があれば、Node.js をローカルにインストールする代わりにリポジトリの <a href="https://code.visualstudio.com/docs/devcontainers/containers" target="_blank">dev container</a> を使用できます。dev container には Node.js が含まれているため、両方を用意する必要はありません。</p>
+</aside>
+<h2 is-upgraded>ラボ用リポジトリを設定する</h2>
+<p>Tailspin Toys プロジェクトの自分用コピーを使って作業します。<a href="https://docs.github.com/repositories/creating-and-managing-repositories/creating-a-template-repository" target="_blank">テンプレートリポジトリ</a>からコピーを作成してください。新しいリポジトリにはラボに必要なすべてのファイルが含まれています。次のレッスンで、このリポジトリをアプリに接続します。</p>
+<ol type="1">
+<li>新しいブラウザーウィンドウで、このラボの GitHub リポジトリ <code>https://github.com/github-samples/tailspin-toys</code> を開きます。</li>
+<li>ラボ用リポジトリのページで <strong>Use this template</strong> ボタンを選択し、<strong>Create a new repository</strong> を選択して、リポジトリの自分用コピーを作成します。<img alt="Use this template ボタンのドロップダウンで Create a new repository が選択されている画面" src="../../img/ecca0a011f192ff.png"></li>
+<li>GitHub または Microsoft が主催するイベントの一環としてワークショップに参加している場合は、メンターの指示に従ってください。それ以外の場合は、GitHub Copilot を利用できる Organization に新しいリポジトリを作成できます。<img alt="github-samples/tailspin-toys がテンプレートに設定され、リポジトリ名が入力された Create a new repository フォーム" src="../../img/f0edc632bcac4f65.png"></li>
+<li>作成したリポジトリのパス (<strong>organization-or-user-name/repository-name</strong>) を記録します。このラボで後ほど使用します。</li>
+</ol>
+<aside class="special"><p> テンプレートからリポジトリを作成すると、GitHub Issue のバックログが自動的に作成されます。ワークショップ全体を通してこれらの Issue を使用するため、自分で作成する必要はありません。</p>
+</aside>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>準備が整いました。プロジェクトをコンピューター上でビルドしてテストできるように Node.js をインストールし、テンプレートから Tailspin Toys リポジトリの自分用コピーを作成しました。</p>
+<p>次は GitHub Copilot app をインストールし、作成したリポジトリを接続して、ワークスペースを確認します。レッスン 1「GitHub Copilot app のインストール」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://nodejs.org/en/download" target="_blank">Node.js のダウンロード</a></li>
+<li><a href="https://docs.github.com/repositories/creating-and-managing-repositories/creating-a-template-repository" target="_blank">テンプレートからのリポジトリの作成</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 1: GitHub Copilot app のインストール" duration="15">
+        <p><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank"><strong>GitHub Copilot app</strong></a> は、エージェント主導の開発に使用するデスクトップアプリケーションです。GitHub Copilot CLI を基盤とし、GitHub とネイティブに統合されているため、リポジトリ、ブランチ、CI パイプラインをすぐに利用できます。すべての作業を自分で行うのではなく、複数のエージェントをそれぞれ分離されたワークスペースで並列に指示し、繰り返し発生するタスクを自動化するワークフロー向けに設計されています。Node.js のインストールとプロジェクトのコピーが完了したので、次はアプリをインストールして、そのリポジトリを接続します。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>GitHub Copilot app をインストールしてサインインする。</li>
+<li>GitHub リポジトリからプロジェクトをアプリに追加する。</li>
+<li>テンプレートによって用意されたバックログを含め、ワークスペースを確認する。</li>
+<li>クイックチャットを試して、アプリ自体について学ぶ。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>チームは、増え続けるバックログに対応するために AI エージェントを導入しています。Copilot app では、Issue の選択、エージェントの実行、変更のレビュー、pull request のマージを一か所から指示できます。このレッスンでは、アプリをインストールして接続し、プロジェクトについての会話を始められるようにします。</p>
+<aside class="special"><p> 対象となる Copilot プランが必要です。Copilot Student またはいずれかの有料プラン (Pro、Pro+、Business、Enterprise) を利用してください。Copilot Business または Copilot Enterprise を使用している場合、アプリを動作させるには管理者が <strong>Copilot CLI</strong> ポリシーを有効にする必要があります。</p>
+</aside>
+<h2 is-upgraded>GitHub Copilot app をインストールして構成する</h2>
+<p>GitHub Copilot app を使用するには、まずアプリをインストールします。Windows、macOS、Linux 向けのバージョンが用意されています。アプリをインストールして認証し、Tailspin Toys リポジトリを追加します。</p>
+<ol type="1">
+<li>ブラウザーで <a href="https://gh.io/app" target="_blank">GitHub Copilot app のランディングページ</a>を開きます。</li>
+<li>使用しているプラットフォーム向けのアプリをダウンロードし、ランディングページの手順に従ってインストールします。</li>
+<li>インストールが完了したら、アプリを開きます。</li>
+<li><strong>Sign in to GitHub</strong> を選択し、画面の指示に従って認証します。GitHub Enterprise Server を使用している場合は <strong>Use GitHub Enterprise</strong> を選択し、求められたらサーバーアドレスを入力します。</li>
+<li>認証後、リポジトリを接続するよう求められます。先ほど作成した <code><YOUR_GITHUB_HANDLE>/tailspin-toys</code> という名前の Tailspin Toys リポジトリを選択します。</li>
+<li><strong>Continue</strong> を選択してオンボーディングを続けます。</li>
+<li>テーマの選択を求められたら、最も好みのものを選び、<strong>Finish</strong> を選択します。</li>
+</ol>
+<aside class="special"><p> Tailspin Toys のコピーが一覧に自動的に表示されなかった場合は、アプリのオンボーディングを完了した後に追加できます。完了すると、Copilot app のホーム画面が表示されます。そこで <strong>Choose from GitHub</strong> を選択し、リポジトリ名 (&lt;YOUR_GITHUB_HANDLE&gt;/tailspin-toys) で検索して選択します。これでリポジトリが Copilot app に追加されます。</p>
+</aside>
+<h2 is-upgraded>ワークスペースを確認する</h2>
+<p>プロジェクトを接続したら、各領域を確認します。アプリのサイドバーは、主に次の領域で構成されています。</p>
+<ul>
+<li><strong>Sessions</strong> - エージェントが作業する場所です。各セッションは分離された独自のワークスペースで実行されるため、変更が競合することなく複数のセッションを同時に実行できます。次のレッスンで最初のセッションを開始します。</li>
+<li><strong>Quick chats</strong> - 独自のブランチやワークスペースを必要としない、質問やブレインストーミング向けの簡易的な会話です。このレッスンの最後に試します。</li>
+<li><strong>My work</strong> - アプリの <strong>GitHub ネイティブ統合</strong>を通じて表示される Issue と pull request です。アプリを離れずに、Issue と pull request の参照や絞り込み、CI ステータスの確認、Issue からのセッション開始、pull request のレビューを行えます。</li>
+<li><strong>Automations</strong> - スケジュールまたはオンデマンドで実行する、保存済みのエージェントタスクです。ワークショップの終盤で作成します。</li>
+</ul>
+<h3 is-upgraded>用意されたバックログを確認する</h3>
+<p>アプリは GitHub とネイティブに統合されているため、リポジトリで待機中の作業がアプリ内に表示されます。テンプレートからリポジトリを作成したときに、バックログとなる Issue が用意されています。表示されていることを確認します。</p>
+<ol type="1">
+<li>サイドバーで <strong>My work</strong> を選択します。</li>
+<li>テンプレートはバックログに 8 件の Issue を用意しています。このワークショップでは次の 3 件に焦点を当てます。表示されていることを確認してください。<ul>
+<li>Allow users to filter games by category and publisher</li>
+<li>Update our repository coding standards</li>
+<li>Implement pagination on the game list page</li>
+</ul>
+</li>
+<li>Issue を選択して詳細を読みます。各 Issue はエージェントセッションの開始点にもなります。ワークショップの後半では、これらの Issue から作業を開始します。</li>
+</ol>
+<aside class="special"><p> My work の項目一覧は自動的に絞り込まれ、Copilot app に追加したリポジトリの項目だけが表示されます。ほかのリポジトリの作業項目を表示するには、そのリポジトリをアプリに追加してください。</p>
+</aside>
+<h2 is-upgraded>クイックチャットを試す</h2>
+<p>アプリに慣れるには、アプリ自体について質問するのが効果的です。その用途には <strong>quick chat</strong> が適しています。Quick chats ではブランチや worktree を作成せずに質問やブレインストーミングができるため、セッションを必要としない、その場限りの簡単な質問に最適です。</p>
+<ol type="1">
+<li>サイドバーで <strong>Quick chats</strong> の横にある <strong>+</strong> を選択し、新しいチャットを開きます。</li>
+<li>アプリのセッションがどのように動作するかを尋ねます。<pre><code language="language-plaintext" class="language-plaintext">How does the GitHub Copilot app use worktrees?
+</code></pre>
+</li>
+<li>会話ビューで回答を読みます。各セッションが分離された独自の git worktree で実行されるため、変更が競合することなく複数のエージェントを並列実行できることがわかります。会話はいつでも継続でき、新しいチャットも開始できます。</li>
+</ol>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>GitHub Copilot app をインストールし、プロジェクトを接続して、ワークスペースを確認しました。学習した内容は次のとおりです。</p>
+<ul>
+<li>アプリをインストールして GitHub にサインインする。</li>
+<li>GitHub リポジトリからプロジェクトを追加する。</li>
+<li>ワークスペースを確認し、<strong>My work</strong> で用意されたバックログを見つける。</li>
+<li>クイックチャットを使って、その場限りの簡単な質問をする。</li>
+</ul>
+<p>次は、最初のエージェントセッションを開始し、ゲームカードに星評価を表示する最初の変更をプロジェクトに加えます。レッスン 2「最初のエージェントセッションの実行」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/getting-started" target="_blank">GitHub Copilot app の概要</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/agent-sessions" target="_blank">GitHub Copilot app でのエージェントセッションの操作</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 2: 最初のエージェントセッションの実行" duration="20">
+        <p>前のレッスンでは、ワークスペースを確認し、クイックチャットを使いました。ここでは、<strong>エージェントセッション</strong>を開始し、プロジェクトに最初の変更を加えます。変更は小規模なものにします。ゲームのデータにはすでに星評価が含まれていますが、ホームページのゲームカードにはまだ表示されていません。エージェントに表示を依頼し、変更をレビューして、最初の pull request としてマージします。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>エージェントセッションを開始し、セッションの構成を理解する。</li>
+<li>プロジェクトに小規模で対象を絞った変更を加えるようエージェントに依頼する。</li>
+<li>ワークスペースの差分ビューで変更をレビューする。</li>
+<li>アプリをローカルで実行し、ブラウザーで変更を確認する。</li>
+<li>最初の pull request を作成してマージする。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>Tailspin Toys の各ゲームには星評価を設定でき、ゲーム詳細ページにはすでに表示されています。一方、ホームページのゲームカードには、タイトル、カテゴリー、パブリッシャー、説明だけが表示されています。最初のセッションの準備運動として、各カードに既存の評価を表示するようエージェントに依頼します。小規模で自己完結した、最初のセッションに最適な変更です。</p>
+<h2 is-upgraded>セッションの構造</h2>
+<p><strong>セッション</strong>とは、分離された独自のワークスペースで実行されるエージェントとの会話です。すべてのセッションに<strong>専用の git worktree とブランチ</strong>が割り当てられます。そのため、一方では機能を追加し、もう一方ではバグを修正するなど、変更を競合させずに複数のセッションを同時に実行できます。セッションはリポジトリごとにグループ化されてサイドバーに表示され、選択すると切り替えられます。</p>
+<p>セッション内には、エージェントとの<strong>会話</strong>、ファイルを調査および編集するときのエージェントの<strong>ツールアクティビティ</strong>、差分付きの<strong>変更済みファイル</strong>一覧という3つの要素が表示されます。</p>
+<h2 is-upgraded>セッションを開始して変更を依頼する</h2>
+<p>新しいセッションを開始し、プロジェクトの調査と機能の実装に取りかかります。前のレッスンでは、GitHub リポジトリからプロジェクトを追加しました。そのリポジトリ用の新しいセッションを作成し、変更を依頼します。</p>
+<ol type="1">
+<li>GitHub Copilot app に戻ります。アプリを閉じている場合は開きます。</li>
+<li><strong>Home screen</strong> を選択します。</li>
+<li>リポジトリに <code>tailspin-toys</code> が選択されていることを確認します。<img alt="リポジトリセレクターに tailspin-toys が設定され、プロンプトの下にモデルセレクターが表示された GitHub Copilot app のプロンプトボックス" src="../../img/d86e3c7f621c7cb1.png"></li>
+<li>次のプロンプトを使って変更を依頼します。<pre><code language="language-plaintext" class="language-plaintext">On the game cards, show each game&#39;s star rating. The Game type already includes a starRating field — it&#39;s a number out of 5, or null when a game hasn&#39;t been rated yet. Display it on each card in src/components/GameCard.astro, and when starRating is null show &#34;No rating yet&#34; instead. Keep the change small and don&#39;t restructure the card layout.
+</code></pre>
+</li>
+</ol>
+<aside class="special"><p> プロンプトに、Copilot が更新するファイル名が含まれていることに注目してください。Copilot が作業に含めるファイルを指定する必要はありませんが、方向性を示すことで、コードをすばやく生成し、トークン使用量を削減できます。</p>
+</aside>
+<ol type="1" start="5">
+<li>Enter を選択して、プロンプトを Copilot に送信します。</li>
+</ol>
+<p>Copilot app は、最初にプロジェクトの分離されたコピーである新しい worktree を作成して作業を開始します。次にプロジェクトを調査し、新機能の追加に必要な更新対象ファイルを見つけて、必要なコードを作成します。これで Copilot app を使って新機能を追加できました。</p>
+<h2 is-upgraded>差分をレビューする</h2>
+<p>AI が生成したすべての変更は、どれほど小さくてもマージ前にレビューする必要があります。Copilot app 内で変更を確認します。</p>
+<ol type="1">
+<li>アプリの右上隅にある <strong>Toggle review panel</strong> を選択します。Copilot が行った未処理の変更がすべて表示される差分画面が開きます。<img alt="Create PR の右側にある Toggle review panel ボタンを矢印で示した GitHub Copilot app の上部ツールバー" src="../../img/4e2069d30fd03e01.png"></li>
+<li>ゲームの詳細表示に使用される中心的なファイル <code>GameCard.astro</code> にコードが追加されていることを確認します。次のような小さなブロックが追加されているはずです。評価がある場合は表示し、<code>starRating</code> が <code>null</code> の場合は &#34;No rating yet&#34; を表示します。<pre><code language="language-astro" class="language-astro">{game.starRating !== null ? (
+    &lt;span class=&#34;text-xs font-medium px-2.5 py-0.5 rounded bg-amber-900/60 text-amber-300&#34; data-testid=&#34;game-rating&#34;&gt;
+        ★ {game.starRating} / 5
+    &lt;/span&gt;
+) : (
+    &lt;span class=&#34;text-xs font-medium text-slate-500&#34; data-testid=&#34;game-rating-empty&#34;&gt;
+        No rating yet
+    &lt;/span&gt;
+)}
+</code></pre>
+</li>
+</ol>
+<aside class="special"><p> Copilot は、すべての生成 AI ツールと同様に決定論的ではなく確率的に動作するため、実際のコードは上記と異なる場合があります。ただし、比較的よく似たものになります。</p>
+</aside>
+<h2 is-upgraded>変更を確認する</h2>
+<p>コードを読むだけで動作すると判断せず、視覚的にもテストします。そのためには、ターミナルからアプリを起動して、すべてが動作することを確認する必要があります。Copilot app にはターミナルが組み込まれています。</p>
+<ol type="1">
+<li>Copilot app の右側にあるレビューパネルで <strong>Terminal</strong> を選択します。<strong>Terminal</strong> ボタンがない場合は、<strong>+</strong> (<strong>Open in panel</strong> というラベルが付いています) を選択してから <strong>Terminal</strong> を選択します。<img alt="GitHub Copilot app のレビューパネルにある Terminal ボタン" src="../../img/753c7bba2426fa3a.png"></li>
+<li>ターミナルウィンドウに次のコマンドを入力し、Web アプリの開発サーバーを起動します。<pre><code language="language-shell" class="language-shell">npm run dev
+</code></pre>
+</li>
+<li>サーバーが起動したら、ブラウザーウィンドウを開きます。起動には少し時間がかかります。</li>
+<li>http://localhost:4321 に移動します。</li>
+<li>ランディングページのすべてのゲームに星評価が表示されていることを確認します。</li>
+<li>ターミナルウィンドウに戻ります。</li>
+<li>Ctrl+C を選択して開発サーバーを停止します。</li>
+</ol>
+<h2 is-upgraded>最初の pull request を作成してマージする</h2>
+<p>変更に問題がないことを確認できたので、リリースします。エージェントに pull request の作成を依頼し、github.com で自分でレビューしてマージします。今回は手動で管理します。後のレッスンでは、Copilot でこの作業の一部を自動的に処理する方法を確認します。</p>
+<ol type="1">
+<li>右上隅にある <strong>Create PR</strong> を選択します。</li>
+<li>求められた場合は <strong>Sign in with your browser</strong> を選択し、画面の指示に従って認証します。</li>
+<li>Copilot が PR の作成を開始します。</li>
+</ol>
+<p>PR が作成されると、Copilot はリポジトリで実行する必要があるワークフローを監視します。しばらくすると、右上のボタンが <strong>Ready to merge</strong> に変わります。これは PR をマージする準備が整ったことを示します。</p>
+<ol type="1" start="4">
+<li>チャットのすぐ上にある <strong>PR</strong> バブルを選択し、レビューペインで PR を開いて pull request を確認します。必要に応じて、ここで PR をレビューできます。</li>
+<li>準備ができたら <strong>Ready to merge</strong> を選択します。</li>
+<li>新しいダイアログウィンドウで <strong>Merge pull request</strong> を選択し、pull request をマージします。</li>
+</ol>
+<p>これで Web サイトに新機能を反映できました。</p>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>最初のエージェントセッションを開始し、最初の変更をリリースしました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>エージェントセッションを開始し、セッションの構成を学習した。</li>
+<li>ゲームカードに小規模で対象を絞った変更を加えるようエージェントに指示した。</li>
+<li>ワークスペースの差分ビューで変更をレビューした。</li>
+<li>アプリをローカルで実行し、ブラウザーで星評価を確認した。</li>
+<li>pull request を作成し、github.com で自分でマージした。</li>
+</ul>
+<p>次は、アプリを使ってリポジトリにカスタム指示の標準を追加します。バックログ内の Issue の1つから作業を開始します。レッスン 3「カスタム指示による Copilot のガイド」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/agent-sessions" target="_blank">GitHub Copilot app でのエージェントセッションの操作</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests" target="_blank">GitHub Copilot app での Issue と pull request の管理</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 3: カスタム指示による Copilot のガイド" duration="20">
+        <p>生成 AI を扱うとき、コンテキストは重要です。タスクを特定の方法で実行する必要がある場合や、Copilot が把握しておくべき背景情報がある場合は、そのコンテキストを利用できるようにします。特に強力なツールの1つが<a href="https://docs.github.com/copilot/customizing-copilot/about-customizing-github-copilot-chat-responses" target="_blank">指示ファイル</a>です。指示ファイルには、必要なコードの内容だけでなく、その構成方法も記述します。このレッスンでは、リポジトリにドキュメント標準を追加します。ここから先の多くの作業と同様に、バックログの Issue から開始し、エージェントに変更を行わせます。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>リポジトリ指示とパス固有の指示ファイルがエージェントにどのように渡されるかを確認する。</li>
+<li>バックログ内の指示に関する Issue からセッションを開始する。</li>
+<li><code>.github/copilot-instructions.md</code> にドキュメント標準を追加するようエージェントに依頼する。</li>
+<li>変更をレビューし、pull request としてマージする。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>優れた開発組織と同様に、Tailspin Toys にも開発プラクティスのガイドラインと要件があります。内容は次のとおりです。</p>
+<ul>
+<li>TSDoc doc comment の形式でコードにドキュメントを追加する。</li>
+<li>フォーマット方法を文書化し、lint によって適用する。</li>
+</ul>
+<p>指示ファイルを使用すると、示されたプラクティスに沿ってタスクを実行するために必要な情報を Copilot に提供できます。</p>
+<h2 is-upgraded>指示ファイル</h2>
+<p>カスタム指示を使うと、Copilot にコンテキストと設定を提供でき、コーディングスタイルや要件をより正確に理解させることができます。Copilot をガイドし、より関連性の高い提案やコードスニペットを得るための強力な機能です。希望するコーディング規約、ライブラリ、コードに含めるコメントの種類まで指定できます。リポジトリ全体に適用する指示や、タスクレベルのコンテキストとして特定のファイル種類に適用する指示を作成できます。</p>
+<p>指示ファイルには2つの種類があります。</p>
+<ul>
+<li><code>.github/copilot-instructions.md</code> は、リポジトリに対する<strong>すべての</strong>リクエストで Copilot に送信される単一の指示ファイルです。このファイルには、Copilot に送信するほとんどのチャットまたは CLI リクエストに関係する、プロジェクトレベルの情報を記載します。使用する技術スタック、構築するものの概要、ベストプラクティスなど、全体に適用するガイダンスを含められます。</li>
+<li><code>.github/instructions/*.instructions.md</code> ファイルは、特定のタスクやファイル種類向けに作成できます。特定の言語 (TypeScript や Astro など) や、UI コンポーネントまたは新しい単体テスト一式の作成といったタスクに関するガイドラインを提供できます。</li>
+</ul>
+<aside class="special"><p> Copilot は AGENTS.md、CLAUDE.md、GEMINI.md を通じて指示のガイダンスを取り込むほかの標準もサポートしており、常に適切なコンテキストを提供できます。</p>
+</aside>
+<h3 is-upgraded>指示ファイルを管理するためのベストプラクティス</h3>
+<p>指示ファイルの作成方法を詳しく説明することは、このワークショップの範囲外です。ただし、サンプルプロジェクトに含まれる例は、代表的なアプローチを示しています。概要は次のとおりです。</p>
+<ul>
+<li><code>copilot-instructions.md</code> の指示は、構築するものの説明、プロジェクトの構造、全体的なコーディング標準など、プロジェクトレベルのガイダンスに絞ります。</li>
+<li><code>*.instructions.md</code> ファイルは、ファイル種類 (単体テスト、Astro コンポーネント、データレイヤー) または特定のタスクに固有の指示を提供するために使用します。</li>
+<li>自然言語を使います。ガイダンスは明確にし、コードの適切な例と不適切な例を提示します。</li>
+</ul>
+<p>AI の使い方に唯一の方法がないのと同様に、指示ファイルの作成方法にも唯一の正解はありません。プロジェクトに最適な方法は、試行を重ねることで見つけられます。</p>
+<aside class="special"><p> GitHub Copilot を使用するすべてのプロジェクトには、充実した指示ファイル一式を用意することをお勧めします。このプロジェクトのファイルを確認すると、多くのコードファイル種類に対応する指示ファイルがあることがわかります。</p>
+<p>テンプレートや出発点が必要な場合は、指示ファイル、カスタムエージェントなどのリソースが揃ったリポジトリ <a href="https://awesome-copilot.github.com/" target="_blank">awesome-copilot</a> を確認してください。</p>
+</aside>
+<h2 is-upgraded>このプロジェクトのカスタム指示ファイルを確認する</h2>
+<p>このリポジトリに含まれる指示ファイルを確認します。中心となる <code>copilot-instructions.md</code> が1つと、さまざまなタスクに対応する <code>*.instructions.md</code> ファイル一式があります。エディターまたは GitHub Web UI で開いてください。</p>
+<ol type="1">
+<li>レビューパネルが表示されていない場合は、右上の <strong>Toggle review panel</strong> を選択して開きます。<img alt="Create PR の右側にある Toggle review panel ボタンを矢印で示した GitHub Copilot app の上部ツールバー" src="../../img/4e2069d30fd03e01.png"></li>
+<li><strong>+</strong> を選択し、レビューパネルに新しい項目を追加します。</li>
+<li><strong>File</strong> を選択します。</li>
+<li><code>copilot-instructions.md</code> を検索します。</li>
+<li>ファイル一覧から <code>copilot-instructions.md</code> を選択して開きます。</li>
+<li>ファイルを確認します。プロジェクトの簡単な説明に加えて、<strong>Agent notes</strong>、<strong>Code standards</strong>、<strong>Scripts</strong>、<strong>Repository Structure</strong> などのセクションがあります。<strong>Code standards</strong> の下には、ネストされた <strong>GitHub Actions Workflows</strong> のガイダンスがあります。これらは Copilot とのすべてのやり取りに適用されます。</li>
+<li><strong>Show folder view</strong> を選択して、フォルダーナビゲーターを開きます。<img alt="GitHub Copilot app でファイルを開いたレビューパネルにある Show folder view ボタン" src="../../img/ed0829adf1e9cf97.png"></li>
+<li><code>.github/instructions</code> フォルダーに移動し、ファイルを確認します。Astro ファイル、Drizzle データレイヤー、テストなどに対応する指示があります。</li>
+<li><code>.github/instructions/unit-tests.instructions.md</code> を開きます。先頭の <code>applyTo</code> フィールドに注目してください。これはリポジトリのルートを基準とする glob で、指示を適用するファイルを決定します。ここでは、TypeScript のテストファイル (<code>**/*.test.ts</code> に一致するファイルなど) が対象になります。</li>
+<li>このプロジェクトで単体テストを作成するための固有の指示を確認します。</li>
+<li>最後に <code>.github/instructions/drizzle.instructions.md</code> を開き、末尾まで移動します。ほかの指示ファイル (<code>unit-tests.instructions.md</code> など) と、プロジェクト内の既存ファイルへのリンクに注目してください。これにより、大きな指示セットを小さく再利用可能なファイルに分割し、コード生成時に参照する例を Copilot に提示できます。そこに記載されたパスは、リポジトリのルートではなく指示ファイルを基準とします。</li>
+</ol>
+<aside class="special"><p><code>copilot-instructions.md</code> の <strong>Code formatting requirements</strong> セクションにはプロジェクトのコーディング標準が記載されていますが、コード内のドキュメントはまだ必須ではありません。次の手順で、TSDoc doc comment とファイルコメントヘッダーの規則を追加します。</p>
+</aside>
+<h2 is-upgraded>指示に関する Issue から開始する</h2>
+<p>前のレッスンでは、直接入力したプロンプトからセッションを開始しました。しかし、多くの作業は Issue から始まります。指示ファイルを更新するために登録された Issue に基づいて新しいセッションを作成し、更新を依頼します。</p>
+<aside class="special"><p> 指示ファイルは Copilot が生成するコードに大きな影響を与えるため、Copilot を明確にガイドする内容になっていることを慎重に確認してください。このレッスンのように、Copilot で最初のバージョンを作成した後、自分でレビューして更新内容が要件を満たすことを確認する方法が効果的です。</p>
+</aside>
+<ol type="1">
+<li>サイドバーで <strong>My work</strong> を選択します。</li>
+<li><strong>Update our repository coding standards</strong> というタイトルの Issue を選択して開きます。</li>
+<li>右上の <strong>New session</strong> を選択し、Issue に基づく新しいセッションを開始します。<img alt="GitHub Copilot app の Issue ビューで、右上の New session ボタンを矢印で示した画面" src="../../img/9087c3e775c3545.png"></li>
+<li>次のプロンプトを使い、Issue に記載された要件を満たすように指示ファイルを更新することを Copilot に依頼します。</li>
+</ol>
+<pre><code language="language-plaintext" class="language-plaintext">Following this issue, make the updates to the instructions files in this project to meet the requirements documented. Don&#39;t create the PR quite yet!
+</code></pre>
+<p>Copilot が更新を行います。</p>
+<h2 is-upgraded>変更をレビューする</h2>
+<p>Copilot が行った更新を読み、更新された指示に基づいて生成するコード例も提示させます。</p>
+<ol type="1">
+<li>右上の <strong>Changes</strong> を選択してコードの変更を開きます。<img alt="GitHub Copilot app のセッションパネルにあるタブで、Changes タブを矢印で示した画面" src="../../img/f0cbc60cc9f7a9c7.png"></li>
+<li>更新された指示ファイルをレビューします。コードにドキュメントとコメントを追加するためのガイドラインが含まれていることを確認します。</li>
+</ol>
+<aside class="special"><p> AI は決定論的ではなく確率的に動作するため、実際のテキストは異なります。</p>
+</aside>
+<ol type="1" start="3">
+<li>次のプロンプトを使い、Copilot が今後生成するコード例を作成するよう依頼します。</li>
+</ol>
+<pre><code language="language-plaintext" class="language-plaintext">Do not make any updates, but show me what the code would look like. Based on the new instructions, if I asked Copilot to create a new library component to return all Publishers what would that code look like?
+</code></pre>
+<ol type="1" start="4">
+<li>Copilot が提案するコードをレビューします。更新された指示で求めたとおり、TSDoc doc comment とファイルヘッダーコメントが含まれていることを確認します。</li>
+</ol>
+<p>これでプロジェクトの指示ファイルを更新し、その効果を確認できました。</p>
+<h2 is-upgraded>pull request を作成してマージする</h2>
+<p>指示ファイルはリポジトリのアセットとなり、チームのほかのメンバーと共有されます。ほかのアセットと同様に、作業内容を含む PR を作成します。</p>
+<ol type="1">
+<li>右上隅にある <strong>Create PR</strong> を選択します。</li>
+<li>求められた場合は <strong>Sign in with your browser</strong> を選択し、画面の指示に従って認証します。</li>
+<li>Copilot が PR の作成を開始します。</li>
+</ol>
+<p>PR が作成されると、Copilot はリポジトリで実行する必要があるワークフローを監視します。しばらくすると、右上のボタンが <strong>Ready to merge</strong> に変わります。これは PR をマージする準備が整ったことを示します。</p>
+<ol type="1" start="4">
+<li><strong>Ready to merge</strong> を選択します。</li>
+<li>新しいダイアログウィンドウで <strong>Merge pull request</strong> を選択し、pull request をマージします。</li>
+</ol>
+<aside class="special"><p> 標準がデフォルトブランチにマージされると、すべてのメンバーと新しいセッションでプロジェクトの一部として利用できます。次のレッスンで最新のデフォルトブランチからフィルター機能のセッションを開始すると、エージェントは自動的にこの標準に従います。生成された TypeScript に、依頼していなくても TSDoc doc comment が含まれます。指示が生成コードを形作ることを示す、小さいながらも実際的な例です。</p>
+</aside>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>アプリが指示ファイルからコンテキストを取得する仕組みを確認し、セッションを使ってリポジトリ全体の標準を追加してマージしました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>リポジトリの <code>copilot-instructions.md</code> とパス固有の <code>*.instructions.md</code> ファイルを確認した。</li>
+<li>バックログ内の指示に関する Issue からセッションを開始した。</li>
+<li><code>.github/copilot-instructions.md</code> にドキュメント標準を追加するようエージェントに依頼した。</li>
+<li>変更をレビューし、pull request としてマージした。</li>
+</ul>
+<p>次は、新しいセッションでフィルター機能を構築し、先ほどマージした標準が適用される様子を確認します。レッスン 4「Autopilot による機能の構築」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/customizing-copilot/about-customizing-github-copilot-chat-responses" target="_blank">GitHub Copilot をカスタマイズするための指示ファイル</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app のカスタマイズ</a></li>
+<li><a href="https://docs.github.com/enterprise-cloud@latest/copilot/using-github-copilot/coding-agent/best-practices-for-using-copilot-to-work-on-tasks#adding-custom-instructions-to-your-repository" target="_blank">カスタム指示を作成するためのベストプラクティス</a></li>
+<li><a href="https://awesome-copilot.github.com/" target="_blank">Awesome Copilot - 指示ファイルなどのリソース集</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 4: Autopilot による機能の構築" duration="30">
+        <p>ここまで、プロジェクトに小さな更新をいくつか加えました。しかし、より本格的な変更には、よりしっかりしたプロセスが必要です。GitHub Copilot app は既存のフローと連携できるように設計されており、適切なものを適切な方法で構築できます。このレッスンから3回にわたり、一般的な開発プロセスに従います。まず Issue を使って新機能を生成し、エージェントスキルで検証テストと linter を実行します。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>フィルター機能に関する Issue から新しいセッションを開始する。</li>
+<li><strong>Plan</strong> モードで機能を計画し、<strong>Autopilot</strong> で構築する。</li>
+<li>生成されたコードが、以前マージしたドキュメント標準に従っていることを確認する。</li>
+<li>プロジェクトの <code>quality-checks</code> スキルで作業を検証する。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>ホームページにはすべてのゲームが一覧表示されますが、訪問者は一覧を絞り込めません。フィルター機能に関する Issue では、<strong>カテゴリー</strong>と<strong>パブリッシャー</strong>でゲームを絞り込めるようにすることが求められています。Copilot を使ってこの機能を実装します。</p>
+<h2 is-upgraded>背景</h2>
+<p>AI コーディングエージェントを開発フローに導入しても、基本は変わりません。むしろ、基本はさらに重要になります。多くの開発者は、次のようなフローに従います。</p>
+<ol type="1">
+<li>必要な作業の詳細が記載された Issue を開く。</li>
+<li>構築する内容の計画を作成する。</li>
+<li>コードを構築してレビューする。</li>
+<li>テストを実行してコードを検証する。</li>
+<li>新機能を手動で検証する。</li>
+<li>pull request (PR) を作成する。</li>
+<li>コードのレビューと継続的インテグレーションプロセスが成功したら、コードをマージする。</li>
+</ol>
+<aside class="special"><p> 正確な手順はチームや Organization によって異なりますが、多くの場合は上記の流れを変形したものです。</p>
+</aside>
+<p>この標準的なアプローチを守ることで、AI が生成したコードが定められた要件を満たし、人間が作成したコードと同じ審査プロセスを通るようにできます。</p>
+<h2 is-upgraded>セッションモード</h2>
+<p><strong>セッションモード</strong>は、エージェントの自律性を制御します。プロンプトフィールド下のドロップダウンから設定し、いつでも変更できます。</p>
+<ul>
+<li><strong>Interactive</strong>: ユーザーとエージェントが共同で作業します。エージェントは変更を提案し、続行前に入力を待ちます。</li>
+<li><strong>Plan</strong>: エージェントが最初に計画を作成します。計画実行前に内容をレビューして承認します。</li>
+<li><strong>Autopilot</strong>: エージェントが完全に自律して作業し、入力を待たずにコードの作成、テストの実行、反復を行います。</li>
+</ul>
+<h2 is-upgraded>フィルター機能を計画する</h2>
+<p>潜在的な問題を見つける最適なタイミングは、コードを作成する前です。そのためには、事前に少し計画を立てるのが効果的です。Copilot と計画を立てると、一連の手順と採用するアプローチが生成されます。その計画をレビューし、改善案があれば提案してから、計画に基づいて Copilot にコードを生成させることができます。</p>
+<p>Issue を開いて新しいセッションを開始し、Plan モードに切り替えて計画を作成します。</p>
+<ol type="1">
+<li>ナビゲーションタブから <strong>My work</strong> を選択します。</li>
+<li><strong>Allow users to filter games by category and publisher</strong> というタイトルの Issue を選択します。</li>
+<li>右上の <strong>New session</strong> を選択します。<img alt="GitHub Copilot app の Issue ビューで、右上の New session ボタンを矢印で示した画面" src="../../img/9087c3e775c3545.png"></li>
+<li>モードに <strong>Plan</strong> と表示されるまで Shift+Tab を選択します。<img alt="モードセレクターが Plan に設定され、矢印で示された GitHub Copilot app のプロンプトボックス" src="../../img/358436733c2ed5a5.png"></li>
+<li>次のプロンプトを送信します。Issue から開始したため、フィルター機能の Issue はすでにこのセッションのコンテキストに含まれています。<pre><code language="language-plaintext" class="language-plaintext">Plan the work based on the requirements documented in the issue. Please ask any clarifying questions you might have as you build the plan.
+</code></pre>
+</li>
+<li>計画の作成中に、エージェントから追加の質問が提示される場合があります。自分で機能を構築するときの方針に基づいて回答します。</li>
+</ol>
+<aside class="special"><p> Copilot は確率的に動作するため、追加で尋ねられる質問は異なります。質問がまったくない場合もありますが、問題ありません。</p>
+</aside>
+<ol type="1" start="7">
+<li>完了すると、Copilot が計画の概要を提示します。計画をレビューしてください。クエリの構築、フィルターコントロールの追加、テストの作成が提案されているはずです。必要に応じてフィードバックを返して改善できます。エージェントは提案を新しいバージョンに反映します。</li>
+</ol>
+<h2 is-upgraded>Autopilot で構築する</h2>
+<p>計画が完成したので、Copilot に実装を構築させます。</p>
+<ol type="1">
+<li><strong>Plan summary</strong> ダイアログのオプション一覧で、<strong>Approve and implement with autopilot</strong> に最も近いオプションを選択します。</li>
+</ol>
+<p>Copilot が実装作業を開始します。</p>
+<aside class="special"><p> Copilot が必要なコードの作成を自動的に開始しない場合は、&#34;Go ahead and start building out the plan!&#34; のようなプロンプトを使って開始を依頼できます。</p>
+<p>必要な更新の作成には数分かかります。エージェントはファイルを編集および作成し、テストを作成して実行し、反復します。この時間に、ここまで学習した内容を振り返ったり、飲み物を用意したりできます。</p>
+</aside>
+<h2 is-upgraded>変更をレビューする</h2>
+<p>AI が生成したすべてのコードは、マージ前にレビューする必要があります。コードをレビューし、サイトを実行して問題がないことを確認します。</p>
+<ol type="1">
+<li>右上の <strong>Changes</strong> を選択してコードの変更を開きます。<img alt="GitHub Copilot app のセッションパネルにあるタブで、Changes タブを矢印で示した画面" src="../../img/f0cbc60cc9f7a9c7.png"></li>
+<li>変更をレビューします。新しい TypeScript ファイル、Astro ファイル、テストファイルが表示されます。新しいヘルパー関数には、レッスン3でマージしたドキュメント標準に従い、依頼していなくても TSDoc doc comment とファイルヘッダーコメントが含まれていることを確認します。</li>
+<li>Copilot app の右側にあるレビューパネルで <strong>Terminal</strong> を選択します。<strong>Terminal</strong> ボタンがない場合は、<strong>+</strong> (<strong>Open in panel</strong> というラベルが付いています) を選択してから <strong>Terminal</strong> を選択します。<img alt="GitHub Copilot app のレビューパネルにある Terminal ボタン" src="../../img/753c7bba2426fa3a.png"></li>
+<li>ターミナルウィンドウに次のコマンドを入力し、Web アプリの開発サーバーを起動します。<pre><code language="language-shell" class="language-shell">npm run dev
+</code></pre>
+</li>
+<li>サーバーが起動したら、ブラウザーウィンドウを開きます。起動には少し時間がかかります。</li>
+<li>http://localhost:4321 に移動します。</li>
+<li>ランディングページでフィルターを使用できることを確認します。</li>
+<li>問題がある場合は、Copilot に更新を依頼できます。</li>
+<li>問題がなければ、ターミナルウィンドウに戻ります。</li>
+<li>Ctrl+C を選択して開発サーバーを停止します。</li>
+</ol>
+<h2 is-upgraded>quality-checks スキルで作業を検証する</h2>
+<p>差分を目視で確認するだけで完了とすることもできますが、このチームには明確な品質基準と、それを繰り返し確認する方法があります。</p>
+<p><strong>エージェントスキル</strong>を使うと、テストの実行、ビルドの生成、pull request の作成など、繰り返し発生するタスクの実行方法を Copilot に指示できます。スキルは、エージェントが必要に応じて読み込める指示、スクリプト、リソースのフォルダーです。<a href="https://github.com/agentskills/agentskills" target="_blank">Agent Skills はオープン標準</a>であり、さまざまなエージェントで使用されています。そのため、同じスキルをエージェントモードの Copilot Chat、Copilot cloud agent、Copilot CLI、GitHub Copilot app で使用できます。</p>
+<p>スキルはプロジェクトの <code>.github/skills</code> フォルダー、またはグローバルの <code>~/.copilot/skills</code> に配置します。各スキルは、YAML frontmatter (<code>name</code> と <code>description</code>) と、それに続く Markdown の指示が記載された <code>SKILL.md</code> ファイルを含むフォルダーです。</p>
+<pre><code language="language-yaml" class="language-yaml">---
+name: quality-checks
+description: Run the project&#39;s test suites and linter to verify code changes are ready to commit, push, or merge.
+---
+</code></pre>
+<p>スキルには、スクリプト、アセット、参考資料を含むサブフォルダーも追加できます。完全な構造については、<a href="https://agentskills.io/specification" target="_blank">エージェントスキルの仕様</a>を参照してください。</p>
+<aside class="special"><p> スキルは動的に読み込まれます。エージェントは <code>description</code> フィールドに基づいて適用するスキルを判断します。明確でシナリオに合った説明を記述することが、スキルが使用されるか無視されるかを左右します。</p>
+</aside>
+<h2 is-upgraded>quality-checks スキルを確認する</h2>
+<p>スキルの内容を確認します。</p>
+<ol type="1">
+<li>レビューパネルが表示されていない場合は、右上の <strong>Toggle review panel</strong> を選択して開きます。<img alt="Create PR の右側にある Toggle review panel ボタンを矢印で示した GitHub Copilot app の上部ツールバー" src="../../img/4e2069d30fd03e01.png"></li>
+<li><strong>+</strong> を選択し、レビューパネルに新しい項目を追加します。</li>
+<li><strong>File</strong> を選択します。</li>
+<li><code>SKILL.md</code> を検索します。</li>
+<li>ファイル一覧から <code>SKILL.md .github/skills/quality-checks</code> を選択して開きます。</li>
+<li><code>name</code> と <code>description</code> を確認します。説明は、コード変更を commit、push、merge する前にテスト、lint、検証する必要がある場合に、このスキルを使用することをエージェントに伝えます。</li>
+<li>スキル全体を読みます。単体テスト、Playwright のエンドツーエンドテスト、ESLint の各スイートを実行するスクリプト、実行順序、一般的な失敗のデバッグ方法が記載されています。そのため、エージェントは推測するのではなく、チームの方法でチェックを実行できます。</li>
+</ol>
+<h2 is-upgraded>チェックを実行する</h2>
+<p>同じフィルター機能のセッションで、エージェントに作業の検証を依頼します。スキル名を説明する必要はありません。エージェントがリクエストに一致するスキルを見つけます。</p>
+<ol type="1">
+<li>Copilot app に戻ります。</li>
+<li>スラッシュコマンド <code>/quality-checks</code> を使ってスキルを直接呼び出し、Enter を選択します。</li>
+<li>エージェントはスキルに従って単体テスト、linter、エンドツーエンドテストを実行し、結果を報告します。失敗したものがあれば、問題を修正して、すべて成功するまでチェックを再実行するよう依頼します。</li>
+<li><strong>このセッションを開いたままにします。</strong> 次のレッスンでは Playwright MCP server を追加し、実際のブラウザーでフィルター機能が動作することを確認します。</li>
+</ol>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>実際の機能をエンドツーエンドで構築し、チームの基準に照らして検証しました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>最新のプロジェクトで、フィルター機能に関する Issue から新しいセッションを開始した。</li>
+<li>Plan モードで機能を計画し、Autopilot で構築した。</li>
+<li>生成されたヘルパーが、レッスン3でマージしたドキュメント標準に従っていることを確認した。</li>
+<li><code>quality-checks</code> スキルで作業を検証した。</li>
+</ul>
+<p>次は Playwright MCP server を接続し、実際のブラウザーでフィルター機能を確認するようエージェントに依頼します。レッスン 5「Playwright MCP server によるテスト」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/agent-sessions" target="_blank">GitHub Copilot app でのエージェントセッションの操作</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/agents/about-agent-skills" target="_blank">Agent Skills について</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app のカスタマイズ</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/about-cloud-and-local-sandboxes" target="_blank">GitHub Copilot のクラウドサンドボックスとローカルサンドボックスについて</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 5: Playwright MCP によるテスト" duration="15">
+        <p>前のレッスンでは、プロジェクトの自動テストスイートを使ってフィルター機能を作成し、検証しました。テストによってコードの検証を自動化できますが、エージェント自身が動作を確認できるようにすることも効果的です。実際に作成している UI で問題を見つけた場合に、エージェントが対応できるようになります。MCP を使って AI エージェントに外部機能へのアクセスを提供する方法を確認し、Copilot が構築中のサイトを直接操作できるように Playwright MCP server を追加します。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>Model Context Protocol (MCP) の概要と、GitHub Copilot app での使用方法を理解する。</li>
+<li>アプリの設定から Playwright MCP server を追加する。</li>
+<li>エージェントにブラウザーを操作させ、フィルター機能を確認する。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>単体テストとエンドツーエンドテストは重要ですが、UI の更新を検証するには、実際に UI を操作する必要があります。変更作業をさらに自動化し、更新が期待どおりに動作するという確信を高めるために、ユーザーと同じ方法で Copilot が作業中の Web サイトを使用できるようにします。</p>
+<h2 is-upgraded>Model Context Protocol (MCP) とは</h2>
+<p><a href="https://github.blog/ai-and-ml/llms/what-the-heck-is-mcp-and-why-is-everyone-talking-about-it/" target="_blank">Model Context Protocol (MCP)</a> は、AI エージェントが外部のツールやサービスと通信するための手段を提供します。MCP を使うと、AI エージェントは外部のツールやサービスとリアルタイムで通信できます。その結果、最新情報へのアクセス (resources を使用) や、ユーザーに代わる操作 (tools を使用) が可能になります。</p>
+<p>これらの tools と resources には、AI エージェントと外部のツールやサービスをつなぐ MCP server を通じてアクセスします。MCP server は、AI エージェントと外部ツール (既存の API や NPM パッケージなどのローカルツール) 間の通信を管理します。各 MCP server は、AI エージェントがアクセスできる異なる tools と resources のセットを表します。</p>
+<p>よく使われる既存の MCP server には、次のものがあります。</p>
+<ul>
+<li><a href="https://github.com/github/github-mcp-server" target="_blank"><strong>GitHub MCP Server</strong></a>: GitHub リポジトリを管理するための API セットにアクセスできます。AI エージェントは、新しいリポジトリの作成、既存のリポジトリの更新、Issue と pull request の管理などを行えます。</li>
+<li><a href="https://github.com/microsoft/playwright-mcp" target="_blank"><strong>Playwright MCP Server</strong></a>: Playwright を使ったブラウザー自動化機能を提供します。AI エージェントは、Web ページへの移動、フォームへの入力、ボタンの選択などを行えます。</li>
+</ul>
+<p>さまざまな tools と resources にアクセスできる MCP server がほかにも多数あります。GitHub は、エコシステム内での発見と貢献を促進するために <a href="https://github.com/mcp" target="_blank">MCP registry</a> をホストしています。</p>
+<aside class="warning"><p> MCP server は、プロジェクト内のほかの依存関係と同様に扱ってください。使用する前にソースコードを慎重に確認し、発行元を検証して、セキュリティ上の影響を考慮します。信頼できる MCP server だけを使用し、機密性の高いリソースや操作へのアクセスを許可するときは注意してください。</p>
+</aside>
+<h2 is-upgraded>Playwright MCP server を追加する</h2>
+<p>MCP server はアプリの設定から追加して管理します。アプリには一般的なサーバーのカタログが含まれているため、<a href="https://github.com/microsoft/playwright-mcp" target="_blank">Playwright MCP server</a> は数回の操作で追加できます。</p>
+<ol type="1">
+<li>Ctrl+, を選択して、Copilot app の設定ページを開きます。</li>
+<li><strong>MCP servers</strong> を選択します。</li>
+<li>検索ダイアログに <code>Playwright</code> と入力します。</li>
+<li><strong>Popular MCP servers</strong> の一覧から <strong>Playwright</strong> を選択します。</li>
+<li><strong>Add server</strong> を選択し、利用可能な MCP server の一覧に追加します。</li>
+<li>Esc を選択して設定ダイアログを閉じます。</li>
+</ol>
+<p>これで Playwright MCP server を追加できました。</p>
+<h2 is-upgraded>Playwright で機能を確認するよう Copilot に依頼する</h2>
+<p>Playwright MCP server を使って機能を手動テストするよう Copilot に依頼します。</p>
+<ol type="1">
+<li>次のプロンプトを使い、新しい機能を検証するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Start the dev server then use the Playwright MCP server to validate the functionality you just added exists. Use the details in the issue to ensure the newly added behavior matches the specs.
+</code></pre>
+</li>
+</ol>
+<p>Copilot は Playwright MCP server を通じてブラウザーを起動し、各手順を実行して、確認結果を報告します。タスクの実行中、システム上で実際にブラウザーが開く様子を確認できます。</p>
+<ol type="1" start="2">
+<li>Issue の受け入れ条件と照らし合わせて概要を読みます。問題がある場合は、pull request を作成する前に追加の質問をするか、コードを修正するよう依頼します。</li>
+<li>次のレッスンでこの作業を完了するため、セッションを開いたままにします。</li>
+</ol>
+<p>これで Copilot は、ユーザーと同じように機能を確認し、ブラウザーでも動作を検証しました。</p>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>GitHub Copilot app から Playwright MCP server を使い、実際のブラウザーで機能を確認しました。学習した内容は次のとおりです。</p>
+<ul>
+<li>Model Context Protocol (MCP) の概要と、アプリで MCP tools を利用する仕組みを学習した。</li>
+<li>アプリの設定から Playwright MCP server を追加した。</li>
+<li>エージェントにブラウザーを操作させ、フィルター機能を確認した。</li>
+</ul>
+<p>機能の構築と検証が完了し、動作することも確認できました。次は、<strong>Agent Merge</strong> を使って pull request の作成とマージをエージェントに任せ、機能をリリースします。レッスン 6「Agent Merge によるマージ」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://github.blog/ai-and-ml/llms/what-the-heck-is-mcp-and-why-is-everyone-talking-about-it/" target="_blank">MCP とは何か、なぜ注目されているのか</a></li>
+<li><a href="https://github.com/microsoft/playwright-mcp" target="_blank">Microsoft Playwright MCP Server</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app での MCP server の構成</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 6: Agent Merge によるマージ" duration="15">
+        <p>フィルター機能の構築と検証が完了し、ブラウザーで動作することも確認できました。最後のステップはマージです。このワークショップではすでに2回マージしており、どちらも pull request を作成して github.com で自分でマージしました。今回は、pull request のライフサイクル全体をアプリ内から管理する <strong>Agent Merge</strong> に処理を任せます。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>Agent Merge の概要と、マージのライフサイクルを自動化する仕組みを学ぶ。</li>
+<li>フィルター機能のセッションで Agent Merge を有効にする。</li>
+<li>pull request の作成、CI の実行、すべて成功した後のマージを確認する。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>ここ数回のモジュールでは、コードの作成から Copilot による UI の直接検証まで、さまざまなレベルの自動化を確認しました。開発をさらに高速化するために、Tailspin Toys は審査および検証済みの pull request を自動的にマージする方法を検討しています。</p>
+<h2 is-upgraded>Agent Merge の概要</h2>
+<p><strong>Agent Merge</strong> を使うと、Copilot app で pull request をマージするまでの最終工程を自動化できます。有効にすると、アプリのセッションが pull request を読み取り、失敗した CI チェックの修正、レビューコメントへの対応、必要に応じたリベースなど、マージを妨げる問題に対処します。そして GitHub で許可され次第、pull request をマージします。バックグラウンドで動作し、アプリを再起動しても継続し、pull request がマージされると自動的に無効になります。</p>
+<p>ここまでは、github.com で自分で <strong>Merge pull request</strong> を選択していました。Agent Merge はその責任をエージェントに移すため、エージェントが PR の完了までを管理している間に次のタスクへ進めます。作業のレビューと承認は引き続き自分で行い、エージェントには機械的な最終工程だけを任せます。</p>
+<h2 is-upgraded>Agent Merge で PR を管理する</h2>
+<p>コードを手動でレビューし、テストを実行し、Copilot による UI の検証も完了しました。新しいコードをコードベースにマージします。Agent Merge に PR を継続的インテグレーション (CI) のプロセスからマージまで管理させます。</p>
+<ol type="1">
+<li>前のモジュールでフィルター機能を追加していたセッションに戻ります。</li>
+<li>右上隅にある <strong>Create PR</strong> の横のドロップダウンを選択します。</li>
+<li><strong>Agent merge</strong> を選択して Agent Merge を有効にします。<img alt="GitHub Copilot app で展開された Create PR ドロップダウンの Agent merge オプションを矢印で示した画面" src="../../img/c2ba7579f8fe4fc.png"></li>
+<li>ボタンのテキストが <strong>Agent merge</strong> に変わります。</li>
+<li><strong>Agent merge</strong> ボタンを選択し、Agent Merge のプロセスを開始します。</li>
+</ol>
+<p>Copilot app が PR の作成と管理を開始します。最初にプロジェクトを調査して PR の最適な作成方法を判断し、新しい PR を作成します。</p>
+<p>しばらくすると、Copilot が再び作業を開始し、リポジトリ上ですべてのテストを実行する CI プロセスなど、PR の条件を確認します。ほかのチームメンバーによるレビュー、実行が必要なチェック (CI プロセス)、PR をマージできるかどうかのステータスを報告します。</p>
+<ol type="1" start="6">
+<li><strong>Agent merge</strong> の横にあるドロップダウンを選択してから <strong>Merge pull request</strong> を選択し、Agent Merge に pull request のマージを許可します。<img alt="Agent merge ドロップダウンで、エージェントに許可された Address reviews、Fix CI failures、Resolve conflicts の操作と、矢印で示された Merge pull request" src="../../img/969c0a77be31aa73.png"></li>
+<li>すべての CI プロセスが成功すると、つまりテストに合格すると、Copilot が pull request をマージします。</li>
+</ol>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>コードの生成、テストと検証、pull request のプロセスなど、開発プロセスの複数の部分を自動化しました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>Agent Merge の概要と、マージのライフサイクルを自動化する仕組みを学習した。</li>
+<li>フィルター機能のセッションで Agent Merge を有効にした。</li>
+<li>pull request の作成、CI の実行、すべて成功した後のマージを確認した。</li>
+</ul>
+<p>次は、エージェントと一緒に作業を計画して視覚化する、より高度な方法である<strong>キャンバス</strong>を確認します。レッスン 7「キャンバスを使った計画」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests" target="_blank">GitHub Copilot app での Issue と pull request の管理</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 7: キャンバスを使った計画" duration="15">
+        <p>ここまでは、チャットを通じてエージェントを指示してきました。しかし、多くの作業は会話の中ではなく、ボード、ドキュメント、チェックリスト上で行われます。<strong>キャンバス</strong>は、まさにそのような作業のために、アプリ内でユーザーとエージェントが共有できる領域です。このレッスンでは、ここまで取り組んできたバックログの計画と追跡に使用する、シンプルなキャンバスを作成します。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>キャンバスの概要と使用する場面を理解する。</li>
+<li>バックログをトリアージする共有 Kanban ボードのキャンバスを作成する。</li>
+<li>キャンバスをリポジトリに保存し、チーム向けにマージする。</li>
+<li>新しいセッションでキャンバスを開き、そこから作業を開始する。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>Issue の一覧は、どのような状況でも負担に感じることがあります。Tailspin Toys の開発者は、Issue をすばやくトリアージし、Copilot app で作業を開始できるツールを探しています。</p>
+<h2 is-upgraded>キャンバスとは</h2>
+<p><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">キャンバス</a>は、計画、トリアージボード、リリースチェックリスト、ダッシュボード、ドキュメントなどの作業成果物を扱う、共有の対話型領域です。チャットは意図の説明や曖昧さの検討に適していますが、多くの作業は具体的な<em>領域</em>上で行われます。キャンバスを使うと、その領域でエージェントと直接共同作業できます。</p>
+<p>キャンバスは<strong>双方向</strong>です。エージェントが作業中にキャンバスを更新できる一方で、ユーザーも同じ領域を編集できます。キャンバスを作成すると、エージェントはプロンプトとワークフローに基づいて内容を構築します。その後も、機能の追加、削除、修正を依頼できます。作成したキャンバスは、アプリの右側のパネルに開きます。</p>
+<p>一般的な例は次のとおりです。</p>
+<ul>
+<li>1日の計画を立て、Issue と pull request に優先順位を付けるための <strong>Markdown canvases</strong>。</li>
+<li>ユーザーとエージェントがカードを追加し、作業を列間で移動する <strong>Agentic kanban boards</strong>。</li>
+<li>リポジトリの重要な Issue と繰り返し現れるテーマをまとめる <strong>Issue triage boards</strong>。</li>
+</ul>
+<h2 is-upgraded>キャンバスを使用する理由</h2>
+<p>タスクに構造、反復、検証が必要で、チャットだけでは不十分な場合はキャンバスを使用します。キャンバスでは次のことができます。</p>
+<ul>
+<li>ワークフローに合った実際の成果物に、エージェントの作業を結び付ける。</li>
+<li>共有領域で作業を直接調整または修正し、その変更を基にエージェントに作業を続けさせる。</li>
+<li>チャットの応答だけでなく、成果物への目に見える変更として進捗を確認する。</li>
+</ul>
+<h2 is-upgraded>作業を追跡するキャンバスを作成する</h2>
+<p>星評価、ドキュメント標準、フィルター機能をすべてマージし、多くの成果をリリースしました。しかし、バックログにはまだ項目が残っています。作業をすばやくトリアージするためのキャンバスを作成します。</p>
+<ol type="1">
+<li>GitHub Copilot app に戻ります。アプリを閉じている場合は開きます。</li>
+<li><strong>Home screen</strong> を選択します。</li>
+<li>リポジトリに <code>tailspin-toys</code> が選択されていることを確認します。</li>
+<li>プロンプトボックスで次のプロンプトを使用し、要件を満たすキャンバスを作成します。<pre><code language="language-plaintext" class="language-plaintext">Create a basic Kanban board canvas that allows me to quickly triage work. Highlight the three issues which are most likely to need attention right now, with the remainder in a second section down below. The top three cards should include a description of the issue&#39;s content and a justification of why they&#39;re at the top of the list. Each issue should have a button that allows me to add it to the current context for the current session so I can get to work on it straightaway.
+</code></pre>
+</li>
+</ol>
+<p>Copilot がキャンバスの作成を開始します。</p>
+<aside class="special"><p> 作成には数分かかります。複雑なタスクであるため、最初のバージョンでは満足できない場合があります。理想のツールになるまで、プロンプトで構築を続けるよう依頼できます。</p>
+</aside>
+<h2 is-upgraded>キャンバスを保存してリポジトリにマージする</h2>
+<p>キャンバスは、指示ファイルやスキルと同様に、リポジトリのアセットにできます。Copilot にリポジトリへの追加とマージを依頼し、チーム全体で使用できるようにします。</p>
+<ol type="1">
+<li>同じセッションで、次のプロンプトを使ってキャンバスをリポジトリに保存するよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Let&#39;s save this canvas definition to the repository so I can share it with my development team
+</code></pre>
+</li>
+<li>Copilot がキャンバスファイルを保存したら、右上隅にある <strong>Create PR</strong> の横のドロップダウンを選択します。</li>
+<li><strong>Agent merge</strong> を選択して Agent Merge を有効にします。<img alt="GitHub Copilot app で展開された Create PR ドロップダウンの Agent merge オプションを矢印で示した画面" src="../../img/c2ba7579f8fe4fc.png"></li>
+<li>ボタンのテキストが <strong>Agent merge</strong> に変わります。</li>
+<li><strong>Agent merge</strong> ボタンを選択し、Agent Merge のプロセスを開始します。</li>
+</ol>
+<p>Copilot app が PR の作成と管理を開始します。最初にプロジェクトを調査して PR の最適な作成方法を判断し、PR を作成します。</p>
+<p>しばらくすると、Copilot が再び作業を開始し、リポジトリ上ですべてのテストを実行する CI プロセスなど、PR の条件を確認します。ほかのチームメンバーによるレビュー、実行が必要なチェック (CI プロセス)、PR をマージできるかどうかのステータスを報告します。</p>
+<ol type="1" start="6">
+<li><strong>Agent merge</strong> の横にあるドロップダウンを選択してから <strong>Merge pull request</strong> を選択し、Agent Merge に pull request のマージを許可します。<img alt="Agent merge ドロップダウンで、エージェントに許可された Address reviews、Fix CI failures、Resolve conflicts の操作と、矢印で示された Merge pull request" src="../../img/969c0a77be31aa73.png"></li>
+<li>すべての CI プロセスが成功するまで待ちます。成功すると、Copilot が pull request を自動的にマージします。</li>
+</ol>
+<p>これでチーム用の新しい共有キャンバスを作成できました。</p>
+<h2 is-upgraded>キャンバスで作業する</h2>
+<p>キャンバスを作成できたので、新しいセッションを開始して使用します。</p>
+<ol type="1">
+<li>Copilot app で <strong>tailspin-toys</strong> の横にある <strong>New session</strong> を選択し、新しいセッションを開始します。</li>
+<li>次のプロンプトを使い、トリアージ用キャンバスを開くよう Copilot に依頼します。<pre><code language="language-plaintext" class="language-plaintext">Open the triage issues canvas
+</code></pre>
+</li>
+<li>作成したキャンバスが新しいセッションで開いたことを確認します。</li>
+<li>最も関心のある Issue の1つで <strong>Add to current context</strong> を選択します。</li>
+<li>Copilot が Issue の作業を開始します。</li>
+</ol>
+<p>これで、作成したキャンバスを使って開発プロセスを効率化できました。</p>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>ユーザーとエージェントが共同作業できる共有領域を作成しました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>キャンバスの概要と使用する場面を学習した。</li>
+<li>エージェントと共有の Kanban トリアージボードのキャンバスを作成した。</li>
+<li>Agent Merge を使ってキャンバスをリポジトリに保存し、マージした。</li>
+<li>新しいセッションでキャンバスを開き、そこから作業を開始した。</li>
+</ul>
+<p>バックログを追跡できるようになったので、ここまで構築した内容と今後の進め方を振り返ります。レッスン 8「振り返りと次のステップ」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">GitHub Copilot app での canvas extension の操作</a></li>
+<li><a href="https://awesome-copilot.github.com/extensions/" target="_blank">Awesome Copilot の Canvases</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レッスン 8: 振り返りと次のステップ" duration="10">
+        <p>ここ数回のレッスンでは、GitHub Copilot app を使い、アイデアから機能のマージまでを実践しました。取り組んだ内容は次のとおりです。</p>
+<ul>
+<li>リポジトリを接続し、アプリのワークスペースと用意されたバックログを確認した。</li>
+<li>直接指定したタスクと Issue からセッションを開始し、Plan モードと Autopilot モードでエージェントの動作を制御した。</li>
+<li>カスタム指示と再利用可能なスキルでエージェントをガイドした。</li>
+<li>Playwright MCP server を使い、実際のブラウザーで作業をテストした。</li>
+<li>共有キャンバスでエージェントと共同作業した。</li>
+<li>github.com で自分でマージする方法から、<strong>Agent Merge</strong> に pull request のマージを任せる方法まで、段階的なマージ自動化を使って変更をリリースした。</li>
+</ul>
+<p>繰り返し発生する作業を自動化し、ベストプラクティスと今後の進め方を確認します。</p>
+<h2 is-upgraded>繰り返し発生する作業を自動化する</h2>
+<p>アプリでは、<strong>automations</strong> を使って、スケジュールまたはオンデマンドでエージェントを実行できます。新しい Issue のトリアージや最近のアクティビティの振り返りなど、定型的なタスクに適しています。シンプルで破壊的でない automation を作成します。</p>
+<ol type="1">
+<li>サイドバーで <strong>Automations</strong> を選択してから <strong>New automation</strong> を選択します。</li>
+<li><code>Recap my recent work</code> などの名前を付けます。</li>
+<li>トリガーを選択します。<strong>Manual</strong> はオンデマンドで実行し、<strong>On a schedule</strong> は自動的に実行し、<strong>When an issue is created</strong> は新しい Issue に反応します。このレッスンでは <strong>Manual</strong> を選択します。</li>
+<li>automation が何も変更しないように、次の例のような読み取り専用のプロンプトを入力します。<pre><code language="language-plaintext" class="language-plaintext">Summarize the pull requests merged in this repository over the last week, and list any issues still open in the backlog.
+</code></pre>
+</li>
+<li>プロジェクト (Tailspin Toys リポジトリ) を選択し、automation を作成します。</li>
+<li>オンデマンドで実行し、結果を確認します。</li>
+</ol>
+<aside class="special"><p> Automations はローカルまたはクラウドで実行できます。スケジュールに従って無人で実行する場合は、<strong>Run in the cloud</strong> を有効にし、automation に使用を許可する <strong>Tools</strong> を選択します。出力を信頼できるようになるまでは、スケジュールされた automations の範囲を限定し、破壊的でないものにしてください。</p>
+</aside>
+<h2 is-upgraded>ベストプラクティス</h2>
+<p>AI ツールを使用するときは、その周辺の基盤が出力の品質を左右します。このワークショップでは、指示ファイル、スキル、カスタムエージェントがそれぞれ役割を果たしました。これらに投資し、セッション間で再利用してください。</p>
+<p>タスクに合わせて<strong>モードとモデル</strong>を選択します。構築前にアプローチを検討するには <strong>Plan</strong>、対象を絞った変更で作業に関与し続けるには <strong>Interactive</strong>、範囲が明確で分離されたタスクに限って <strong>Autopilot</strong> を使用します。定型的な編集には高速なモデルを選び、複雑な作業には推論能力が高く、より多くの推論を行うモデルを選びます。</p>
+<p>基盤と同じくらい、コンテキストも重要です。何を、なぜ、どのように構築するかを明確に説明すると、出力は大きく変わります。アイデアを本格的なセッションに移す前に範囲を決める場所として、Quick chats が役立ちます。</p>
+<h2 is-upgraded>さらに確認する機能</h2>
+<p>コアワークフローを学習しました。ほかにも確認する価値がある機能があります。</p>
+<ul>
+<li>完全なセッションを必要としない、その場限りの簡単な質問に使用する <strong>Quick chats</strong>。</li>
+<li>構築前に問題について対話し、重要なフィードバックを得るための <strong>Rubber duck</strong>。</li>
+<li>ロール、その tools、指示をまとめ、繰り返し使用する専門的な作業に対応する <a href="https://docs.github.com/copilot/concepts/agents/cloud-agent/about-custom-agents" target="_blank"><strong>Custom agents</strong></a>。</li>
+<li>セッションで起きたことの記録を生成する <a href="https://docs.github.com/copilot/how-tos/copilot-cli/use-copilot-cli/chronicle" target="_blank"><code>/chronicle</code></a>。</li>
+<li>Ollama、Foundry Local、LM Studio を介したローカルモデルなど、独自のプロバイダーのモデルを使用する <a href="https://docs.github.com/copilot/how-tos/github-copilot-app/use-byok-models" target="_blank">Bring your own key (BYOK)</a>。</li>
+<li>GitHub がホストする分離環境でセッションを実行する <a href="https://docs.github.com/copilot/concepts/about-cloud-and-local-sandboxes" target="_blank">Cloud sandboxes</a>。</li>
+<li>アプリを直接リポジトリ、セッション、プロンプトの画面で開く <a href="https://docs.github.com/copilot/how-tos/github-copilot-app/open-with-deep-links" target="_blank">Deep links</a>。</li>
+</ul>
+<h2 is-upgraded>次のステップ</h2>
+<p>ツールを使いこなす最良の方法は、使い続けることです。実稼働コード、趣味のコード、長年構想していながら構築できていなかった小さなアプリなどに活用してください。学んだことをチームと共有し、チームからも学びましょう。そして、引き続きドキュメントを確認してください。</p>
+<p>GitHub Copilot エコシステムをさらに学ぶには、<a href="https://github-samples.github.io/copilot-workshops/ja-jp/vscode/" target="_blank">VS Code ワークショップ</a>、<a href="https://github-samples.github.io/copilot-workshops/ja-jp/cli/" target="_blank">Copilot CLI ワークショップ</a>、<a href="https://github-samples.github.io/copilot-workshops/ja-jp/cloud/" target="_blank">Cloud agent ワークショップ</a>を確認してください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/copilot/concepts/agents/github-copilot-app" target="_blank">GitHub Copilot app について</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/getting-started" target="_blank">GitHub Copilot app の概要</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/customize-github-copilot-app" target="_blank">GitHub Copilot app のカスタマイズ</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/using-automations" target="_blank">Automations の使用</a></li>
+<li><a href="https://docs.github.com/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">Canvas extensions の操作</a></li>
+<li><a href="https://docs.github.com/copilot/concepts/about-cloud-and-local-sandboxes" target="_blank">クラウドサンドボックスとローカルサンドボックスについて</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
