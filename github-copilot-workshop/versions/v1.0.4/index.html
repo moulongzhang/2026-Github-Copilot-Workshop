@@ -615,6 +615,198 @@ description: このプロジェクトのすべてのテスト、lint、品質チ
 
       </google-codelab-step>
     
+      <google-codelab-step label="レッスン 6: Stacked Pull Requests" duration="25">
+        <p>ここまでは、1 つのセッションで 1 つの pull request を作成し、マージしてきました。しかし実務では、1 つの機能がデータベース・バックエンド・フロントエンドといった複数の層にまたがることがよくあります。このような大きな変更を 1 つの巨大な pull request にまとめると、レビューが難しくなります。このレッスンでは、1 つの機能を 3 つの層に分割し、それぞれをサブセッションで実装して、<strong>Stacked Pull Requests</strong>（積み重ねた pull request）として提出します。</p>
+<p>このレッスンでは、次の内容を学習します。</p>
+<ul>
+<li>Stacked Pull Requests の概念と、大きな変更を層ごとに分割する理由を学ぶ。</li>
+<li><code>gh stack</code> CLI 拡張と <code>gh-stack</code> スキルを準備し、エージェントがスタックを操作できるようにする。</li>
+<li>親 issue と、Data Base・Back End・Front End の 3 つの子 issue の関係を確認する。</li>
+<li>親 issue からセッションを開始し、各子 issue をそれぞれのサブセッションに委任する。</li>
+<li>3 つの pull request が前の層のブランチの上に積み重なっていることを確認する。</li>
+<li>CI がすべて成功したことを確認し、スタックを一括でマージする。</li>
+</ul>
+<h2 is-upgraded>シナリオ</h2>
+<p>Tailspin Toys はゲームのクラウドファンディングサイトですが、現在カタログにはゲームのタイトル・カテゴリー・パブリッシャー・評価しか表示されておらず、「そのゲームがどれだけ支援を集めているか」がまったく分かりません。そこで、各ゲームに <strong>目標金額・調達済み金額・支援者数</strong> を持たせ、一覧ページと詳細ページの両方にプログレスバーとして表示する機能を追加します。</p>
+<p>この機能はデータモデル・データアクセス層・UI のすべてに変更が必要です。これを 1 つの大きな pull request にすると、レビュワーは無関係な差分を一度に読まなければならず、レビューが後回しになったり、見落としが生じたりします。<strong>とくに、前のレッスンで学んだ Autopilot のように AI が短時間で大量のコードを生成する場合、pull request は巨大になりがちで、レビュー品質が下がりやすくなります。</strong> そこで、この機能を 3 つの層に分割します。</p>
+<ul>
+<li><strong>Data Base</strong> — スキーマ・マイグレーション・シードデータ</li>
+<li><strong>Back End</strong> — データアクセスヘルパー・型定義・進捗計算の純粋関数とユニットテスト</li>
+<li><strong>Front End</strong> — プログレスバーコンポーネント・ページへの組み込み・e2e テスト</li>
+</ul>
+<p>層ごとに pull request を分けると、それぞれの diff が小さく焦点が絞られるため、レビューが速くなります。データベースに詳しいレビュワーは Data Base の層を、UI に詳しいレビュワーは Front End の層を、といったように <strong>層ごとに適切なレビュワー</strong> が担当できます。AI がタスクを次々にこなすとき、1 つのタスクが 1 つの pull request に対応し、次のタスクをその上に積むという流れは、スタックの構造にそのまま当てはまります。</p>
+<h2 is-upgraded>Stacked Pull Requests とは</h2>
+<p><strong>Stacked Pull Requests</strong> は、同じリポジトリ内にある依存関係のある 2 つ以上の pull request の連なりです。通常の pull request はベースブランチが <code>main</code> ですが、スタックでは次のようになります。</p>
+<ul>
+<li>一番下（bottom）の pull request は、リポジトリの既定のブランチ（<code>main</code> などのトランク）をベースブランチにします。</li>
+<li>それより上の各 pull request は、<strong>1 つ下の pull request のブランチ</strong> をベースブランチにします。</li>
+</ul>
+<p>今回の資金調達機能では、次のように 3 層のスタックを作ります。</p>
+<pre><code language="language-text" class="language-text">feat/funding-frontend  → PR #3（ベース: feat/funding-backend）   ← 一番上（Front End）
+feat/funding-backend   → PR #2（ベース: feat/funding-database）
+feat/funding-database  → PR #1（ベース: main）                    ← 一番下（Data Base）
+main（トランク／既定のベースブランチ）
+</code></pre>
+<p>各層のブランチとベースブランチ、そして依存関係を表にすると次のとおりです。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>層</p>
+</td><td colspan="1" rowspan="1"><p>子 issue</p>
+</td><td colspan="1" rowspan="1"><p>ブランチ</p>
+</td><td colspan="1" rowspan="1"><p>ベースブランチ</p>
+</td><td colspan="1" rowspan="1"><p>依存</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Data Base</p>
+</td><td colspan="1" rowspan="1"><p><code>[Data Base] games テーブルに資金調達フィールドを追加し、マイグレーションとシードデータを更新する</code></p>
+</td><td colspan="1" rowspan="1"><p><code>feat/funding-database</code></p>
+</td><td colspan="1" rowspan="1"><p><code>main</code></p>
+</td><td colspan="1" rowspan="1"><p>なし（最初に着手）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Back End</p>
+</td><td colspan="1" rowspan="1"><p><code>[Back End] 資金調達フィールドをデータアクセス層に通し、進捗計算ヘルパーを追加する</code></p>
+</td><td colspan="1" rowspan="1"><p><code>feat/funding-backend</code></p>
+</td><td colspan="1" rowspan="1"><p><code>feat/funding-database</code></p>
+</td><td colspan="1" rowspan="1"><p>Data Base</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Front End</p>
+</td><td colspan="1" rowspan="1"><p><code>[Front End] 資金調達の進捗をプログレスバーとして一覧と詳細に表示する</code></p>
+</td><td colspan="1" rowspan="1"><p><code>feat/funding-frontend</code></p>
+</td><td colspan="1" rowspan="1"><p><code>feat/funding-backend</code></p>
+</td><td colspan="1" rowspan="1"><p>Back End</p>
+</td></tr>
+</table>
+<p>スタックには次のような利点があります。</p>
+<ul>
+<li><strong>層ごとに小さな diff</strong>: 各 pull request は、その層のブランチと 1 つ下のブランチとの差分だけを表示します。そのため、レビュワーは他の層のノイズに惑わされずに、その層だけを集中してレビューできます。</li>
+<li><strong>前の層を待たずに次を積める</strong>: 下位の層がマージされていなくても、その上に次の層を積み上げて作業を続けられます。AI エージェントで一度に多くのコードを生成する場合、1 つのタスクが 1 つの pull request に対応し、次のタスクをその上に積むという流れにそのまま当てはまります。</li>
+<li><strong>下位がマージされると上位が自動で追従</strong>: スタックの一番下の pull request をマージすると、残りのブランチは自動的にリベースされ、次の pull request がトランク（<code>main</code>）を直接ベースブランチにするように付け替えられます。ブランチ間の同期という面倒な作業を GitHub が肩代わりします。</li>
+<li><strong>ルールと CI がすべての層に適用</strong>: ブランチ保護ルールや CI チェックは、一番下だけでなくスタック内のすべての pull request に対して実行されます。どの層も同じ品質基準を満たしてからマージされます。</li>
+</ul>
+<aside class="special"><p> スタックの各層は「家を建てる」のに似ています。まず基礎（Data Base）を固め、その上に骨組み（Back End）を組み、最後に内装（Front End）を仕上げます。ある層のコードが別の層に依存する場合、その依存先は必ず同じブランチか、より下のブランチになければなりません。</p>
+</aside>
+<h2 is-upgraded>親 issue を確認する</h2>
+<p>このワークショップのテンプレートには、資金調達機能のための親 issue と 3 つの子 issue があらかじめ用意されています。まず、それぞれの内容を確認します。</p>
+<ol type="1">
+<li>ブラウザーで、自分のコピーしたリポジトリの <strong>Issues</strong> タブを開きます。</li>
+<li><strong>ゲームの資金調達の進捗（支援者数・目標金額・調達済み金額）を表示する</strong> というタイトルの親 issue を開きます。</li>
+<li>親 issue の本文を読みます。この機能が 3 つの子 issue に分割されていること、依存順が Data Base → Back End → Front End であることが説明されています。</li>
+<li>続けて、3 つの子 issue を開いて受け入れ条件を確認します。 <ul>
+<li><strong>[Data Base] games テーブルに資金調達フィールドを追加し、マイグレーションとシードデータを更新する</strong></li>
+<li><strong>[Back End] 資金調達フィールドをデータアクセス層に通し、進捗計算ヘルパーを追加する</strong></li>
+<li><strong>[Front End] 資金調達の進捗をプログレスバーとして一覧と詳細に表示する</strong></li>
+</ul>
+</li>
+</ol>
+<p>各子 issue が、どのファイルを変更し、前の層の何に依存しているかを把握しておくと、スタックの構造が理解しやすくなります。</p>
+<aside class="special"><p> このワークショップでは、親 issue が <code>#9</code>、子 issue が <code>#10</code>（Data Base）・<code>#11</code>（Back End）・<code>#12</code>（Front End）になります。自分で issue を作り直した場合など、番号が異なることがあります。その場合は、以降の手順とプロンプトの番号を自分の環境の番号に読み替えてください。</p>
+</aside>
+<h2 is-upgraded>gh stack 拡張と gh-stack スキルを準備する</h2>
+<p>GitHub のスタック機能は、GitHub CLI（<code>gh</code>）の <strong><code>gh stack</code></strong></p>
+<p><strong> 拡張</strong> で操作します。エージェント（GitHub Copilot）にスタックを扱わせるには、あわせて <strong><code>gh-stack</code></strong></p>
+<p><strong> スキル</strong> をインストールします。このスキルを入れておくと、Copilot が <code>gh stack</code> コマンドを使ってブランチとベースブランチを正しく組み立てられます。</p>
+<ol type="1">
+<li>Copilot app のレビューパネルで <strong>Terminal</strong> を開きます（レッスン 4 と同じ手順です）。</li>
+<li>GitHub CLI のバージョンが <strong>2.90.0 以降</strong>、Git が <strong>2.20 以降</strong> であることを確認します。<pre><code language="language-shell" class="language-shell">gh --version
+git --version
+</code></pre>
+</li>
+<li><code>gh stack</code> 拡張をインストールします。<pre><code language="language-shell" class="language-shell">gh extension install github/gh-stack
+</code></pre>
+</li>
+<li>AI コーディングエージェント向けの <code>gh-stack</code> スキルをインストールします。<pre><code language="language-shell" class="language-shell">gh skill install github/gh-stack
+</code></pre>
+</li>
+</ol>
+<aside class="special"><p> 公式ドキュメントには「To use stacked pull requests with AI coding agents, like GitHub Copilot, install the <code>gh-stack</code> skill」と記載されています。このスキルを入れてから Copilot に委任すると、エージェントが <code>gh stack init</code>・<code>gh stack add</code>・<code>gh stack submit</code> などを使って、各 pull request のベースブランチを自動で正しく設定します。</p>
+</aside>
+<aside class="warning"><p> Stacked Pull Requests はパブリックプレビューの機能です。UI や挙動が変わることがあります。利用には GitHub CLI 2.90.0 以降と Git 2.20 以降が必要です。</p>
+</aside>
+<h2 is-upgraded>セッションを開始して作業を委任する</h2>
+<p>親 issue からセッションを開始し、そのセッションに 3 つの層の実装を委任します。Copilot app は、各子 issue を <strong>サブセッション</strong>（このセッションから起動される子セッション）で担当し、それぞれの成果物を Stacked Pull Request として積み上げます。</p>
+<ol type="1">
+<li>GitHub Copilot app に戻ります。</li>
+<li>ナビゲーションタブから <strong>My work</strong> を選択します。</li>
+<li><strong>ゲームの資金調達の進捗（支援者数・目標金額・調達済み金額）を表示する</strong> というタイトルの親 issue を選択します。</li>
+<li>右上の <strong>New session</strong> を選択します。Issue から開始したため、親 issue はすでにこのセッションのコンテキストに含まれています。</li>
+<li>モードに <strong>Autopilot</strong> と表示されるまで Shift+Tab を選択します。各層は範囲が明確で分離されたタスクのため、エージェントが自律して層ごとに構築・検証・pull request の作成を進められます。</li>
+<li>次のプロンプトを送信します。issue 番号・ブランチ名・ベースブランチ・使用するコマンドを具体的に指定しているため、そのまま実行できます（番号が異なる場合は自分の環境に合わせて読み替えてください）。<pre><code language="language-plaintext" class="language-plaintext">この issue（#9）は、ゲームの資金調達の進捗表示という 1 つの機能を、Data Base・Back End・Front End の 3 層に分割した親 issue です。gh-stack スキルと gh stack コマンドを使って、3 つの子 issue（#10 Data Base、#11 Back End、#12 Front End）を Stacked Pull Requests として実装してください。
+
+進め方:
+1. まず 3 つの子 issue（#10、#11、#12）の本文と受け入れ条件を読み、依存順が #10 → #11 → #12（Data Base → Back End → Front End）であることを確認してください。
+2. 各子 issue を、それぞれ独立したサブセッションで担当してください。1 つのサブセッションが 1 つの層、1 つのブランチ、1 つの pull request に対応します。
+3. まず一番下の層だけを作ってください。gh stack init で main をトランクとしてスタックを開始し、ブランチ feat/funding-database を作成して、#10 Data Base の変更（db/ 配下のスキーマ・マイグレーション・シードデータ）だけを実装・コミットしてください。後続の層に属する変更をこのブランチに含めないでください。
+4. 次に、gh stack add でスタックの上に feat/funding-backend を追加し、#11 Back End の変更（src/types/game.ts、src/lib/games.ts、新規の src/lib/funding.ts とそのユニットテスト）を実装・コミットしてください。このブランチのベースは自動的に feat/funding-database になります。
+5. 続けて、gh stack add でスタックの上に feat/funding-frontend を追加し、#12 Front End の変更（新規の src/components/FundingProgress.astro、GameCard.astro と詳細ページへの組み込み、新規の e2e テスト）を実装・コミットしてください。このブランチのベースは自動的に feat/funding-backend になります。
+6. 各層の実装が終わるたびに、その層で /quality-checks を実行し、ユニットテスト・lint・e2e テストが通ることを確認してから次の層に進んでください。あわせて、その層の diff がその層だけに閉じていることを自分でレビューしてください。
+7. 3 層すべてが完成したら、gh stack push で全ブランチを push し、gh stack submit で 3 つの依存する pull request をまとめて作成し、スタックとしてリンクしてください。pull request は draft ではなく ready for review として作成してください。各 pull request の説明には、その層の変更内容と対応する子 issue 番号を記載してください。
+8. 最後に gh stack view を実行し、3 つのブランチ・pull request・ベースブランチ・ステータスが正しく積み重なっていることを報告してください。
+</code></pre>
+</li>
+<li>エージェントが作業を開始します。まず親 issue と 3 つの子 issue を読み、依存順を確認してから、<code>gh stack init</code> でスタックを開始し、Data Base の層のサブセッションを起動します。</li>
+</ol>
+<aside class="special"><p> 公式の Copilot チュートリアルでは、「Start the pr-stack and build only the first layer:（スタックを開始し、最初の層だけを作る）」のように、一度に 1 層ずつ指示することが推奨されています。層が大きくなりすぎたら、「このブランチは大きくなっています。独立してレビューできる 2 つの層に分割する方法を提案してください」と依頼して、さらに分割することもできます。</p>
+</aside>
+<aside class="special"><p> Copilot が層をまたぐ作業を 1 つのセッション内で進めようとした場合は、「各子 issue をそれぞれ別のサブセッションで担当し、層ごとにブランチと pull request を分けてください」と念押しできます。サブセッションは、このセッションの配下にグループ化されて表示されます。</p>
+</aside>
+<aside class="warning"><p> 各層は必ず <strong>下から順に</strong> 実装してください。順序を飛ばすと、上位の層が存在しない下位の層に依存してしまい、スタックが成立しません。<strong>一番下の層のミスは、その上のすべてのブランチに波及します。</strong> 次の層に進む前に、必ず一番下の層をレビューしてください。</p>
+</aside>
+<aside class="special"><p><code>gh stack submit</code> を <strong>自分でターミナルから実行する</strong> 場合は、対話型のエディター画面が開きます。PR のないブランチは既定ですべて含まれ、チェックボックスまたは <code>^x</code> で除外できます。各 PR のタイトル・説明・draft 状態をその場で編集し、Ctrl+S ですべてを一度に submit します。新規 PR は既定で <strong>ready for review</strong> になり、<strong>CREATE AS</strong> トグルで draft に切り替えられます。エージェント（Copilot）が非対話環境で実行する場合はこのエディターをスキップするため、上のプロンプトでは明示的に ready for review を指定しています。</p>
+</aside>
+<h2 is-upgraded>Stacked PR を確認する</h2>
+<p>エージェントが 3 つの層を実装し、pull request を提出したら、スタックの構造を確認します。まずターミナルで、次にブラウザーで確認します。</p>
+<ol type="1">
+<li>Copilot app のターミナルで、次のコマンドを実行してスタックの状態を確認します。<pre><code language="language-shell" class="language-shell">gh stack view
+</code></pre>
+3 つのブランチ（<code>feat/funding-database</code>・<code>feat/funding-backend</code>・<code>feat/funding-frontend</code>）と、それぞれにリンクされた pull request、ステータス、最新コミットが積み重なって表示されます。</li>
+<li>ブラウザーで、自分のリポジトリの <strong>Pull requests</strong> タブを開きます。</li>
+<li>3 つの pull request（Data Base・Back End・Front End）が作成されていることを確認します。もし <strong>Draft</strong> と表示されている pull request があれば、その pull request を開いて <strong>Ready for review</strong> を選択し、レビュー可能な状態にします。</li>
+<li>Front End の pull request（一番上）を開きます。pull request のタイトル付近に <strong>スタックアイコン</strong> と、いま何層目を見ているかを示す番号が表示されます。</li>
+<li>マージボックスに表示される <strong>スタックマップ</strong> を確認します。スタックマップには、スタック内のすべての pull request とそのステータスが表示され、トランク（<code>main</code>）が一番下、その上に各層が積み重なって見えます。ワンクリックで各層に移動できます。</li>
+<li>各 pull request の <strong>ベースブランチ</strong> を確認します。次のようになっているはずです。<ul>
+<li>Data Base の pull request のベースブランチは <code>main</code></li>
+<li>Back End の pull request のベースブランチは <code>feat/funding-database</code></li>
+<li>Front End の pull request のベースブランチは <code>feat/funding-backend</code></li>
+</ul>
+</li>
+<li>それぞれの pull request の <strong>Files changed</strong> を開き、diff がその層の変更だけに絞られていることを確認します。Data Base の pull request には <code>db/</code> 配下の変更、Back End の pull request には <code>src/lib/</code> や <code>src/types/</code> の変更、Front End の pull request には <code>src/components/</code> や <code>e2e-tests/</code> の変更が表示されます。</li>
+</ol>
+<aside class="special"><p> 各層の diff がその層だけに閉じているのがスタックの利点です。もしある層に別の層の変更が混ざっていたら、Copilot に「その変更は下位の層に移動してください」と伝えて修正できます。レビュー指摘への対応も同じ考え方です。指摘は <strong>該当する層のブランチ</strong> で直し、<code>gh stack sync</code> や <code>gh stack checkout BRANCH-NAME</code> でブランチ間を移動して、修正を上の層へ伝播させます。</p>
+</aside>
+<h2 is-upgraded>CI を確認して一括マージする</h2>
+<p>スタックのマージは、必ず <strong>一番下（トランクに近い層）から上へ</strong> 行います。今回は 3 つの層がすべて完成しているので、スタック全体を一括でマージします。</p>
+<ol type="1">
+<li>スタック内のいずれかの pull request のマージボックスを確認します。マージボックスには、その pull request だけでなく <strong>スタック全体のステータス</strong> が表示されます。</li>
+<li>すべての層で CI チェック（GitHub Actions によるテストなど）が成功していることを確認します。CI チェックは一番下の層だけでなく、スタック内のすべての pull request で実行されます。</li>
+<li>マージボックスに <strong>Rebase stack</strong> ボタンが表示されている場合は、スタックの履歴が直線的でない（下位のブランチに変更が入った、またはトランクが先に進んだ）状態です。まず <strong>Rebase stack</strong> を選択してスタックをリベースしてから、マージに進みます。</li>
+<li>スタック全体を一括でマージするには、<strong>一番上（Front End）の pull request</strong> をマージします。一番上をマージすると、その下にあるすべての pull request も下から順に一緒にマージされます。</li>
+<li>マージ後、3 つの pull request がすべてマージ済みになり、資金調達機能の全層が <code>main</code> に取り込まれたことを確認します。</li>
+</ol>
+<aside class="special"><p> スタックの途中の pull request をマージすることもできます。その場合、それより下の pull request も一緒にマージされ、上に残った pull request は自動的にトランク（<code>main</code>）を直接ベースブランチにするように付け替えられます。中間の pull request だけを単独でマージすることはできません。</p>
+</aside>
+<aside class="warning"><p> Stacked Pull Requests では auto-merge は利用できません。また、下位の層が承認されず CI も通っていない状態では、上位の層をマージできません。スタックは常に下から順にマージされる点を覚えておいてください。</p>
+</aside>
+<h2 is-upgraded>まとめと次のステップ</h2>
+<p>1 つの機能を複数の層に分割し、依存関係を保ったまま Stacked Pull Requests として提出・マージしました。具体的には、次の作業を行いました。</p>
+<ul>
+<li>Stacked Pull Requests の概念と、大きな変更を層ごとに分割する理由を学習した。</li>
+<li>資金調達機能の親 issue と、Data Base・Back End・Front End の 3 つの子 issue の関係を確認した。</li>
+<li>親 issue からセッションを開始し、各子 issue をそれぞれのサブセッションに委任して、依存順（Data Base → Back End → Front End）で 3 層を実装した。</li>
+<li>3 つの pull request が前の層のブランチの上に積み重なっていることを確認し、CI がすべて成功したことを確認してスタックを一括でマージした。</li>
+</ul>
+<p>これで、アイデアから機能のマージまでの一連の流れを、小さな変更から複数層にまたがる機能まで体験しました。次は、ここまで学んだベストプラクティスを振り返り、次に学ぶ内容を確認します。レッスン 7「振り返りと次のステップ」に進んでください。</p>
+<h2 is-upgraded>リソース</h2>
+<ul>
+<li><a href="https://docs.github.com/ja/pull-requests/get-started/about-stacked-prs" target="_blank">Stacked pull requests について</a></li>
+<li><a href="https://docs.github.com/ja/pull-requests/get-started/stacked-prs-quickstart" target="_blank">Stacked pull requests のクイックスタート</a></li>
+<li><a href="https://docs.github.com/ja/pull-requests/reference/stacked-prs-cli-commands" target="_blank">Stacked pull requests の CLI コマンド</a></li>
+<li><a href="https://docs.github.com/ja/pull-requests/how-tos/create-pull-requests/managing-stacked-pull-requests" target="_blank">Stacked pull requests の管理</a></li>
+<li><a href="https://docs.github.com/ja/pull-requests/how-tos/merge-and-close-pull-requests/merging-stacked-pull-requests" target="_blank">Stacked pull requests のマージ</a></li>
+<li><a href="https://docs.github.com/ja/copilot/tutorials/stack-ai-generated-code-in-pull-requests" target="_blank">AI が生成したコードを pull request に積み重ねる</a></li>
+<li><a href="https://docs.github.com/ja/copilot/how-tos/github-copilot-app/agent-sessions" target="_blank">GitHub Copilot app でのエージェントセッションの操作</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="レッスン 7: 振り返りと次のステップ" duration="10">
         <p>ここ数回のレッスンでは、GitHub Copilot app を使い、アイデアから機能のマージまでを実践しました。取り組んだ内容は次のとおりです。</p>
 <ul>
