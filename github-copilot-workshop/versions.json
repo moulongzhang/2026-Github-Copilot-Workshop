@@ -2,6 +2,13 @@
   "defaultVersion": "v1.0.3",
   "versions": [
     {
+      "id": "v1.0.4",
+      "version": "v1.0.4",
+      "name": "v1.0.4 (beginner)",
+      "path": "versions/v1.0.4/index.html",
+      "description": "【別トラック】GitHub Copilot app 入門ワークショップ。ローカル環境 + Copilot app で Tailspin Toys (Astro) を開発します。v1.0.0〜v1.0.3 とは異なる教材です。"
+    },
+    {
       "id": "v1.0.3",
       "version": "v1.0.3",
       "name": "v1.0.3 (最新)",

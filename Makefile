@@ -21,11 +21,13 @@ endef
 .PHONY: export export-custom
 
 # 最新バージョンのエクスポート: make export
-# 別バージョンを指定: make export VERSION=v1.0.4
+# 別バージョンを指定: make export VERSION=v1.0.5
+# 別ソースを指定: make export VERSION=v1.0.4 SRC=workshop-beginner.md
 export: VERSION ?= $(LATEST_VERSION)
+export: SRC ?= workshop.md
 export:
-	$(call export-codelab,workshop.md,$(OUT_DIR)/versions/$(VERSION))
-	@echo "✅ $(VERSION) のエクスポートが完了しました"
+	$(call export-codelab,$(SRC),$(OUT_DIR)/versions/$(VERSION))
+	@echo "✅ $(VERSION) のエクスポートが完了しました ($(SRC))"
 
 # カスタムバージョンのエクスポート: make export-custom NAME=nri
 export-custom:

@@ -34,6 +34,14 @@ go tool claat --help
 
 `workshop.md` ファイルを編集します。Codelabs形式のMarkdownで記述してください。
 
+ソースファイルは複数あります：
+
+| ソース | 内容 | 出力 |
+|--------|------|------|
+| `workshop.md` | 標準版（Codespaces + Python/Flask） | `versions/v1.0.0`〜`v1.0.3` |
+| `workshop-beginner.md` | 入門版（ローカル + GitHub Copilot app） | `versions/v1.0.4` |
+| `workshop-<NAME>.md` | 顧客別カスタム版（nri / denso / bns） | `custom/<NAME>/` |
+
 ファイルの先頭には以下のようなメタデータが必要です：
 
 ```markdown
@@ -46,9 +54,27 @@ status: Published
 feedback link: https://example.com/feedback
 ```
 
+> **注意**: `id` は必ず `github-copilot-workshop` にしてください。Makefile が claat の出力先ディレクトリ名（`id` に一致）を決め打ちで参照しています。
+
 ### 2. HTMLの生成
 
-Markdownファイルから Codelabs 形式のHTMLを生成します：
+Makefile 経由で生成します：
+
+```bash
+# 最新バージョンを再生成
+make export
+
+# バージョンを指定
+make export VERSION=v1.0.5
+
+# ソースファイルを指定（既定は workshop.md）
+make export VERSION=v1.0.4 SRC=workshop-beginner.md
+
+# カスタム版
+make export-custom NAME=nri
+```
+
+claat を直接使うこともできます：
 
 ```bash
 # 基本的な生成
@@ -91,14 +117,34 @@ go tool claat export *.md
 ```
 .
 ├── README.md                    # このファイル
-├── workshop.md                  # ワークショップのソースファイル
+├── Makefile                     # エクスポート用タスク
+├── workshop.md                  # 標準版のソースファイル
+├── workshop-beginner.md         # 入門版（Copilot app）のソースファイル
+├── workshop-nri.md              # カスタム版のソースファイル
 ├── github-copilot-workshop/     # 生成されたCodelabsコンテンツ
-│   ├── index.html
-│   ├── codelab.json
-│   └── img/                     # 画像ファイル
+│   ├── index.html               # バージョンセレクタ（編集禁止）
+│   ├── versions.json            # バージョン定義
+│   ├── versions/<VERSION>/      # バージョン別の生成物（直接編集禁止）
+│   ├── custom/<NAME>/           # カスタム版の生成物（直接編集禁止）
+│   └── img/                     # 画像ファイル（全バージョン共有）
 ├── assets/                      # その他のアセット
 └── registrations/               # 登録情報
 ```
+
+## 🔀 バージョンについて
+
+`versions/` には 2 つの異なるトラックが含まれます。
+
+| バージョン | ソース | 内容 |
+|-----------|--------|------|
+| v1.0.0 〜 v1.0.3 | `workshop.md` | Codespaces + Python/Flask でポモドーロタイマーを作成 |
+| v1.0.4 (beginner) | `workshop-beginner.md` | ローカル環境 + GitHub Copilot app で Tailspin Toys (Astro) を開発 |
+
+v1.0.4 は v1.0.3 の新しいスナップショットではなく **別トラックの教材** です。そのため `defaultVersion` は `v1.0.3` のまま据え置いています。入門版へは `?version=v1.0.4` を付けたURLで誘導してください。
+
+https://moulongzhang.github.io/2026-Github-Copilot-Workshop/github-copilot-workshop/?version=v1.0.4
+
+v1.0.4 は [github-samples/copilot-workshops](https://github.com/github-samples/copilot-workshops)（MIT License）の日本語版コンテンツをベースにしています。
 
 ## 🚀 デプロイ
 
@@ -120,6 +166,8 @@ git subtree push --prefix github-copilot-workshop origin gh-pages
 ## 📄 ライセンス
 
 このワークショップコンテンツのライセンスについては、リポジトリのLICENSEファイルを参照してください。
+
+サードパーティ由来のコンテンツ（v1.0.4 beginner 版）のライセンス表記は [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) を参照してください。
 
 ## 🤝 コントリビューション
 
