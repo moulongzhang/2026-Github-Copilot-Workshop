@@ -936,13 +936,13 @@ GitHub のスタック機能は、GitHub CLI（`gh`）の **`gh stack` 拡張** 
 
 ### リソース
 
-- [Stacked pull requests について](https://docs.github.com/ja/pull-requests/get-started/about-stacked-prs)
-- [Stacked pull requests のクイックスタート](https://docs.github.com/ja/pull-requests/get-started/stacked-prs-quickstart)
-- [Stacked pull requests の CLI コマンド](https://docs.github.com/ja/pull-requests/reference/stacked-prs-cli-commands)
-- [Stacked pull requests の管理](https://docs.github.com/ja/pull-requests/how-tos/create-pull-requests/managing-stacked-pull-requests)
-- [Stacked pull requests のマージ](https://docs.github.com/ja/pull-requests/how-tos/merge-and-close-pull-requests/merging-stacked-pull-requests)
-- [AI が生成したコードを pull request に積み重ねる](https://docs.github.com/ja/copilot/tutorials/stack-ai-generated-code-in-pull-requests)
-- [GitHub Copilot app でのエージェントセッションの操作](https://docs.github.com/ja/copilot/how-tos/github-copilot-app/agent-sessions)
+- [Stacked pull requests について](https://docs.github.com/pull-requests/get-started/about-stacked-prs)
+- [Stacked pull requests のクイックスタート](https://docs.github.com/pull-requests/get-started/stacked-prs-quickstart)
+- [Stacked pull requests の CLI コマンド](https://docs.github.com/pull-requests/reference/stacked-prs-cli-commands)
+- [Stacked pull requests の管理](https://docs.github.com/pull-requests/how-tos/create-pull-requests/managing-stacked-pull-requests)
+- [Stacked pull requests のマージ](https://docs.github.com/pull-requests/how-tos/merge-and-close-pull-requests/merging-stacked-pull-requests)
+- [AI が生成したコードを pull request に積み重ねる](https://docs.github.com/copilot/tutorials/stack-ai-generated-code-in-pull-requests)
+- [GitHub Copilot app でのエージェントセッションの操作](https://docs.github.com/copilot/how-tos/github-copilot-app/agent-sessions)
 
 ## レッスン 7: 振り返りと次のステップ
 Duration: 10
