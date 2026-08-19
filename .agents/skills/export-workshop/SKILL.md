@@ -46,6 +46,30 @@ Export Codelab HTML from workshop Markdown sources.
 v1.0.4 is a **separate track**, not a newer snapshot of `workshop.md`. `defaultVersion`
 stays at `v1.0.3`; link to the beginner track with `?version=v1.0.4`.
 
+### v1.0.4 companion repository
+
+v1.0.4 uses a Japanese sample app template, not the upstream English one:
+
+**[moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA](https://github.com/moulongzhang/2026-Github-Copilot-Workshop-Tailspin-Toys-JA)**
+
+It is a translation of `github-samples/tailspin-toys` (MIT) where the docs,
+`.github/instructions`, `.github/skills`, `.github/agents`, and the seeded issue
+backlog (`.github/bootstrap-issues`) are Japanese, while the application source
+code is unchanged. Participants create their copy with **Use this template** and
+name it `tailspin-toys`.
+
+When editing that repo, keep these English:
+
+- frontmatter `name` values (skill and agent identifiers) and `applyTo` globs
+- file paths, shell commands, npm script names
+- everything under `src/`, `db/`, and `tests/`
+
+Issue titles in `.github/bootstrap-issues/*.md` are quoted verbatim in
+`workshop-beginner.md`. Changing a title there means updating the workshop too.
+
+> `workshop-beginner.md` was bootstrapped from the upstream Japanese source with a
+> one-off conversion script and is now maintained by hand. Do not regenerate it.
+
 ## Export commands
 
 ### Standard version
