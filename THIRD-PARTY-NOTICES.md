@@ -5,6 +5,20 @@ This repository includes third-party content. Their licenses are reproduced belo
 
 ---
 
+## googlecodelabs/tools
+
+対象 / Applies to:
+
+- `github-copilot-workshop/assets/codelab-elements/`
+
+出典 / Source:
+https://github.com/googlecodelabs/tools/tree/873fe39d02dcbd43005a5c44f6310595d6d9aa3e/site/app/elements/codelab-elements
+
+ライセンス / License: Apache License 2.0. The complete license text is stored at
+`github-copilot-workshop/assets/codelab-elements/LICENSE`.
+
+---
+
 ## github-samples/copilot-workshops
 
 対象 / Applies to:
